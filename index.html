@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- https://bootswatch.com/slate/ -->
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap-slate.min.css">
+    <script>
+      var package = require('./package.json');
+      document.title = "cmod3 v" + package.version;
+    </script>
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+    <style>
+      /* fixes */
+      button:focus {outline:0 !important;}
+
+      /* design */
+      html {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+      }
+      body {
+        width: 100%;
+        height: 100%;
+      }
+      body.hover {
+        opacity: 0.5;
+        background-color: #101723;
+      }
+      div#vus {
+        position: absolute;
+        top: 9px;
+      }
+      div.vu {
+        width: 400px; height: 4px;
+        margin: 8px;
+        background: -webkit-linear-gradient(left, #4be553 0%,#4be553 54%,#d3e200 79%,#f4c700 86%,#ff0000 100%); /* Chrome10+,Safari5.1+ */
+      }
+      div.vu_overlay {
+        width: 100%; height: 100%;
+        background-color: #0c0e0f;
+        float: right;
+      }
+      table#playlist {
+        border-radius: 5px;
+      }
+
+      /* bootstrap */
+      nav {
+        padding-left: 20px;
+      }
+      div#main {
+        padding-left: 40px;
+        padding-right: 40px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container-fluid" style="padding: 0;">
+
+      <div class="navbar navbar-default">
+        <div class="container-fluid">
+          <!-- Brand and toggle get grouped for better mobile display -->
+          <div class="navbar-header">
+            <a class="navbar-brand" href="#">cmod3</a>
+          </div>
+
+          <!-- Collect the nav links, forms, and other content for toggling -->
+          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+              <li class="active"><a href="#">Playlist</a></li>
+              <li><a href="#">Info</a></li>
+              <li>
+                <div id="vus">
+                  <div id="vuleft" class="vu">
+                    <div class="vu_overlay"></div>
+                  </div>
+                  <div id="vuright" class="vu">
+                    <div class="vu_overlay"></div>
+                  </div>
+                </div>
+              </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">About <span class="caret"></span></a>
+                <ul class="dropdown-menu" role="menu">
+                  <li><a href="#">Donate</a></li>
+                  <li class="divider"></li>
+                  <li><a href="#">About</a></li>
+                </ul>
+              </li>
+            </ul>
+          </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+      </div>
+
+      <div id="main" class="container-fluid">
+        <div class="row">
+          <div class="col-xs-12">
+            <table id="playlist" class="table table-striped table-condensed">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Song</th>
+                  <th>Filename</th>
+                  <th>Path</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>Land of lore</td>
+                    <td>LAND.XM</td>
+                    <td>/Users/baeaef</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>Random name</td>
+                    <td>LAND.XM</td>
+                    <td>/Users/baeaef</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>Random name</td>
+                    <td>LAND.XM</td>
+                    <td>/Users/baeaef</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <td colspan="3"><small>Total cansons: 20</small></td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-12">
+            <h4 id="name"></h4>
+            <p id="row"></p>
+            <p id="vul"></p>
+            <p id="vur"></p>
+          </div>
+        </div>
+        <div class="row">
+          <button class="btn btn-default" onclick="play()">
+            <span class="glyphicon glyphicon-play" aria-hidden="true"></span>
+            Play
+          </button>
+          <button class="btn btn-default" onclick="stop()">
+            <span class="glyphicon glyphicon-stop" aria-hidden="true"></span>
+            Stop
+          </button>
+          <button class="btn btn-default" onclick="pause()">
+            <span class="glyphicon glyphicon-pause" aria-hidden="true"></span>
+            Pause
+          </button>
+          <button class="btn btn-default" onclick="">
+            <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+            Info
+          </button>
+          We are using node <script>document.write(process.version)</script>.
+        </div>
+      </div>
+    </div>
+
+    <script>
+      var app = require('./app/app.js');
+      app.init();
+      app.load("./mods/Pop/DOSKPRO.XM");
+
+      function play() {
+        app.player.play();
+      }
+
+      function stop() {
+        app.player.stop();
+      }
+
+      function pause() {
+        app.player.pause();
+      }
+    </script>
+
+
+    <script>
+      // prevent default behavior from changing page on dropped file
+      window.ondragover = function(e) { e.preventDefault(); return false };
+      window.ondrop = function(e) { e.preventDefault(); return false };
+
+      var holder = document.body;
+      holder.ondragover = function () {
+        this.className = 'hover';
+        return false;
+      };
+      holder.ondragleave = function () {
+        this.className = '';
+        return false;
+      };
+      holder.ondrop = function (e) {
+        this.className = '';
+        e.preventDefault();
+        // all files
+        var files = e.dataTransfer.files;
+        var num_files = files.length;
+        for (var i = 0; i < num_files; ++i) {
+          console.log(files[i].path);
+        }
+        // pick first file
+        // TODO: check extension
+        if(num_files === 1) {
+          var file = files[0].path;
+          $("#name").text(file);
+          app.loadAndPlay(file);
+        }
+        return false;
+      };
+    </script>
+
+    <script>
+      /*var player = new ChiptuneJsPlayer(new ChiptuneJsConfig(-1));
+      function play(buffer) {
+        player.play(buffer);
+        Module._openmpt_module_set_repeat_count(player.currentPlayingNode.modulePtr, 1);
+      }
+      function p() {
+        //player.load("./mods/Pop/AMARILLO.MOD", play);
+        //player.load("./mods/Pop/fin-anot.it", play);
+        player.load("./mods/Pop/Funkg.it", play);
+      }
+      function refresh(timestamp) {
+        if(player.currentPlayingNode) {
+          var row = Module._openmpt_module_get_current_row(player.currentPlayingNode.modulePtr);
+          document.getElementById("row").innerHTML = row;
+        }
+        window.requestAnimationFrame(refresh);
+      }
+      window.requestAnimationFrame(refresh);
+      p();*/
+    </script>
+  </body>
+</html>

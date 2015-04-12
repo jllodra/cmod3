@@ -1,0 +1,23 @@
+{
+  "name": "cmod3",
+  "version": "1.0.0",
+  "description": "A module (mod, s3m, it, xm) desktop player",
+  "main": "index.html",
+  "scripts": {
+    "start": "./start.sh",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "window": {
+    "title": "node-webkit demo",
+    "icon": "link.png",
+    "toolbar": true,
+    "frame": true,
+    "width": 800,
+    "height": 500,
+    "position": "mouse",
+    "min_width": 780,
+    "min_height": 400
+  },
+  "author": "Josep Llodrà Grimalt",
+  "license": "ISC"
+}
