@@ -17,7 +17,7 @@ function engine() {
   var leftVU = 0;
   var rightVU = 0;
 
-  var stopped = false;
+  var stopped = true;
   var paused = false;
 
   function loadBuffer(buffer) {

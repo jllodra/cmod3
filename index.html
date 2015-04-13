@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="cmod">
   <head>
     <!-- https://bootswatch.com/slate/ -->
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap-slate.min.css">
@@ -10,10 +10,13 @@
     <script src="bower_components/jquery/dist/jquery.js"></script>
     <script src="bower_components/angular/angular.js"></script>
     <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="app/ui/controllers.js"></script>
     <style>
       /* fixes */
       button:focus {outline:0 !important;}
-
+      * {
+        cursor: default !important;
+      }
       /* design */
       html {
         width: 100%;
@@ -45,6 +48,12 @@
       table#playlist {
         border-radius: 5px;
       }
+      div#footer {
+        background-color: black;
+        color: #444;
+        padding-top: 4px; padding-bottom: 4px;
+        height: 32px;
+      }
 
       /* bootstrap */
       nav {
@@ -54,9 +63,12 @@
         padding-left: 40px;
         padding-right: 40px;
       }
+      .table thead tr th {
+        border: 0;
+      }
     </style>
   </head>
-  <body>
+  <body ng-controller="cmodCtrl">
     <div class="container-fluid" style="padding: 0;">
 
       <div class="navbar navbar-default">
@@ -99,38 +111,26 @@
       <div id="main" class="container-fluid">
         <div class="row">
           <div class="col-xs-12">
-            <table id="playlist" class="table table-striped table-condensed">
+            <table id="playlist" class="table table-condensed table-hover">
               <thead>
                 <tr>
                   <th>#</th>
-                  <th>Song</th>
-                  <th>Filename</th>
-                  <th>Path</th>
+                  <th>SONG</th>
+                  <th>FILENAME</th>
+                  <th>LENGTH</th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>Land of lore</td>
-                    <td>LAND.XM</td>
-                    <td>/Users/baeaef</td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Random name</td>
-                    <td>LAND.XM</td>
-                    <td>/Users/baeaef</td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>Random name</td>
-                    <td>LAND.XM</td>
-                    <td>/Users/baeaef</td>
+                <tr ng-repeat="song in playlist" ng-click="playSongInPlaylist($index)">
+                    <td>{{ $index + 1 }}</td>
+                    <td>{{ song.name }}</td>
+                    <td>{{ song.filename }}</td>
+                    <td>{{ song.length }}</td>
                 </tr>
               </tbody>
               <tfoot>
                 <tr>
-                  <td colspan="3"><small>Total cansons: 20</small></td>
+                  <td colspan="4"><small>Total songs: 20</small></td>
                 </tr>
               </tfoot>
             </table>
@@ -145,100 +145,41 @@
           </div>
         </div>
         <div class="row">
-          <button class="btn btn-default" onclick="play()">
+          <button class="btn btn-default" ng-click="play()">
             <span class="glyphicon glyphicon-play" aria-hidden="true"></span>
             Play
           </button>
-          <button class="btn btn-default" onclick="stop()">
+          <button class="btn btn-default" ng-click="stop()">
             <span class="glyphicon glyphicon-stop" aria-hidden="true"></span>
             Stop
           </button>
-          <button class="btn btn-default" onclick="pause()">
+          <button class="btn btn-default" ng-click="pause()">
             <span class="glyphicon glyphicon-pause" aria-hidden="true"></span>
             Pause
           </button>
-          <button class="btn btn-default" onclick="">
+          <button class="btn btn-default" ng-click="">
             <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
             Info
           </button>
+          <button class="btn btn-default" ng-click="addFilesToPlaylist()">
+            <span class="glyphicon glyphicon-file" aria-hidden="true"></span>
+            Add file(s)
+          </button>
+          <input style="display: none" id="fileDialog" type="file"/>
           We are using node <script>document.write(process.version)</script>.
         </div>
       </div>
+
+
+      <footer>
+        <div id="footer" class="navbar-fixed-bottom">
+            <div class="container-fluid">
+              <small>{{ current_song }}</small>
+            </div>
+        </div>
+      </footer>
+
+
     </div>
-
-    <script>
-      var app = require('./app/app.js');
-      app.init();
-      app.load("./mods/Pop/DOSKPRO.XM");
-
-      function play() {
-        app.player.play();
-      }
-
-      function stop() {
-        app.player.stop();
-      }
-
-      function pause() {
-        app.player.pause();
-      }
-    </script>
-
-
-    <script>
-      // prevent default behavior from changing page on dropped file
-      window.ondragover = function(e) { e.preventDefault(); return false };
-      window.ondrop = function(e) { e.preventDefault(); return false };
-
-      var holder = document.body;
-      holder.ondragover = function () {
-        this.className = 'hover';
-        return false;
-      };
-      holder.ondragleave = function () {
-        this.className = '';
-        return false;
-      };
-      holder.ondrop = function (e) {
-        this.className = '';
-        e.preventDefault();
-        // all files
-        var files = e.dataTransfer.files;
-        var num_files = files.length;
-        for (var i = 0; i < num_files; ++i) {
-          console.log(files[i].path);
-        }
-        // pick first file
-        // TODO: check extension
-        if(num_files === 1) {
-          var file = files[0].path;
-          $("#name").text(file);
-          app.loadAndPlay(file);
-        }
-        return false;
-      };
-    </script>
-
-    <script>
-      /*var player = new ChiptuneJsPlayer(new ChiptuneJsConfig(-1));
-      function play(buffer) {
-        player.play(buffer);
-        Module._openmpt_module_set_repeat_count(player.currentPlayingNode.modulePtr, 1);
-      }
-      function p() {
-        //player.load("./mods/Pop/AMARILLO.MOD", play);
-        //player.load("./mods/Pop/fin-anot.it", play);
-        player.load("./mods/Pop/Funkg.it", play);
-      }
-      function refresh(timestamp) {
-        if(player.currentPlayingNode) {
-          var row = Module._openmpt_module_get_current_row(player.currentPlayingNode.modulePtr);
-          document.getElementById("row").innerHTML = row;
-        }
-        window.requestAnimationFrame(refresh);
-      }
-      window.requestAnimationFrame(refresh);
-      p();*/
-    </script>
   </body>
 </html>
