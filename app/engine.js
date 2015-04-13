@@ -17,8 +17,10 @@ function engine() {
   var leftVU = 0;
   var rightVU = 0;
 
-  var stopped = true;
-  var paused = false;
+  var status = {
+    stopped: true,
+    paused: false
+  };
 
   function loadBuffer(buffer) {
     processNode = audioContext.createScriptProcessor(0, 0, 2);
@@ -30,7 +32,7 @@ function engine() {
     leftBufferPtr = ompt._malloc(4 * maxFramesPerChunk);
     rightBufferPtr = ompt._malloc(4 * maxFramesPerChunk);
     // curios
-    ompt._openmpt_module_set_repeat_count(memPtr, 10);
+    // ompt._openmpt_module_set_repeat_count(memPtr, 10);
   };
 
   function metadata(buffer) {
@@ -55,6 +57,14 @@ function engine() {
     return metadata;
   };
 
+  function getPosition() {
+    return ompt._openmpt_module_get_position_seconds(memPtr);
+  };
+
+  function setPosition(seconds) {
+    ompt._openmpt_module_set_position_seconds(memPtr, seconds);
+  };
+
   function connect() {
     if(processNode !== null)
       processNode.connect(audioContext.destination);
@@ -72,11 +82,11 @@ function engine() {
       connect(audioContext.destination);
       isConnected = true;
     }
-    stopped = false;
+    status.stopped = false;
   }
 
   function unload() {
-    if (!stopped) {
+    if (!status.stopped) {
       stop();
     }
     if(isConnected) {
@@ -94,12 +104,13 @@ function engine() {
   }
 
   function stop() {
-    stopped = true;
+    status.stopped = true;
+    status.paused = false;
     ompt._openmpt_module_set_position_seconds(memPtr, 0);
   }
 
   function pause() {
-    paused = !paused;
+    status.paused = !status.paused;
   }
 
   function getVU() {
@@ -114,7 +125,7 @@ function engine() {
       var outputR = e.outputBuffer.getChannelData(1);
       var framesToRender = outputL.length;
       //
-      if(stopped || paused) { // stop
+      if(status.stopped || status.paused) { // stop
         for (var i = 0; i < framesToRender; ++i) {
           outputL[i] = 0;
           outputR[i] = 0;
@@ -151,6 +162,9 @@ function engine() {
         framesRendered += framesPerChunk;
         leftVU = leftVU / framesPerChunk;
         rightVU = rightVU / framesPerChunk;
+        if(actualFramesPerChunk == 0) {
+          stop();
+        }
       }
   };
 
@@ -158,8 +172,12 @@ function engine() {
     audioContext: audioContext,
     processNode: processNode,
 
+    status: status,
+
     loadBuffer: loadBuffer,
     unload: unload,
+    getPosition: getPosition,
+    setPosition: setPosition,
     metadata: metadata,
     play: play,
     stop: stop,

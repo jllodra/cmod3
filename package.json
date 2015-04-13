@@ -1,23 +1,65 @@
 {
-  "name": "cmod3",
-  "version": "0.0.1",
-  "description": "A module (mod, s3m, it, xm) desktop player",
-  "main": "index.html",
-  "scripts": {
-    "start": "./start.sh",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "window": {
-    "title": "node-webkit demo",
-    "icon": "link.png",
-    "toolbar": true,
-    "frame": true,
-    "width": 800,
-    "height": 500,
-    "position": "mouse",
-    "min_width": 780,
-    "min_height": 400
-  },
-  "author": "Josep Llodrà Grimalt",
-  "license": "ISC"
+    "app_name": "cmod3",
+    "nodejs": true,
+    "additional_trust_anchors": "",
+    "inject-js-end": "",
+    "node-remote": "",
+    "keywords": [],
+    "author": "Josep Llodr\u00e0 Grimalt",
+    "user-agent": "",
+    "window": {
+        "fullscreen": false,
+        "kiosk_emulation": false,
+        "min_height": 400,
+        "resizable": true, 
+        "title": "cmod3",
+        "always-on-top": false,
+        "frame": true,
+        "show": true,
+        "kiosk": false,
+        "height": 500,
+        "exe_icon": "",
+        "visible": true,
+        "as_desktop": false,
+        "toolbar": true,
+        "min_width": 780,
+        "position": "mouse",
+        "show_in_taskbar": true,
+        "mac_icon": "",
+        "width": 800,
+        "transparent": false,
+        "icon": "icon.png"
+    },
+    "version": "0.0.1",
+    "inject-js-start": "",
+    "main": "index.html",
+    "node-main": "",
+    "webexe_settings": {
+        "linux-x32": false,
+        "windows-x64": false,
+        "download_dir": "/Users/josep/Projects/Web2Executable.app/Contents/Resources/files/downloads",
+        "nw_compression_level": 5,
+        "mac-x32": false,
+        "windows-x32": false,
+        "mac-x64": true,
+        "nw_version": "0.12.1",
+        "force_download": false,
+        "linux-x64": false
+    },
+    "description": "A module (mod, s3m, it, xm) desktop player",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "./start.sh"
+    },
+    "webkit": {
+        "page-cache": false,
+        "java": false,
+        "plugin": false
+    },
+    "js-flags": "",
+    "name": "cmod3",
+    "license": "ISC",
+    "single-instance": true,
+    "snapshot": "",
+    "chromium-args": ""
 }

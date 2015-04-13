@@ -2,7 +2,14 @@
 
 var player = {
   engine: require('./engine.js')(),
-  buffer: null
+  buffer: null,
+  metadata: null,
+  status: {
+    playing: false,
+    stopped: true,
+    paused: false,
+    hasEnded: false
+  }
 };
 
 player.init = function() {
@@ -33,23 +40,56 @@ player.metadataFromFile = function(file, callback) {
     // check possible errors
     if(xhr.response) {
       var buffer = xhr.response;
-      var metadata = player.engine.metadata(buffer);
-      callback(metadata);
+      player.metadata = player.engine.metadata(buffer);
+      callback(player.metadata);
     }
   };
   xhr.send(null);
 };
 
+player.getPosition = function() {
+  if(player.status.playing) {
+    return player.engine.getPosition();
+  }
+};
+
+player.setPosition = function(percent) {
+  if(player.buffer !== null) {
+    var seconds = player.metadata.duration * percent / 100;
+    player.engine.setPosition(seconds);
+  }
+};
+
 player.play = function() {
-  player.engine.play();
+  if(player.buffer !== null) {
+    player.engine.play();
+    player.status.playing = true;
+    player.status.stopped = false;
+    player.status.hasEnded = false;
+  }
 }
 
 player.stop = function() {
-  player.engine.stop();
+  if(player.buffer !== null) {
+    player.engine.stop();
+    player.status.playing = false;
+    player.status.stopped = true;
+    player.status.paused = false;
+  }
 }
 
 player.pause = function() {
-  player.engine.pause();
+  if(player.buffer !== null) {
+    player.engine.pause();
+    player.status.paused = !player.status.paused;
+  }
+}
+
+player.hasEnded = function() {
+  player.status.playing = !player.engine.status.stopped;
+  player.status.stopped = player.engine.status.stopped;
+  player.status.hasEnded = player.engine.status.stopped;
+  return player.status.hasEnded;
 }
 
 module.exports = player;
