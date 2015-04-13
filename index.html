@@ -12,6 +12,15 @@
     <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
     <script src="app/ui/controllers.js"></script>
     <style>
+      /* global */
+      @font-face {
+        font-family: 'Lobster';
+        src: url('fonts/Lobster_1.3.otf');
+      }
+      @font-face {
+        font-family: 'Droid Sans';
+        src: url('fonts/DroidSans.ttf');
+      }
       /* fixes */
       button:focus {outline:0 !important;}
       * {
@@ -26,10 +35,15 @@
       body {
         width: 100%;
         height: 100%;
+        font-family: 'Droid Sans';
       }
       body.hover {
         opacity: 0.5;
         background-color: #101723;
+      }
+      #brand {
+        font-family: 'Lobster', cursive;
+        font-size: 22px;
       }
       div#vus {
         position: absolute;
@@ -48,11 +62,13 @@
       table#playlist {
         border-radius: 5px;
       }
+      table#playlist tr.selected_song {
+        color: white;
+      }
       div#footer {
         background-color: black;
         color: #444;
         padding-top: 4px; padding-bottom: 4px;
-        height: 32px;
       }
 
       /* bootstrap */
@@ -75,7 +91,7 @@
         <div class="container-fluid">
           <!-- Brand and toggle get grouped for better mobile display -->
           <div class="navbar-header">
-            <a class="navbar-brand" href="#">cmod3</a>
+            <a id="brand" class="navbar-brand" href="#">cmod3</a>
           </div>
 
           <!-- Collect the nav links, forms, and other content for toggling -->
@@ -114,10 +130,10 @@
             <table id="playlist" class="table table-condensed table-hover">
               <thead>
                 <tr>
-                  <th>#</th>
-                  <th>SONG</th>
-                  <th>FILENAME</th>
-                  <th>LENGTH</th>
+                  <th><small>#</small></th>
+                  <th><small>SONG</small></th>
+                  <th><small>FILENAME</small></th>
+                  <th><small>LENGTH</small></th>
                 </tr>
               </thead>
               <tbody>
@@ -125,12 +141,12 @@
                     <td>{{ $index + 1 }}</td>
                     <td>{{ song.name }}</td>
                     <td>{{ song.filename }}</td>
-                    <td>{{ song.length }}</td>
+                    <td>{{ song.duration }}</td>
                 </tr>
               </tbody>
               <tfoot>
                 <tr>
-                  <td colspan="4"><small>Total songs: 20</small></td>
+                  <td colspan="4"><small>Total songs: {{ playlist.length }}</small></td>
                 </tr>
               </tfoot>
             </table>
@@ -138,44 +154,48 @@
         </div>
         <div class="row">
           <div class="col-xs-12">
-            <h4 id="name"></h4>
-            <p id="row"></p>
-            <p id="vul"></p>
-            <p id="vur"></p>
+            <!--<p id="vul"></p>
+            <p id="vur"></p>-->
           </div>
         </div>
-        <div class="row">
-          <button class="btn btn-default" ng-click="play()">
-            <span class="glyphicon glyphicon-play" aria-hidden="true"></span>
-            Play
-          </button>
-          <button class="btn btn-default" ng-click="stop()">
-            <span class="glyphicon glyphicon-stop" aria-hidden="true"></span>
-            Stop
-          </button>
-          <button class="btn btn-default" ng-click="pause()">
-            <span class="glyphicon glyphicon-pause" aria-hidden="true"></span>
-            Pause
-          </button>
-          <button class="btn btn-default" ng-click="">
-            <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
-            Info
-          </button>
-          <button class="btn btn-default" ng-click="addFilesToPlaylist()">
-            <span class="glyphicon glyphicon-file" aria-hidden="true"></span>
-            Add file(s)
-          </button>
-          <input style="display: none" id="fileDialog" type="file"/>
-          We are using node <script>document.write(process.version)</script>.
-        </div>
+
       </div>
 
 
       <footer>
         <div id="footer" class="navbar-fixed-bottom">
-            <div class="container-fluid">
-              <small>{{ current_song }}</small>
-            </div>
+            <div style="text-align: center;" class="container-fluid">
+              <div class="row">
+                <div style="margin-bottom: 4px" class="col-xs-12">
+                  <small>{{ current_song || "Long live to the modscene" }}</small>
+                </div>
+              </div>
+              <div class="row">
+                <div style="margin-bottom: 4px" class="col-xs-12">
+                  <button class="btn btn-default" ng-click="play()">
+                    <span class="glyphicon glyphicon-play" aria-hidden="true"></span>
+                    Play
+                  </button>
+                  <button class="btn btn-default" ng-click="stop()">
+                    <span class="glyphicon glyphicon-stop" aria-hidden="true"></span>
+                    Stop
+                  </button>
+                  <button class="btn btn-default" ng-click="pause()">
+                    <span class="glyphicon glyphicon-pause" aria-hidden="true"></span>
+                    Pause
+                  </button>
+                  <button class="btn btn-default" ng-click="">
+                    <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+                    Info
+                  </button>
+                  <button class="btn btn-default" ng-click="addFilesToPlaylist()">
+                    <span class="glyphicon glyphicon-file" aria-hidden="true"></span>
+                    Add file(s)
+                  </button>
+                  <input style="display: none" id="fileDialog" type="file"/>
+                </div>
+              </div>
+          </div>
         </div>
       </footer>
 

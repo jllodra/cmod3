@@ -1,6 +1,6 @@
 {
   "name": "cmod3",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "A module (mod, s3m, it, xm) desktop player",
   "main": "index.html",
   "scripts": {

@@ -5,44 +5,59 @@ angular.module('cmod', [])
   app.load("./mods/Pop/DOSKPRO.XM");
   $rootScope.app = app;
   $rootScope.gui = require('nw.gui');
+  var gui = require('nw.gui');
+  if (process.platform === "darwin") {
+    var mb = new gui.Menu({type: 'menubar'});
+    mb.createMacBuiltin('cmod3', {
+      hideEdit: false,
+    });
+    gui.Window.get().menu = mb;
+  }
 })
 .controller('cmodCtrl', function ($rootScope, $scope) {
   var app = $rootScope.app;
 
-  $scope.current_song = ' ';
+  $scope.current_song = null;
+  $scope.current_song_index = null;
   $scope.playlist = [
     {
       'name': 'Land of Lore',
       'filename': 'BLAEH.IT',
       'path': '/Users/josep/Projects/cmod3/mods/Pop/nwk-road.xm',
-      'length': '1:30'
-    },
-    {
-      'name': 'Nexus S',
-      'filename': 'Fast just got faster with Nexus S.',
-      'path': '/Users/josep/Projects/cmod3/mods/Pop/nwk-road.xm',
-      'length': '1:30'
-    },
-    {
-      'name': 'Nexus S',
-      'filename': 'Fast just got faster with Nexus S.',
-      'path': '/Users/josep/Projects/cmod3/mods/Pop/nwk-road.xm',
-      'length': '1:30'
+      'duration': '1:30',
+      'metadata': null
     }
   ];
   $scope.addSongToPlaylist = function(name, path) {
     console.log("adding song...");
     $scope.playlist.push({
-      'name': name,
+      'name': '',
       'filename': name,
       'path': path,
-      'length': '0:00'
+      'duration': '0:00',
+      'metadata': null
     });
-    console.log($scope.playlist);
+    var i = $scope.playlist.length - 1;
+    app.player.metadataFromFile(path, function(metadata) {
+      console.log(metadata);
+      $scope.$apply(function() {
+        var minutes = Math.floor(metadata.duration/60);
+        var seconds = Math.round(metadata.duration - minutes * 60);
+        $scope.playlist[i].name = metadata.title;
+        $scope.playlist[i].duration =  minutes + ":" + seconds;
+        $scope.playlist[i].metadata = metadata;
+        console.log($scope.playlist);
+      });
+    });
   };
   $scope.playSongInPlaylist = function(i) {
     console.log("play song in playlist...");
+    if($scope.current_song_index !== null) {
+      $('table#playlist tbody tr:nth-child(' + ($scope.current_song_index+1) + ')').removeClass('selected_song');
+    }
     $scope.current_song = $scope.playlist[i].path;
+    $scope.current_song_index = i;
+    $('table#playlist tbody tr:nth-child(' + ($scope.current_song_index+1) + ')').addClass('selected_song');
     app.loadAndPlay($scope.playlist[i].path);
   };
 
@@ -82,9 +97,12 @@ angular.module('cmod', [])
       var name = files[0].name;
       var size = files[0].size;
       var path = files[0].path;
-      //app.loadAndPlay(path);
       $scope.$apply(function() {
         $scope.addSongToPlaylist(name, path);
+        //$scope.playSongInPlaylist($scope.playlist.length-1);
+      });
+      $scope.$apply(function() {
+        //$scope.addSongToPlaylist(name, path);
         $scope.playSongInPlaylist($scope.playlist.length-1);
       });
     }

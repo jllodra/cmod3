@@ -33,6 +33,28 @@ function engine() {
     ompt._openmpt_module_set_repeat_count(memPtr, 10);
   };
 
+  function metadata(buffer) {
+    var byteArray = new Int8Array(buffer);
+    var filePtr = ompt._malloc(byteArray.byteLength);
+    ompt.HEAPU8.set(byteArray, filePtr);
+    var memPtr = ompt._openmpt_module_create_from_memory(filePtr, byteArray.byteLength, 0, 0, 0);
+    var metadata = {};
+    var metadata_keys = ompt.Pointer_stringify(ompt._openmpt_module_get_metadata_keys(memPtr));
+    var keys = metadata_keys.split(';');;
+    var keyNameBuffer = 0;
+    for (var i = 0; i < keys.length; i++) {
+      keyNameBuffer = ompt._malloc(keys[i].length + 1);
+      ompt.writeStringToMemory(keys[i], keyNameBuffer);
+      metadata[keys[i]] = ompt.Pointer_stringify(ompt._openmpt_module_get_metadata(memPtr, keyNameBuffer));
+      ompt._free(keyNameBuffer);
+    }
+    metadata.duration = ompt._openmpt_module_get_duration_seconds(memPtr);
+    ompt._openmpt_free_string(metadata_keys);
+    ompt._free(filePtr);
+    ompt._openmpt_module_destroy(memPtr);
+    return metadata;
+  };
+
   function connect() {
     if(processNode !== null)
       processNode.connect(audioContext.destination);
@@ -138,6 +160,7 @@ function engine() {
 
     loadBuffer: loadBuffer,
     unload: unload,
+    metadata: metadata,
     play: play,
     stop: stop,
     pause: pause,

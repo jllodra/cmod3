@@ -24,10 +24,10 @@ app.render = function() {
   app.ui.vur.width(400 - (right + 400));
 
 
-  var vul = window.document.getElementById('vul');
+  /*var vul = window.document.getElementById('vul');
   var vur = window.document.getElementById('vur');
   vul.innerHTML = left;
-  vur.innerHTML = right;
+  vur.innerHTML = right;*/
   window.requestAnimationFrame(app.render);
 }
 
