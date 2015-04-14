@@ -79,7 +79,7 @@ app.updateUITimer = function() {
       var minutes_elapsed = Math.floor(seconds/60);
       var seconds_elapsed = ("0" + Math.round(seconds - minutes_elapsed * 60)).substr(-2, 2);
       //app.ui.song_position_progress.css("transform", "scaleX(" + completed + ")");
-      app.win.setProgressBar(completed / 100);
+      app.win.setProgressBar(completed);
     } else {
       //app.ui.song_position_progress.css("transform", "scaleX(0)");
       app.win.setProgressBar(0);
@@ -129,6 +129,8 @@ app.setOSStuff = function() {
   });
 
   win.on("loaded", function() {
+    app.init();
+
     var winh = window.$(window).height();
     var headh = window.$("div#header").height();
     var footh = window.$("div#footer").height();

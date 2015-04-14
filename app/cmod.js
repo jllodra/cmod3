@@ -1,6 +1,7 @@
-angular.module('cmod.ui', [])
+angular.module('cmod', [])
 .run(function($rootScope) {
   var app = require('./app/app.js');
+  app.init();
   //app.load("./mods/Pop/DOSKPRO.XM");
   $rootScope.gui = require('nw.gui');
   $rootScope.app = app;
