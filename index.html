@@ -22,6 +22,9 @@
         src: url('fonts/DroidSans.ttf');
       }
       /* fixes */
+      button {
+        -webkit-app-region: no-drag;
+      }
       button:focus {outline:0 !important;}
       * {
         cursor: default !important;
@@ -31,6 +34,7 @@
       html {
         width: 100%;
         height: 100%;
+        -webkit-app-region: drag;
         overflow: hidden;
       }
       body {
@@ -59,6 +63,8 @@
         width: 100%; height: 100%;
         background-color: #0c0e0f;
         float: right;
+        right: 0;
+        transform-origin: right;
       }
       table#playlist {
         border-radius: 5px;
@@ -85,9 +91,13 @@
       }
       .navbar {
         margin-bottom: 0;
+        border-radius: 0;
       }
       .table thead tr th {
         border: 0;
+      }
+      .table thead, .table tfoot {
+        background-color: #24272A;
       }
       .progress {
         height: 12px;
@@ -96,18 +106,24 @@
         border-radius: 0;
       }
       .progress-bar {
+        transform-origin: left;
+        transform: scaleX(0);
+        width: 100%;
+      }
+      .progress span {
+        position: absolute;
+        color: white;
+        left: 0;
+        top: 0;
         font-size: 8px;
         line-height: 12px;
-      }
-      .progress-bar span {
-        position: absolute;
-        display: block;
         width: 100%;
-        /*color: black;*/
       }
     </style>
   </head>
   <body ng-controller="cmodCtrl">
+    <audio id="audio" src=""></audio>
+
     <div class="container-fluid" style="padding: 0;">
 
       <div id="header" class="navbar navbar-default">
@@ -135,11 +151,13 @@
             </ul>
             <ul class="nav navbar-nav navbar-right">
               <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">About <span class="caret"></span></a>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">More <span class="caret"></span></a>
                 <ul class="dropdown-menu" role="menu">
-                  <li><a href="#">Donate</a></li>
+                  <li><a href="#" ng-click="devConsole()">Console</a></li>
+                  <li><a href="#" ng-click="minimize()">Minimize</a></li>
+                  <li><a href="#" ng-click="close()">Close</a></li>
                   <li class="divider"></li>
-                  <li><a href="#">About</a></li>
+                  <li><a href="#">Donate</a></li>
                 </ul>
               </li>
             </ul>
@@ -207,22 +225,22 @@
                     <span class="glyphicon glyphicon-pause" aria-hidden="true"></span>
                     Pause
                   </button>
-                  <button class="btn btn-default" ng-click="">
-                    <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
-                    Info
-                  </button>
                   <button class="btn btn-default" ng-click="addFilesToPlaylist()">
                     <span class="glyphicon glyphicon-file" aria-hidden="true"></span>
                     Add file(s)
                   </button>
                   <input style="display: none" id="fileDialog" type="file"/>
+                  <button class="btn btn-default" ng-click="playNectarine()">
+                    <span class="glyphicon glyphicon-cd" aria-hidden="true"></span>
+                    Play Nectarine Radio
+                  </button>
                 </div>
               </div>
               <div class="row">
                 <div class="progress" ng-click="seekProgressBar($event)">
-                  <div id="song_position_progress" class="progress-bar" role="progressbar" style="width: 0%;">
-                    <span id="song_position_label"></span>
+                  <div id="song_position_progress" class="progress-bar" role="progressbar">
                   </div>
+                  <span id="song_position_label"></span>
                 </div>
               </div>
           </div>

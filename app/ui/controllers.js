@@ -5,6 +5,7 @@ angular.module('cmod', [])
   //app.load("./mods/Pop/DOSKPRO.XM");
   $rootScope.gui = require('nw.gui');
   $rootScope.app = app;
+  $rootScope.supportedFormats = "mod s3m xm it mptm stm nst m15 stk wow ult 669 mtm med far mdl ams dsm amf okt dmf ptm psm mt2 dbm digi imf j2b gdm umx mo3 xpk ppm mmcmp".split(" ");
   // remove
   window.app = app;
 })
@@ -124,6 +125,9 @@ angular.module('cmod', [])
   $scope.pause = function() {
     app.player.pause();
   };
+  $scope.playNectarine = function() {
+    app.player.playNectarine();
+  };
   $scope.seekProgressBar = function($event) {
     console.log($event);
     console.log($event.pageX);
@@ -143,11 +147,19 @@ angular.module('cmod', [])
       var first_new_file = $scope.playlist.length;
       for (var i = 0; i < num_files; ++i) {
         var name = files[i].name;
-        var size = files[i].size;
-        var path = files[i].path;
-        $scope.$apply(function() {
-          $scope.addSongToPlaylist(name, path);
-        });
+        var supported = false;
+        for (var j = 0; j < $rootScope.supportedFormats.length && !supported; j++) {
+          if(name.toLowerCase().endsWith($rootScope.supportedFormats[j])) {
+            supported = true;
+          }
+        }
+        if(supported) {
+          var size = files[i].size;
+          var path = files[i].path;
+          $scope.$apply(function() {
+            $scope.addSongToPlaylist(name, path);
+          });
+        }
       }
       // don't play when dropping files... :?
       /*
@@ -183,7 +195,19 @@ angular.module('cmod', [])
   holder.ondragleave = function () { this.className = ''; return false; };
   holder.ondrop = $scope.ondrop;
 
+
+  $scope.minimize = function() {
+    gui.Window.get().minimize();
+  };
+
+  $scope.close = function() {
+    gui.Window.get().close();
+  };
+
+  $scope.devConsole = function() {
+    gui.Window.get().showDevTools();
+  };
   // INIT for testing
-  $scope.addSongToPlaylist("nwk-road.xm", "/Users/josep/Projects/cmod3/mods/Pop/nwk-road.xm");
+  //$scope.addSongToPlaylist("nwk-road.xm", "/Users/josep/Projects/cmod3/mods/Pop/nwk-road.xm");
 
 });

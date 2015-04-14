@@ -3,13 +3,16 @@
 var player = require('./player.js');
 var gui = window.require('nw.gui');
 
+var elapsed = 0;
+
 var app = {
   player: player,
   win: gui.Window.get()
 };
 
 app.config = {
-
+  drops: 0,
+  max_drops: 3
 };
 
 // podriem fer tota la UI a traves de cridades a angular o alguna cosa aixi...
@@ -24,40 +27,67 @@ app.ui = {
 
 app.updateUI = function() {
   // POSITION BAR && VU
+  window.requestAnimationFrame(app.updateUI);
+
+  if(app.config.drops < app.config.max_drops) {
+    return ++app.config.drops;
+  }
+  app.config.drops = 0;
+
+
   if(app.player.metadata != null) {
     //console.log("updating...");
     if(!app.player.hasEnded() && app.player.status.playing) {
       var seconds = app.player.getPosition();
-      var completed = seconds / app.player.metadata.duration * 100;
+      var completed = seconds / app.player.metadata.duration;
 
-      app.ui.song_position_progress.width(completed + "%");
-      app.win.setProgressBar(completed / 100);
+      app.ui.song_position_progress.css("transform", "scaleX(" + completed + ")");
+      //app.win.setProgressBar(completed / 100);
 
       var minutes_elapsed = Math.floor(seconds/60);
       var seconds_elapsed = ("0" + Math.round(seconds - minutes_elapsed * 60)).substr(-2, 2);
 
       //VU
-      var left = 20*Math.log10(Math.abs(player.engine.getVU().l));
-      var right = 20*Math.log10(Math.abs(player.engine.getVU().r));
-      left = (left == -Infinity) ? -400 : left;
-      right = (right == -Infinity) ? -400 : right;
-      app.ui.vul.width(400 - (left + 400));
-      app.ui.vur.width(400 - (right + 400));
-
+      var left = -20*Math.log10(Math.abs(player.engine.getVU().l));
+      var right = -20*Math.log10(Math.abs(player.engine.getVU().r));
+      left = (left == Infinity) ? 1 : left/400;
+      right = (right == Infinity) ? 1 : right/400;
+      app.ui.vul.css("transform", "scaleX("+ (left) +")");
+      app.ui.vur.css("transform", "scaleX("+ (right) +")");
     } else {
       var minutes_elapsed = "0";
       var seconds_elapsed = "00";
-      app.ui.song_position_progress.width("0%");
-      app.win.setProgressBar(0);
+      app.ui.song_position_progress.css("transform", "scaleX(0)");
+      //app.win.setProgressBar(0);
       // VU
-      app.ui.vul.width(400);
-      app.ui.vur.width(400);
+      app.ui.vul.css("transform", "scaleX(1)");
+      app.ui.vur.css("transform", "scaleX(1)");
+    }
+    var minutes_total = Math.floor(app.player.metadata.duration/60);
+    var seconds_total = ("0" + Math.round(app.player.metadata.duration - minutes_total * 60)).substr(-2, 2);
+    //app.ui.song_position_label.text(minutes_elapsed + ":" + seconds_elapsed + " / " + minutes_total + ":" + seconds_total);
+  }
+}
+
+app.updateUITimer = function() {
+  if(app.player.metadata != null) {
+    var minutes_elapsed = "0";
+    var seconds_elapsed = "00";
+    if(!app.player.hasEnded() && app.player.status.playing) {
+      var seconds = app.player.getPosition();
+      var completed = seconds / app.player.metadata.duration;
+      var minutes_elapsed = Math.floor(seconds/60);
+      var seconds_elapsed = ("0" + Math.round(seconds - minutes_elapsed * 60)).substr(-2, 2);
+      //app.ui.song_position_progress.css("transform", "scaleX(" + completed + ")");
+      app.win.setProgressBar(completed / 100);
+    } else {
+      //app.ui.song_position_progress.css("transform", "scaleX(0)");
+      app.win.setProgressBar(0);
     }
     var minutes_total = Math.floor(app.player.metadata.duration/60);
     var seconds_total = ("0" + Math.round(app.player.metadata.duration - minutes_total * 60)).substr(-2, 2);
     app.ui.song_position_label.text(minutes_elapsed + ":" + seconds_elapsed + " / " + minutes_total + ":" + seconds_total);
   }
-  window.requestAnimationFrame(app.updateUI);
 }
 
 app.init = function() {
@@ -69,7 +99,8 @@ app.init = function() {
 
   player.init();
 
-  window.requestAnimationFrame(app.updateUI);
+  window.requestAnimationFrame(app.updateUI); // soft anim
+  window.setInterval(app.updateUITimer, 1000); // text updates
 };
 
 app.load = function(file) {
@@ -101,22 +132,13 @@ app.setOSStuff = function() {
     var winh = window.$(window).height();
     var headh = window.$("div#header").height();
     var footh = window.$("div#footer").height();
-    console.log(footh);
     window.$("div#main").height(winh-headh-footh-60);
   });
-  window.$(function() {
-    var winh = window.$(window).height();
-    var headh = window.$("div#header").height();
-    var footh = window.$("div#footer").height();
-    console.log(footh);
-    window.$("div#main").height(winh-headh-footh-60);
-  });
+
   win.on("resize", function(x, y) {
     var winh = window.$(window).height();
     var headh = window.$("div#header").height();
     var footh = window.$("div#footer").height();
-    console.log(footh);
-    console.log(winh);
     window.$("div#main").height(winh-headh-footh-60);
   });
 

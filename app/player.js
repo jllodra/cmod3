@@ -8,7 +8,8 @@ var player = {
     playing: false,
     stopped: true,
     paused: false,
-    hasEnded: false
+    hasEnded: false,
+    nectarine: true
   }
 };
 
@@ -62,10 +63,14 @@ player.setPosition = function(percent) {
 
 player.play = function() {
   if(player.buffer !== null) {
-    player.engine.play();
-    player.status.playing = true;
-    player.status.stopped = false;
-    player.status.hasEnded = false;
+    if(player.status.paused) {
+      player.pause();
+    } else {
+      player.engine.play();
+      player.status.playing = true;
+      player.status.stopped = false;
+      player.status.hasEnded = false;
+    }
   }
 }
 
@@ -76,6 +81,7 @@ player.stop = function() {
     player.status.stopped = true;
     player.status.paused = false;
   }
+  player.stopNectarine();
 }
 
 player.pause = function() {
@@ -90,6 +96,29 @@ player.hasEnded = function() {
   player.status.stopped = player.engine.status.stopped;
   player.status.hasEnded = player.engine.status.stopped;
   return player.status.hasEnded;
+}
+
+player.playNectarine = function() {
+  try {
+    player.stop();
+    var audioel = window.document.getElementById('audio');
+    audioel.src="http://privat.is-by.us:8000/necta192.mp3";
+    audioel.play();
+    player.status.nectarine = true;
+  } catch (e) {
+    console.error("cant play nectarine :(");
+  }
+}
+
+player.stopNectarine = function() {
+  try {
+    var audioel = window.document.getElementById('audio');
+    audioel.stop();
+    audioel.src='';
+    player.status.nectarine = false;
+  } catch (e) {
+    console.error("cant stop nectarine :(");
+  }
 }
 
 module.exports = player;

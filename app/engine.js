@@ -120,52 +120,52 @@ function engine() {
     }
   }
 
-    var onaudioprocess = function(e) {
-      var outputL = e.outputBuffer.getChannelData(0);
-      var outputR = e.outputBuffer.getChannelData(1);
-      var framesToRender = outputL.length;
-      //
-      if(status.stopped || status.paused) { // stop
-        for (var i = 0; i < framesToRender; ++i) {
-          outputL[i] = 0;
-          outputR[i] = 0;
-        }
-        return;
+  var onaudioprocess = function(e) {
+    var outputL = e.outputBuffer.getChannelData(0);
+    var outputR = e.outputBuffer.getChannelData(1);
+    var framesToRender = outputL.length;
+    //
+    if(status.stopped || status.paused) { // stop
+      for (var i = 0; i < framesToRender; ++i) {
+        outputL[i] = 0;
+        outputR[i] = 0;
       }
-      var framesRendered = 0;
-      while (framesToRender > 0) {
-        var framesPerChunk = Math.min(framesToRender, maxFramesPerChunk);
-        var actualFramesPerChunk = ompt._openmpt_module_read_float_stereo(
-          memPtr,
-          audioContext.sampleRate,
-          framesPerChunk,
-          leftBufferPtr,
-          rightBufferPtr);
-        //if (actualFramesPerChunk == 0) {
-          //ended = true;
-        //}
-        var rawAudioLeft = ompt.HEAPF32.subarray(leftBufferPtr / 4, leftBufferPtr / 4 + actualFramesPerChunk);
-        var rawAudioRight = ompt.HEAPF32.subarray(rightBufferPtr / 4, rightBufferPtr / 4 + actualFramesPerChunk);
-        leftVU = 0;
-        rightVU = 0;
-        for (var i = 0; i < actualFramesPerChunk; ++i) {
-          outputL[framesRendered + i] = rawAudioLeft[i];
-          outputR[framesRendered + i] = rawAudioRight[i];
-          leftVU += rawAudioLeft[i];
-          rightVU += rawAudioRight[i];
-        }
-        for (var i = actualFramesPerChunk; i < framesPerChunk; ++i) {
-          outputL[framesRendered + i] = 0;
-          outputR[framesRendered + i] = 0;
-        }
-        framesToRender -= framesPerChunk;
-        framesRendered += framesPerChunk;
-        leftVU = leftVU / framesPerChunk;
-        rightVU = rightVU / framesPerChunk;
-        if(actualFramesPerChunk == 0) {
-          stop();
-        }
+      return;
+    }
+    var framesRendered = 0;
+    while (framesToRender > 0) {
+      var framesPerChunk = Math.min(framesToRender, maxFramesPerChunk);
+      var actualFramesPerChunk = ompt._openmpt_module_read_float_stereo(
+        memPtr,
+        audioContext.sampleRate,
+        framesPerChunk,
+        leftBufferPtr,
+        rightBufferPtr);
+      //if (actualFramesPerChunk == 0) {
+        //ended = true;
+      //}
+      var rawAudioLeft = ompt.HEAPF32.subarray(leftBufferPtr / 4, leftBufferPtr / 4 + actualFramesPerChunk);
+      var rawAudioRight = ompt.HEAPF32.subarray(rightBufferPtr / 4, rightBufferPtr / 4 + actualFramesPerChunk);
+      leftVU = 0;
+      rightVU = 0;
+      for (var i = 0; i < actualFramesPerChunk; ++i) {
+        outputL[framesRendered + i] = rawAudioLeft[i];
+        outputR[framesRendered + i] = rawAudioRight[i];
+        leftVU += rawAudioLeft[i];
+        rightVU += rawAudioRight[i];
       }
+      for (var i = actualFramesPerChunk; i < framesPerChunk; ++i) {
+        outputL[framesRendered + i] = 0;
+        outputR[framesRendered + i] = 0;
+      }
+      framesToRender -= framesPerChunk;
+      framesRendered += framesPerChunk;
+      leftVU = leftVU / framesPerChunk;
+      rightVU = rightVU / framesPerChunk;
+      if(actualFramesPerChunk == 0) {
+        stop();
+      }
+    }
   };
 
   return {
