@@ -113,7 +113,7 @@ player.playNectarine = function() {
 player.stopNectarine = function() {
   try {
     var audioel = window.document.getElementById('audio');
-    audioel.stop();
+    audioel.pause();
     audioel.src='';
     player.status.nectarine = false;
   } catch (e) {
