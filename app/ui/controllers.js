@@ -19,7 +19,7 @@ angular.module('cmod.ui', [])
     });
   };
 })
-.controller('cmodCtrl', function ($rootScope, $scope) {
+.controller('cmodAppCtrl', function ($rootScope, $scope) {
   var app = $rootScope.app;
   var gui = $rootScope.gui;
   var menu = new gui.Menu();
@@ -208,5 +208,8 @@ angular.module('cmod.ui', [])
   };
   // INIT for testing
   //$scope.addSongToPlaylist("nwk-road.xm", "/Users/josep/Projects/cmod3/mods/Pop/nwk-road.xm");
+
+})
+.controller('cmodHeaderCtrl', function($rootScope, $scope) {
 
 });

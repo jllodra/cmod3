@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html ng-app="cmod">
   <head>
+
     <!-- https://bootswatch.com/slate/ -->
     <link rel="stylesheet" href="bootstrap/dist/css/bootstrap-slate.min.css">
     <script>
@@ -9,9 +10,15 @@
     </script>
     <script src="bower_components/jquery/dist/jquery.js"></script>
     <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
     <script src="bootstrap/dist/js/bootstrap.js"></script>
+
     <script src="app/cmod.js"></script>
-    <script src="app/ui/controllers.js"></script>
+    <script src="app/nwgui.js"></script>
+    <script src="app/engine/engine.js"></script>
+    <script src="app/player/player.js"></script>
+    <script src="app/ui/playlist/playlist.js"></script>
+
     <style>
       /* global */
       @font-face {
@@ -122,96 +129,18 @@
       }
     </style>
   </head>
-  <body ng-controller="cmodCtrl">
+  <body ng-controller="cmodAppCtrl">
     <audio id="audio" src=""></audio>
 
     <div class="container-fluid" style="padding: 0;">
 
       <ng-include src="'app/ui/header/header.tpl.html'"></ng-include>
 
-      <div id="main" class="container-fluid">
-        <div class="row">
-          <div class="col-xs-12">
-            <table id="playlist" class="table table-condensed table-hover">
-              <thead>
-                <tr>
-                  <th class="col-xs-1"><small>#</small></th>
-                  <th class="col-xs-6"><small>SONG</small></th>
-                  <th class="col-xs-4"><small>FILENAME</small></th>
-                  <th class="col-xs-1"><small>TIME</small></th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr ng-right-click="showOptions($index, $event)" ng-repeat="song in playlist" ng-click="playSongInPlaylist($index)">
-                  <td>{{ $index + 1 }}</td>
-                  <td>{{ song.name }}</td>
-                  <td>{{ song.filename }}</td>
-                  <td>{{ song.duration }}</td>
-                </tr>
-              </tbody>
-              <tfoot>
-                <tr>
-                  <td colspan="4"><small>Total songs: {{ playlist.length }}</small></td>
-                </tr>
-              </tfoot>
-            </table>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-xs-12">
-            <!--<p id="vul"></p>
-            <p id="vur"></p>-->
-          </div>
-        </div>
+      <div ui-view></div>
 
-      </div>
-
-
-      <!--footer-->
-        <div id="footer" class="navbar-fixed-bottom">
-            <div style="text-align: center;" class="container-fluid">
-              <div class="row">
-                <div style="margin-bottom: 4px" class="col-xs-12">
-                  <small>{{ current_song || "Long live to the modscene" }}</small>
-                </div>
-              </div>
-              <div class="row">
-                <div style="margin-bottom: 4px" class="col-xs-12">
-                  <button class="btn btn-default" ng-click="play()">
-                    <span class="glyphicon glyphicon-play" aria-hidden="true"></span>
-                    Play
-                  </button>
-                  <button class="btn btn-default" ng-click="stop()">
-                    <span class="glyphicon glyphicon-stop" aria-hidden="true"></span>
-                    Stop
-                  </button>
-                  <button class="btn btn-default" ng-click="pause()">
-                    <span class="glyphicon glyphicon-pause" aria-hidden="true"></span>
-                    Pause
-                  </button>
-                  <button class="btn btn-default" ng-click="addFilesToPlaylist()">
-                    <span class="glyphicon glyphicon-file" aria-hidden="true"></span>
-                    Add file(s)
-                  </button>
-                  <input style="display: none" id="fileDialog" type="file"/>
-                  <button class="btn btn-default" ng-click="playNectarine()">
-                    <span class="glyphicon glyphicon-cd" aria-hidden="true"></span>
-                    Play Nectarine Radio
-                  </button>
-                </div>
-              </div>
-              <div class="row">
-                <div class="progress" ng-click="seekProgressBar($event)">
-                  <div id="song_position_progress" class="progress-bar" role="progressbar">
-                  </div>
-                  <span id="song_position_label"></span>
-                </div>
-              </div>
-          </div>
-        </div>
-      <!--/footer-->
-
+      <ng-include src="'app/ui/footer/footer.tpl.html'"></ng-include>
 
     </div>
+
   </body>
 </html>

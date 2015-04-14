@@ -22,7 +22,7 @@ player.load = function(file, callback) {
   xhr.open('GET', file, true);
   xhr.responseType = 'arraybuffer';
   xhr.onload = function (evt) {
-    // check possible errors
+    // TODO: check possible errors
     if(xhr.response) {
       player.buffer = xhr.response;
       player.engine.unload();

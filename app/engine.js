@@ -23,7 +23,7 @@ function engine() {
   };
 
   function loadBuffer(buffer) {
-    processNode = audioContext.createScriptProcessor(0, 0, 2);
+    processNode = audioContext.createScriptProcessor(4096, 0, 2);
     processNode.onaudioprocess = onaudioprocess;
     byteArray = new Int8Array(buffer);
     filePtr = ompt._malloc(byteArray.byteLength);
@@ -31,8 +31,6 @@ function engine() {
     memPtr = ompt._openmpt_module_create_from_memory(filePtr, byteArray.byteLength, 0, 0, 0);
     leftBufferPtr = ompt._malloc(4 * maxFramesPerChunk);
     rightBufferPtr = ompt._malloc(4 * maxFramesPerChunk);
-    // curios
-    // ompt._openmpt_module_set_repeat_count(memPtr, 10);
   };
 
   function metadata(buffer) {

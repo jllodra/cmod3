@@ -1,15 +1,14 @@
-<div id="header" class="navbar navbar-default">
+<div ng-controller="cmodHeaderCtrl" id="header" class="navbar navbar-default">
   <div class="container-fluid">
-    <!-- Brand and toggle get grouped for better mobile display -->
+
     <div class="navbar-header">
       <a id="brand" class="navbar-brand" href="#">cmod3</a>
     </div>
 
-    <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="#">Playlist</a></li>
-        <li><a href="#">Info</a></li>
+        <li ui-sref-active="active"><a ui-sref="playlist">Playlist</a></li>
+        <li ui-sref-active="active"><a ui-sref="info">Info</a></li>
         <li>
           <div id="vus">
             <div id="vuleft" class="vu">
@@ -23,7 +22,7 @@
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">More <span class="caret"></span></a>
+          <a class="dropdown-toggle" data-toggle="dropdown" role="button">More <span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
             <li><a href="#" ng-click="devConsole()">Console</a></li>
             <li><a href="#" ng-click="minimize()">Minimize</a></li>
@@ -33,6 +32,6 @@
           </ul>
         </li>
       </ul>
-    </div><!-- /.navbar-collapse -->
-  </div><!-- /.container-fluid -->
+    </div>
+  </div>
 </div>

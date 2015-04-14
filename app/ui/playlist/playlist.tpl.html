@@ -1,0 +1,36 @@
+<div ng-controller="cmodPlaylistCtrl" id="main" class="container-fluid">
+  <div class="row">
+    <div class="col-xs-12">
+      <table id="playlist" class="table table-condensed table-hover">
+        <thead>
+          <tr>
+            <th class="col-xs-1"><small>#</small></th>
+            <th class="col-xs-6"><small>SONG</small></th>
+            <th class="col-xs-4"><small>FILENAME</small></th>
+            <th class="col-xs-1"><small>TIME</small></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-right-click="showOptions($index, $event)" ng-repeat="song in playlist" ng-click="playSongInPlaylist($index)">
+            <td>{{ $index + 1 }}</td>
+            <td>{{ song.name }}</td>
+            <td>{{ song.filename }}</td>
+            <td>{{ song.duration }}</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="4"><small>Total songs: {{ playlist.length }}</small></td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12">
+      <!--<p id="vul"></p>
+      <p id="vur"></p>-->
+    </div>
+  </div>
+
+</div>
