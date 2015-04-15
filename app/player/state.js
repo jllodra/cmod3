@@ -5,6 +5,7 @@ angular.module('cmod.playerState', [])
   var state = {
     playlist: [],
     current_song: null,
+    current_song_path: null,
     current_song_index: null,
     current_song_index_context_menu: null,
     metadata: null

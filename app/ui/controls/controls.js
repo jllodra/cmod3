@@ -42,24 +42,29 @@ angular.module('cmod.ui.controls', [
       };
 
       function updateProgressBar() {
-        if(player.getMetadata() != null) {
-          var minutes_elapsed = "0";
-          var seconds_elapsed = "00";
-          var completed = 0;
-          if(!player.hasEnded() && player.getStatus().playing) {
-            var seconds = player.getPosition();
-            completed = seconds / player.getMetadata().duration;
-            minutes_elapsed = Math.floor(seconds/60);
-            seconds_elapsed = ("0" + Math.round(seconds - minutes_elapsed * 60)).substr(-2, 2);
-          }
-          var minutes_total = Math.floor(player.getMetadata().duration/60);
-          var seconds_total = ("0" + Math.round(player.getMetadata().duration - minutes_total * 60)).substr(-2, 2);
-          $scope.$apply(function() {
-            $scope.progress_bar_scaleX = completed;
-            $scope.progress_bar_label = minutes_elapsed + ":" + seconds_elapsed + " / " + minutes_total + ":" + seconds_total;
-          });
-          win.setProgressBar(completed);
+        var completed = 0;
+        //var label = "";
+        var seconds_elapsed = null;
+        var duration = null;
+        if(!player.hasEnded()) {
+          /*var minutes_elapsed = "0";
+          var seconds_elapsed = "00";*/
+          var seconds_elapsed = player.getPosition();
+          var duration = state.current_song.metadata.duration;
+          completed = seconds_elapsed / duration;
+          /*completed = seconds / state.current_song.metadata.duration;
+          minutes_elapsed = Math.floor(seconds/60);
+          seconds_elapsed = ("0" + Math.round(seconds - minutes_elapsed * 60)).substr(-2, 2);
+          var minutes_total = Math.floor(state.current_song.metadata.duration/60);
+          var seconds_total = ("0" + Math.round(state.current_song.metadata.duration - minutes_total * 60)).substr(-2, 2);
+          label = minutes_elapsed + ":" + seconds_elapsed + " / " + minutes_total + ":" + seconds_total;*/
         }
+        $scope.$apply(function() {
+          $scope.progress_bar_scaleX = completed;
+          $scope.progress_bar_label_elapsed = seconds_elapsed;
+          $scope.progress_bar_label_total = duration;
+        });
+        win.setProgressBar(completed);
       }
 
       $window.setInterval(updateProgressBar, 1000); // text updates

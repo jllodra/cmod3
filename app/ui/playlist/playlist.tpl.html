@@ -20,7 +20,7 @@
               <td>{{ $index + 1 }}</td>
               <td>{{ song.name }}</td>
               <td>{{ song.filename }}</td>
-              <td>{{ song.duration }}</td>
+              <td>{{ song.metadata.duration | mmss }}</td>
           </tr>
         </tbody>
         <tfoot>

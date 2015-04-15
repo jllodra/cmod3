@@ -16,13 +16,10 @@ angular.module('cmod.ui.playlist', [
         player.metadataFromFile(path, function(metadata) {
           console.log(metadata);
           $scope.$apply(function() {
-            var minutes = Math.floor(metadata.duration/60);
-            var seconds = Math.round(metadata.duration - minutes * 60);
             state.playlist.push({
               'name': metadata.title,
               'filename': name,
               'path': path,
-              'duration': minutes + ":" + (("0" + seconds).substr(-2, 2)),
               'metadata': metadata
             });
           });
@@ -30,7 +27,8 @@ angular.module('cmod.ui.playlist', [
       };
 
       $scope.playSongInPlaylist = function(i) {
-        state.current_song = state.playlist[i].path;
+        state.current_song = state.playlist[i];
+        state.current_song_path = state.playlist[i].path;
         state.current_song_index = i;
         state.metadata = state.playlist[i].metadata;
         console.log(state.metadata);
@@ -43,6 +41,9 @@ angular.module('cmod.ui.playlist', [
 
       $scope.removeAllSongsFromPlaylist = function() {
         state.playlist = [];
+        state.current_song = null;
+        state.current_song_path = null;
+        state.current_song_index = null;
       };
 
 

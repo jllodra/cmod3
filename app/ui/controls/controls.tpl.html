@@ -2,7 +2,7 @@
     <div style="text-align: center;" class="container-fluid">
       <div class="row">
         <div style="margin-bottom: 4px" class="col-xs-12">
-          <small>{{ state.current_song || "Long live to the modscene" }}</small>
+          <small>{{ state.current_song_path || "Long live to the modscene" }}</small>
         </div>
       </div>
       <div class="row">
@@ -34,7 +34,7 @@
         <div class="progress" ng-click="seekProgressBar($event)">
           <div id="song_position_progress" style="transform: scaleX({{ progress_bar_scaleX }})" class="progress-bar" role="progressbar">
           </div>
-          <span id="song_position_label">{{ progress_bar_label }}</span>
+          <span id="song_position_label">{{ progress_bar_label_elapsed || "0" | mmss }}/{{ progress_bar_label_total || "0" | mmss }}</span>
         </div>
       </div>
   </div>

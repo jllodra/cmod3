@@ -221,4 +221,10 @@ angular.module('cmod', [
     });
   };
 })
-;
+.filter('mmss', function() {
+  return function(seconds) {
+    var minutes = Math.floor(seconds/60);
+    var seconds = ("0" + Math.round(seconds - minutes * 60)).substr(-2, 2);
+    return minutes + ":" + seconds;
+  }
+});
