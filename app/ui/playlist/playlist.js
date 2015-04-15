@@ -7,7 +7,7 @@ angular.module('cmod.ui.playlist', [
 .controller('cmodPlaylistCtrl',
   [         'nwgui', 'player', 'state', '$rootScope', '$scope',
     function(nwgui, player, state, $rootScope, $scope) {
-      console.log("playlist ctrl!"); // TODO: executed twice?
+      console.log("playlist ctrl!");
 
       $scope.state = state;
 
@@ -39,6 +39,7 @@ angular.module('cmod.ui.playlist', [
       };
 
       $scope.removeAllSongsFromPlaylist = function() {
+        player.stop();
         state.playlist = [];
         state.current_song = null;
         state.current_song_path = null;

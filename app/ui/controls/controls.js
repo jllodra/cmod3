@@ -13,11 +13,13 @@ angular.module('cmod.ui.controls', [
 
       $scope.state = state;
       $scope.progress_bar_scaleX = 0;
-      $scope.progress_bar_label = "";
 
       $scope.play = function() {
         if(state.current_song_index === null && state.playlist.length > 0) {
-          state.playSongInPlaylist(0);
+          state.current_song = state.playlist[0];
+          state.current_song_path = state.playlist[0].path;
+          state.current_song_index = 0;
+          player.loadAndPlay(state.playlist[0].path);
         } else {
           player.play();
         }
@@ -35,6 +37,20 @@ angular.module('cmod.ui.controls', [
         player.playNectarine();
       };
 
+      /* TODO: add files using a button (Add files)
+      $('#fileDialog').change(function(evt) {
+        var file = $(this)[0].files[0];
+        var name = file.name;
+        var path = file.path;
+        $scope.$apply(function() {
+          $scope.addSongToPlaylist(name, path);
+        });
+      });
+      $scope.addFilesToPlaylist = function() {
+        $('#fileDialog').trigger('click');
+      };*/
+
+
       $scope.seekProgressBar = function($event) {
         var percent = $event.pageX / $($event.currentTarget).width();
         $scope.progress_bar_scaleX = percent;
@@ -43,23 +59,12 @@ angular.module('cmod.ui.controls', [
 
       function updateProgressBar() {
         var completed = 0;
-        //var label = "";
         var seconds_elapsed = null;
         var duration = null;
         if(!player.hasEnded()) {
-          /*var minutes_elapsed = "0";
-          var seconds_elapsed = "00";*/
           var seconds_elapsed = player.getPosition();
-          console.log(seconds_elapsed);
           var duration = state.current_song.metadata.duration;
-          console.log(duration);
           completed = seconds_elapsed / duration;
-          /*completed = seconds / state.current_song.metadata.duration;
-          minutes_elapsed = Math.floor(seconds/60);
-          seconds_elapsed = ("0" + Math.round(seconds - minutes_elapsed * 60)).substr(-2, 2);
-          var minutes_total = Math.floor(state.current_song.metadata.duration/60);
-          var seconds_total = ("0" + Math.round(state.current_song.metadata.duration - minutes_total * 60)).substr(-2, 2);
-          label = minutes_elapsed + ":" + seconds_elapsed + " / " + minutes_total + ":" + seconds_total;*/
         }
         $scope.$apply(function() {
           $scope.progress_bar_scaleX = completed;

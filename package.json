@@ -28,7 +28,7 @@
         "show_in_taskbar": true,
         "height": 400,
         "mac_icon": "icon.png",
-        "toolbar": true,
+        "toolbar": false,
         "icon": "icon.png"
     },
     "version": "0.0.1",

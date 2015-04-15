@@ -1,7 +1,12 @@
 <div ng-controller="cmodPlaylistCtrl" id="main" class="container-fluid" style="height: {{ height }}px">
   <div class="row">
     <div class="col-xs-12">
-      <table id="playlist" class="table table-condensed table-hover">
+      <div ng-show="state.playlist.length === 0" class="panel panel-default">
+        <div class="panel-body">
+          Drop here some .IT, .XM, S3M, .MOD files.
+        </div>
+      </div>
+      <table ng-show="state.playlist.length > 0" id="playlist" class="table table-condensed table-hover">
         <thead>
           <tr>
             <th class="col-xs-1"><small>#</small></th>
@@ -25,7 +30,7 @@
         </tbody>
         <tfoot>
           <tr>
-            <td colspan="4"><small>Total songs: {{ playlist.length }}</small></td>
+            <td colspan="4"><small>Total songs: {{ state.playlist.length }}</small></td>
           </tr>
         </tfoot>
       </table>
