@@ -36,9 +36,9 @@ angular.module('cmod.ui.controls', [
       };
 
       $scope.seekProgressBar = function($event) {
-        var percent = $event.pageX / $($event.currentTarget).width() * 100;
-        $scope.progress_bar_scaleX = percent / 100;
-        player.setPosition(percent);
+        var percent = $event.pageX / $($event.currentTarget).width();
+        $scope.progress_bar_scaleX = percent;
+        player.setPosition(state.current_song.metadata.duration * percent);
       };
 
       function updateProgressBar() {
@@ -50,7 +50,9 @@ angular.module('cmod.ui.controls', [
           /*var minutes_elapsed = "0";
           var seconds_elapsed = "00";*/
           var seconds_elapsed = player.getPosition();
+          console.log(seconds_elapsed);
           var duration = state.current_song.metadata.duration;
+          console.log(duration);
           completed = seconds_elapsed / duration;
           /*completed = seconds / state.current_song.metadata.duration;
           minutes_elapsed = Math.floor(seconds/60);

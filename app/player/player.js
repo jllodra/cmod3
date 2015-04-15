@@ -48,14 +48,13 @@ angular.module('cmod.player', ['cmod.engine'])
         };
         xhr.send(null);
       },
-      getPosition: function(percent) {
+      getPosition: function() {
         if(status.playing) {
           return engine.getPosition();
         }
       },
-      setPosition: function(percent) {
+      setPosition: function(seconds) {
         if(buffer !== null) {
-          var seconds = metadata.duration * percent / 100;
           engine.setPosition(seconds);
         }
       },

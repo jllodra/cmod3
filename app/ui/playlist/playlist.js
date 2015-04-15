@@ -30,8 +30,7 @@ angular.module('cmod.ui.playlist', [
         state.current_song = state.playlist[i];
         state.current_song_path = state.playlist[i].path;
         state.current_song_index = i;
-        state.metadata = state.playlist[i].metadata;
-        console.log(state.metadata);
+        console.log(state.current_song.metadata);
         player.loadAndPlay(state.playlist[i].path);
       };
 

@@ -7,8 +7,7 @@ angular.module('cmod.playerState', [])
     current_song: null,
     current_song_path: null,
     current_song_index: null,
-    current_song_index_context_menu: null,
-    metadata: null
+    current_song_index_context_menu: null
   };
 
   return state;
