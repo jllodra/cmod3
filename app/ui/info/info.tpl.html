@@ -1,1 +1,27 @@
-Info!!!
+<div ng-controller="cmodInfoCtrl" id="info" class="container-fluid" style="height: {{ height }}px">
+  <div class="row">
+    <div class="col-xs-12">
+      <dl class="dl-horizontal">
+        <dt>Title</dt>
+        <dd>{{ state.metadata.title }}</dd>
+      </dl>
+      <dl class="dl-horizontal">
+        <dt>Length</dt>
+        <dd>{{ state.metadata.duration }}</dd>
+      </dl>
+      <dl class="dl-horizontal">
+        <dt>Tracker</dt>
+        <dd>{{ state.metadata.tracker }}</dd>
+      </dl>
+      <dl class="dl-horizontal">
+        <dt>Path</dt>
+        <dd>{{ state.metadata.path }}</dd>
+      </dl>
+    </div>
+  </div>
+  <div class="row well">
+    <div class="col-xs-12">
+      <pre>{{ state.metadata.message }}</pre>
+    </div>
+  </div>
+</div>

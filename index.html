@@ -17,7 +17,11 @@
     <script src="app/nwgui.js"></script>
     <script src="app/engine/engine.js"></script>
     <script src="app/player/player.js"></script>
+    <script src="app/player/state.js"></script>
+    <script src="app/ui/header/header.js"></script>
     <script src="app/ui/playlist/playlist.js"></script>
+    <script src="app/ui/controls/controls.js"></script>
+    <script src="app/ui/info/info.js"></script>
 
     <style>
       /* global */
@@ -92,8 +96,18 @@
         padding-left: 40px;
         padding-right: 40px;
       }
+      div#info {
+        overflow-y: scroll;
+        padding-top: 30px;
+        padding-bottom: 30px;
+      }
 
       /* bootstrap */
+      pre {
+        border: 0;
+        color: inherit;
+        background-color: #242627;
+      }
       nav {
         padding-left: 20px;
       }
@@ -138,7 +152,7 @@
 
       <div ui-view></div>
 
-      <ng-include src="'app/ui/footer/footer.tpl.html'"></ng-include>
+      <ng-include src="'app/ui/controls/controls.tpl.html'"></ng-include>
 
     </div>
 

@@ -12,10 +12,10 @@
         <li>
           <div id="vus">
             <div id="vuleft" class="vu">
-              <div class="vu_overlay"></div>
+              <div class="vu_overlay" style="transform: scaleX({{ vuleft }})"></div>
             </div>
             <div id="vuright" class="vu">
-              <div class="vu_overlay"></div>
+              <div class="vu_overlay" style="transform: scaleX({{ vuright }})"></div>
             </div>
           </div>
         </li>
@@ -24,9 +24,10 @@
         <li class="dropdown">
           <a class="dropdown-toggle" data-toggle="dropdown" role="button">More <span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
-            <li><a href="#" ng-click="devConsole()">Console</a></li>
-            <li><a href="#" ng-click="minimize()">Minimize</a></li>
-            <li><a href="#" ng-click="close()">Close</a></li>
+            <li><a ng-click="">Settings</a></li>
+            <li><a ng-click="devConsole()">Console</a></li>
+            <li><a ng-click="minimize()">Minimize</a></li>
+            <li><a ng-click="close()">Close</a></li>
             <li class="divider"></li>
             <li><a href="#">Donate</a></li>
           </ul>

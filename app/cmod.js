@@ -4,7 +4,10 @@ angular.module('cmod', [
   'ui.router',
   'cmod.nwgui',
   'cmod.player',
-  'cmod.ui.playlist'
+  'cmod.ui.header',
+  'cmod.ui.playlist',
+  'cmod.ui.controls',
+  'cmod.ui.info'
 ])
 .config(['$stateProvider', '$urlRouterProvider',
   function($stateProvider, $urlRouterProvider) {
@@ -36,13 +39,17 @@ angular.module('cmod', [
         var winh = window.$(window).height();
         var headh = window.$("div#header").height();
         var footh = window.$("div#footer").height();
-        window.$("div#main").height(winh-headh-footh-60);
+        $rootScope.$apply(function() {
+          $rootScope.height = winh-headh-footh;
+        });
       });
       win.on("resize", function(x, y) {
         var winh = window.$(window).height();
         var headh = window.$("div#header").height();
         var footh = window.$("div#footer").height();
-        window.$("div#main").height(winh-headh-footh-60);
+        $rootScope.$apply(function() {
+          $rootScope.height = winh-headh-footh;
+        });
       });
       win.moveTo(win.x, 30);
 
@@ -143,30 +150,7 @@ angular.module('cmod', [
         $('#fileDialog').trigger('click');
       };
 
-      $scope.play = function() {
-        if($scope.current_song_index === null && $scope.playlist.length > 0) {
-          $scope.playSongInPlaylist(0);
-        } else {
-          app.player.play();
-        }
-      };
-      $scope.stop = function() {
-        app.player.stop();
-      };
-      $scope.pause = function() {
-        app.player.pause();
-      };
-      $scope.playNectarine = function() {
-        app.player.playNectarine();
-      };
-      $scope.seekProgressBar = function($event) {
-        console.log($event);
-        console.log($event.pageX);
-        console.log($($event.currentTarget).width());
-        var percent = $event.pageX / $($event.currentTarget).width() * 100;
-        console.log(percent);
-        app.player.setPosition(percent);
-      };
+
 
       $scope.ondrop = function(e) {
         this.className = '';
@@ -225,13 +209,7 @@ angular.module('cmod', [
       // INIT for testing
       //$scope.addSongToPlaylist("nwk-road.xm", "/Users/josep/Projects/cmod3/mods/Pop/nwk-road.xm");
 
-}]).controller('cmodHeaderCtrl', function($rootScope, $scope) {
-
-})
-
-.controller('cmodInfoCtrl', function($rootScope, $scope) {
-  console.log("info ctrl!")
-})
+}])
 .directive('ngRightClick', function($parse) {
   return function(scope, element, attrs) {
     var fn = $parse(attrs.ngRightClick);

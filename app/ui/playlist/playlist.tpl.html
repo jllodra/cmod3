@@ -1,4 +1,4 @@
-<div ng-controller="cmodPlaylistCtrl" id="main" class="container-fluid">
+<div ng-controller="cmodPlaylistCtrl" id="main" class="container-fluid" style="height: {{ height }}px">
   <div class="row">
     <div class="col-xs-12">
       <table id="playlist" class="table table-condensed table-hover">
@@ -11,11 +11,16 @@
           </tr>
         </thead>
         <tbody>
-          <tr ng-right-click="showOptions($index, $event)" ng-repeat="song in playlist" ng-click="playSongInPlaylist($index)">
-            <td>{{ $index + 1 }}</td>
-            <td>{{ song.name }}</td>
-            <td>{{ song.filename }}</td>
-            <td>{{ song.duration }}</td>
+          <tr
+            ng-repeat="song in state.playlist"
+            ng-click="playSongInPlaylist($index)"
+            ng-right-click="showOptions($index, $event)"
+            ng-class="{ selected_song: ($index === state.current_song_index) }"
+            >
+              <td>{{ $index + 1 }}</td>
+              <td>{{ song.name }}</td>
+              <td>{{ song.filename }}</td>
+              <td>{{ song.duration }}</td>
           </tr>
         </tbody>
         <tfoot>
@@ -26,11 +31,10 @@
       </table>
     </div>
   </div>
+  <!--
   <div class="row">
     <div class="col-xs-12">
-      <!--<p id="vul"></p>
-      <p id="vur"></p>-->
     </div>
   </div>
-
+  -->
 </div>

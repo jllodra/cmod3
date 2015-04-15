@@ -5,6 +5,8 @@ angular.module('cmod.player', ['cmod.engine'])
   'engine',
   function(engine) {
 
+    var supported_formats = "mod s3m xm it mptm stm nst m15 stk wow ult 669 mtm med far mdl ams dsm amf okt dmf ptm psm mt2 dbm digi imf j2b gdm umx mo3 xpk ppm mmcmp".split(" ");
+
     var buffer = null; // fa falta?
     var metadata = null; // metadata from last loaded file, fa falta?
     var status = {
@@ -40,6 +42,7 @@ angular.module('cmod.player', ['cmod.engine'])
           if(xhr.response) {
             var buffer = xhr.response;
             metadata = engine.metadata(buffer);
+            metadata.path = file;
             callback(metadata);
           }
         };
@@ -80,7 +83,7 @@ angular.module('cmod.player', ['cmod.engine'])
           status.stopped = true;
           status.paused = false;
         }
-        stopNectarine();
+        this.stopNectarine();
       },
       pause: function() {
         if(buffer !== null) {
@@ -96,7 +99,7 @@ angular.module('cmod.player', ['cmod.engine'])
       },
       playNectarine: function() {
         try {
-          stop();
+          this.stop();
           var audioel = window.document.getElementById('audio');
           audioel.src="http://privat.is-by.us:8000/necta192.mp3";
           audioel.play();
@@ -117,7 +120,20 @@ angular.module('cmod.player', ['cmod.engine'])
       },
       quit: function() {
         engine.unload();
-      }
+      },
+      isFormatSupported: function(file) {
+        for (var i = 0; i < supported_formats.length; i++) {
+          if(file.toLowerCase().endsWith(supported_formats[i])) {
+            return true;
+          }
+        }
+        return false;
+      },
+
+      // we expose status and metadata for VU etc (header.js),
+      // check this because it's ugly
+      getMetadata: function() {return metadata; },
+      getStatus: function() { return status; }
     }
 
 }]);
