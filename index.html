@@ -8,10 +8,10 @@
       var package = require('./package.json');
       document.title = "cmod3 v" + package.version;
     </script>
-    <script src="bower_components/jquery/dist/jquery.js"></script>
-    <script src="bower_components/angular/angular.js"></script>
-    <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
-    <script src="bootstrap/dist/js/bootstrap.js"></script>
+    <!--script src="bower_components/jquery/dist/jquery.js"></script-->
+    <script src="bower_components/angular/angular.min.js"></script>
+    <script src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+    <!--script src="bootstrap/dist/js/bootstrap-without-jquery.min.js"></script-->
 
     <script src="app/cmod.js"></script>
     <script src="app/nwgui.js"></script>
@@ -107,6 +107,9 @@
       }
 
       /* bootstrap */
+      .dropdown:hover .dropdown-menu {
+        display: block;
+      }
       pre {
         border: 0;
         color: inherit;

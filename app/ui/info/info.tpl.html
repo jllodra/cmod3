@@ -1,5 +1,5 @@
 <div id="info" class="container-fluid" style="height: {{ height }}px">
-  <div class="row">
+  <div ng-show="state.current_song.metadata" class="row">
     <div class="col-xs-6" style="text-align: center; word-wrap: break-word;">
       <hr/>
       <p><strong>{{ state.current_song.metadata.title }}</strong></p>

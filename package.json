@@ -31,7 +31,7 @@
         "toolbar": false,
         "icon": "icon.png"
     },
-    "version": "0.0.1",
+    "version": "0.0.5",
     "inject-js-start": "",
     "main": "index.html",
     "node-main": "",
