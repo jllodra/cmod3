@@ -1,0 +1,22 @@
+<div id="settings" class="container-fluid" style="height: {{ height }}px">
+  <div class="row">
+    <div class="col-xs-12" style="text-align: center;">
+      <div class="checkbox">
+        <label>
+          <input ng-model="vu" ng-change="hideVU()" type="checkbox"> Disable VU meter (saves CPU)
+        </label>
+      </div>
+      <hr/>
+      <div class="checkbox">
+        <label>
+          <input ng-model="repeat" ng-change="repeatPlaylist()" type="checkbox"> Repeat playlist
+        </label>
+      </div>
+      <div class="checkbox">
+        <label>
+          <input ng-model="shuffle" ng-change="sufflePlaylist()" type="checkbox"> Shuffle playlist
+        </label>
+      </div>
+    </div>
+  </div>
+</div>

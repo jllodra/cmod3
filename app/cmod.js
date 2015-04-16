@@ -7,7 +7,8 @@ angular.module('cmod', [
   'cmod.ui.header',
   'cmod.ui.playlist',
   'cmod.ui.controls',
-  'cmod.ui.info'
+  'cmod.ui.info',
+  'cmod.ui.settings'
 ])
 .config(['$stateProvider', '$urlRouterProvider',
   function($stateProvider, $urlRouterProvider) {
@@ -15,11 +16,18 @@ angular.module('cmod', [
     $stateProvider
     .state('playlist', {
       url: "/playlist",
-      templateUrl: "app/ui/playlist/playlist.tpl.html"
+      templateUrl: "app/ui/playlist/playlist.tpl.html",
+      controller: "cmodPlaylistCtrl"
     })
     .state('info', {
       url: "/info",
-      templateUrl: "app/ui/info/info.tpl.html"
+      templateUrl: "app/ui/info/info.tpl.html",
+      controller: "cmodInfoCtrl"
+    })
+    .state('settings', {
+      url: "/settings",
+      templateUrl: "app/ui/settings/settings.tpl.html",
+      controller: "cmodSettingsCtrl"
     })
 }])
 .run(

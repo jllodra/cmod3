@@ -61,11 +61,20 @@ angular.module('cmod.ui.controls', [
         var completed = 0;
         var seconds_elapsed = null;
         var duration = null;
-        if(!player.hasEnded()) {
-          var seconds_elapsed = player.getPosition();
-          var duration = state.current_song.metadata.duration;
-          completed = seconds_elapsed / duration;
+        if(state.current_song != null) {
+          if(!player.hasEnded()) {
+            var seconds_elapsed = player.getPosition();
+            var duration = state.current_song.metadata.duration;
+            completed = seconds_elapsed / duration;
+          } else {
+            console.log("songend");
+            console.log(player.getPosition());
+            if(player.getPosition() >= state.current_song.metadata.duration) {
+              $rootScope.$broadcast("songend");
+            }
+          }
         }
+
         $scope.$apply(function() {
           $scope.progress_bar_scaleX = completed;
           $scope.progress_bar_label_elapsed = seconds_elapsed;

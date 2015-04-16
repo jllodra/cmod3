@@ -3,11 +3,14 @@
 angular.module('cmod.ui.header', [
   'cmod.nwgui',
   'cmod.player',
-  'cmod.engine'
+  'cmod.engine',
+  'cmod.ui.settings'
 ])
 .controller('cmodHeaderCtrl',
-  [         'nwgui', 'player', 'engine', '$scope',
-    function(nwgui, player, engine, $scope) {
+  [         'settings', 'nwgui', 'player', 'engine', '$scope',
+    function(settings, nwgui, player, engine, $scope) {
+
+      var requestId;
 
       var drops = 0;
       var max_drops = 5;
@@ -27,12 +30,35 @@ angular.module('cmod.ui.header', [
         nwgui.Window.get().showDevTools();
       };
 
+      $scope.$on('vuchanged', function() {
+        if (settings.get('vu')) {
+          requestId = window.requestAnimationFrame(updateUI);
+        } else {
+          window.cancelAnimationFrame(requestId);
+          $scope.vuleft = 1;
+          $scope.vuright = 1;
+        }
+
+
+        /* else {
+          window.cancelAnimationFrame(requestId);
+          $scope.vuleft = 1;
+          $scope.vuright = 1;
+          //$scope.$apply(function() {
+            $scope.vuleft = left;
+            $scope.vuright = right;
+          //});
+        }*/
+      });
+
       function updateUI() {
-        window.requestAnimationFrame(updateUI);
+        requestId = window.requestAnimationFrame(updateUI);
+
         if(drops < max_drops) {
           return ++drops;
         }
         drops = 0;
+
         var left = 1;
         var right = 1;
         if(!player.hasEnded()) {
@@ -41,11 +67,13 @@ angular.module('cmod.ui.header', [
           left = (left == Infinity) ? 1 : left/400;
           right = (right == Infinity) ? 1 : right/400;
         }
-        $scope.$apply(function() {
-          $scope.vuleft = left;
-          $scope.vuright = right;
-        });
+        if(left !== $scope.vuleft || right !== $scope.vuright) {
+          $scope.$apply(function() {
+            $scope.vuleft = left;
+            $scope.vuright = right;
+          });
+        }
       }
 
-      window.requestAnimationFrame(updateUI);
+      requestId = window.requestAnimationFrame(updateUI);
 }]);

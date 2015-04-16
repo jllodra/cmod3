@@ -108,6 +108,11 @@ angular.module('cmod.engine', [])
       ompt._openmpt_module_set_position_seconds(memPtr, 0);
     };
 
+    function end() {
+      status.stopped = true;
+      status.paused = false;
+    }
+
     function pause() {
       status.paused = !status.paused;
     };
@@ -162,7 +167,7 @@ angular.module('cmod.engine', [])
         leftVU = leftVU / framesPerChunk;
         rightVU = rightVU / framesPerChunk;
         if(actualFramesPerChunk == 0) {
-          stop();
+          end();
         }
       }
     };

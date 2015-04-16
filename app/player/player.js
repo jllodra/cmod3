@@ -49,9 +49,7 @@ angular.module('cmod.player', ['cmod.engine'])
         xhr.send(null);
       },
       getPosition: function() {
-        if(status.playing) {
-          return engine.getPosition();
-        }
+        return engine.getPosition();
       },
       setPosition: function(seconds) {
         if(buffer !== null) {

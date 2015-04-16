@@ -2,11 +2,12 @@
 
 angular.module('cmod.ui.playlist', [
   'cmod.player',
-  'cmod.playerState'
+  'cmod.playerState',
+  'cmod.ui.settings'
 ])
 .controller('cmodPlaylistCtrl',
-  [         'nwgui', 'player', 'state', '$rootScope', '$scope',
-    function(nwgui, player, state, $rootScope, $scope) {
+  [         'nwgui', 'player', 'state', 'settings', '$rootScope', '$scope',
+    function(nwgui, player, state, settings, $rootScope, $scope) {
       console.log("playlist ctrl!");
 
       $scope.state = state;
@@ -82,6 +83,24 @@ angular.module('cmod.ui.playlist', [
         }
         return false;
       }
+
+      $scope.$on('songend', function() {
+        if(state.playlist.length > 0) {
+          if(settings.get('shuffle')) {
+            $scope.playSongInPlaylist(Math.floor(Math.random() * state.playlist.length));
+          } else {
+            if(state.current_song_index+1 < state.playlist.length) {
+              $scope.playSongInPlaylist(state.current_song_index+1);
+            } else {
+              if(settings.get('repeat')) {
+                $scope.playSongInPlaylist(0);
+              } else {
+                player.stop();
+              }
+            }
+          }
+        }
+      });
 
       // prevent default behavior from changing page on dropped file
       var holder = document.body;
