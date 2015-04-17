@@ -62,8 +62,13 @@ angular.module('cmod.ui.header', [
         var left = 1;
         var right = 1;
         if(!player.hasEnded()) {
-          left = -20*Math.log10(Math.abs(engine.getVU().l));
-          right = -20*Math.log10(Math.abs(engine.getVU().r));
+          //window.performance.mark('log10_start');
+          //left = -20*Math.log10(Math.abs(engine.getVU().l));
+          //right = -20*Math.log10(Math.abs(engine.getVU().r));
+          left = -20*Math.log(Math.abs(engine.getVU().l))/Math.LN10;
+          right = -20*Math.log(Math.abs(engine.getVU().r))/Math.LN10;
+          //window.performance.mark('log10_done');
+          //window.performance.measure('log10', 'log10_start', 'log10_done');
           left = (left == Infinity) ? 1 : left/170;
           right = (right == Infinity) ? 1 : right/170;
         }
