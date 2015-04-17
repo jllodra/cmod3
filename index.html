@@ -78,6 +78,7 @@
         background-color: #0c0e0f;
         float: right;
         right: 0;
+        will-change: transform;
         transform-origin: right;
       }
       div#header {
@@ -135,11 +136,12 @@
         border-radius: 0;
       }
       .progress-bar {
+        will-change: transform;
         transform-origin: left;
         transform: scaleX(0);
         width: 100%;
       }
-      .progress span {
+      .progress span#song_position_label_container {
         position: absolute;
         color: white;
         left: 0;

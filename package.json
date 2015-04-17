@@ -7,7 +7,7 @@
   "keywords": [],
   "author": "Josep Llodrà Grimalt",
   "user-agent": "",
-  "chromium-args": "",
+  "chromium-args": "--enable-threaded-compositing",
   "window": {
     "fullscreen": false,
     "as_desktop": false,

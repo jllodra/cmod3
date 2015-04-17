@@ -79,6 +79,6 @@ angular.module('cmod', [
       var seconds = ("0" + Math.round(seconds - minutes * 60)).substr(-2, 2);
       return minutes + ":" + seconds;
     }
-    return null;
+    return "0:00";
   }
 });

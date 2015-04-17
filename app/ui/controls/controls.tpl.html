@@ -34,7 +34,9 @@
         <div class="progress" ng-click="seekProgressBar($event)">
           <div id="song_position_progress" style="transform: scaleX({{ progress_bar_scaleX }})" class="progress-bar" role="progressbar">
           </div>
-          <span id="song_position_label">{{ progress_bar_label_elapsed || "0" | mmss }}/{{ progress_bar_label_total || "0" | mmss }}</span>
+          <span id="song_position_label_container">
+            <span id="song_position_label">{{ progress_bar_label_elapsed || "0" | mmss }}/{{ progress_bar_label_total || "0" | mmss }}</span>
+          </span>
         </div>
       </div>
   </div>

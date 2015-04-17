@@ -52,9 +52,11 @@ angular.module('cmod.ui.controls', [
 
 
       $scope.seekProgressBar = function($event) {
-        var percent = $event.pageX / $($event.currentTarget).width();
-        $scope.progress_bar_scaleX = percent;
-        player.setPosition(state.current_song.metadata.duration * percent);
+        if(state.current_song) {
+          var percent = $event.pageX / $event.currentTarget.offsetWidth;
+          $scope.progress_bar_scaleX = percent;
+          player.setPosition(state.current_song.metadata.duration * percent);
+        }
       };
 
       function updateProgressBar() {
