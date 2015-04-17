@@ -69,9 +69,9 @@ angular.module('cmod.ui.controls', [
             var duration = state.current_song.metadata.duration;
             completed = seconds_elapsed / duration;
           } else {
-            console.log("songend");
-            console.log(player.getPosition());
             if(player.getPosition() >= state.current_song.metadata.duration) {
+              console.log("songend");
+              console.log(player.getPosition());
               $rootScope.$broadcast("songend");
             }
           }
