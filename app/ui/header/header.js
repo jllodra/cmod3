@@ -64,8 +64,8 @@ angular.module('cmod.ui.header', [
         if(!player.hasEnded()) {
           left = -20*Math.log10(Math.abs(engine.getVU().l));
           right = -20*Math.log10(Math.abs(engine.getVU().r));
-          left = (left == Infinity) ? 1 : left/400;
-          right = (right == Infinity) ? 1 : right/400;
+          left = (left == Infinity) ? 1 : left/170;
+          right = (right == Infinity) ? 1 : right/170;
         }
         if(left !== $scope.vuleft || right !== $scope.vuright) {
           $scope.$apply(function() {
