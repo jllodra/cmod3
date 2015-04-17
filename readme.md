@@ -24,7 +24,7 @@ Don't you know what tracked music is? [Look here](http://en.wikipedia.org/wiki/M
 
 ## How does cmod3 work?
 
-cmod3 is entirely written in **Javascript**, works on node-webkit (nwjs) and uses libopenmpt compiled with emscripten plus closure-compiler. The UI is based on bootstrap and angular is the js framework. Despite all that, and after a hard work, it performs really well.
+cmod3 is entirely written in **Javascript**, works on node-webkit (nwjs) and uses libopenmpt compiled with emscripten plus closure-compiler. The user interface is based on bootstrap and angular is the framework of choice. Despite all that, and after a hard work, it performs really well.
 
 ## Things yet to improve
 
