@@ -24,13 +24,14 @@ Don't you know what tracked music is? [Look here](http://en.wikipedia.org/wiki/M
 
 ## How does cmod3 work?
 
-cmod3 is entirely written in **Javascript**, works on node-webkit (nwjs) and uses libopenmpt compiled with emscripten plus closure-compiler. The UI stuff is angular+bootstrap. Despite all that, and after a hard work, it performs really well.
+cmod3 is entirely written in **Javascript**, works on node-webkit (nwjs) and uses libopenmpt compiled with emscripten plus closure-compiler. The UI is based on bootstrap and angular is the js framework. Despite all that, and after a hard work, it performs really well.
 
 ## Things yet to improve
 
 * Audio is decoded on the main thread, which is not ideal, it should be done on a background worker/thread and see if it performs better.
 * Settings are not saved yet.
 * Keyboard shortcuts would be great.
+* Play/Stop could be the same button.
 
 ## Versions
 
