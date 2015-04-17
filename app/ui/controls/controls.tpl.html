@@ -1,43 +1,41 @@
 <div ng-controller="cmodControlsCtrl" id="footer" class="navbar-fixed-bottom">
-    <div style="text-align: center;" class="container-fluid">
-      <div class="row">
-        <div style="margin-bottom: 4px" class="col-xs-12">
-          <small>{{ state.current_song_path || "Long live to the modscene" }}</small>
+  <span id="song_position_label">{{ progress_bar_label_elapsed || "0" | mmss }}/{{ progress_bar_label_total || "0" | mmss }}</span>
+  <div style="text-align: center;" class="container-fluid">
+    <div class="row">
+      <div style="margin-bottom: 4px" class="col-xs-12">
+        <small>{{ state.current_song_path || "Long live to the modscene" }}</small>
+      </div>
+    </div>
+    <div class="row">
+      <div style="margin-bottom: 4px" class="col-xs-12">
+        <button class="btn btn-default" ng-click="play()">
+          <span class="glyphicon glyphicon-play"></span>
+          Play
+        </button>
+        <button class="btn btn-default" ng-click="stop()">
+          <span class="glyphicon glyphicon-stop"></span>
+          Stop
+        </button>
+        <button class="btn btn-default" ng-click="pause()">
+          <span class="glyphicon glyphicon-pause"></span>
+          Pause
+        </button>
+        <!--button class="btn btn-default" ng-click="addFilesToPlaylist()">
+          <span class="glyphicon glyphicon-file"></span>
+          Add file(s)
+        </button-->
+        <input style="display: none" id="fileDialog" type="file"/>
+        <button class="btn btn-default" ng-click="playNectarine()">
+          <span class="glyphicon glyphicon-cd" ></span>
+          Play Nectarine Radio
+        </button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="progress" ng-click="seekProgressBar($event)">
+        <div id="song_position_progress" style="transform: scaleX({{ progress_bar_scaleX }})" class="progress-bar" role="progressbar">
         </div>
       </div>
-      <div class="row">
-        <div style="margin-bottom: 4px" class="col-xs-12">
-          <button class="btn btn-default" ng-click="play()">
-            <span class="glyphicon glyphicon-play"></span>
-            Play
-          </button>
-          <button class="btn btn-default" ng-click="stop()">
-            <span class="glyphicon glyphicon-stop"></span>
-            Stop
-          </button>
-          <button class="btn btn-default" ng-click="pause()">
-            <span class="glyphicon glyphicon-pause"></span>
-            Pause
-          </button>
-          <!--button class="btn btn-default" ng-click="addFilesToPlaylist()">
-            <span class="glyphicon glyphicon-file"></span>
-            Add file(s)
-          </button-->
-          <input style="display: none" id="fileDialog" type="file"/>
-          <button class="btn btn-default" ng-click="playNectarine()">
-            <span class="glyphicon glyphicon-cd" ></span>
-            Play Nectarine Radio
-          </button>
-        </div>
-      </div>
-      <div class="row">
-        <div class="progress" ng-click="seekProgressBar($event)">
-          <div id="song_position_progress" style="transform: scaleX({{ progress_bar_scaleX }})" class="progress-bar" role="progressbar">
-          </div>
-          <span id="song_position_label_container">
-            <span id="song_position_label">{{ progress_bar_label_elapsed || "0" | mmss }}/{{ progress_bar_label_total || "0" | mmss }}</span>
-          </span>
-        </div>
-      </div>
+    </div>
   </div>
 </div>

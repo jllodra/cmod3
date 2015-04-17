@@ -141,14 +141,15 @@
         transform: scaleX(0);
         width: 100%;
       }
-      .progress span#song_position_label_container {
+      span#song_position_label {
         position: absolute;
         color: white;
-        left: 0;
-        top: 0;
+        transform: translateX(-50%);
+        left: 50%;
+        bottom: 0;
         font-size: 8px;
         line-height: 12px;
-        width: 100%;
+        z-index: 1;
       }
     </style>
   </head>
