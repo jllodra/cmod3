@@ -1,10 +1,10 @@
 angular.module('cmod.ui.settings', [])
 .factory('settings', function($rootScope) {
-  //you have to initialize settings from localstorage I guess
+  //TODO: initialize settings from localstorage
   var settings = {
     vu: true,
-    repeat: true,
-    shuffle: true
+    repeat: false,
+    shuffle: false
   };
   function setSetting(key, value) {
       settings[key] = value;
