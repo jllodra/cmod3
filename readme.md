@@ -26,13 +26,14 @@ Don't you know what tracked music is? [Look here](http://en.wikipedia.org/wiki/M
 
 cmod3 is entirely written in **Javascript**, works on node-webkit (nwjs) and uses libopenmpt compiled with emscripten plus closure-compiler. The user interface is based on bootstrap and angular is the framework of choice. Despite all that, and after some hard work, it performs really well.
 
-## Things yet to improve
+## Things yet to do
 
 * Can you draw? An app icon is needed.
 * Audio is being decoded on the main thread, which is not ideal, it should be done on a background worker/thread and see if it performs better.
 * Settings are not saved yet.
-* Keyboard shortcuts would be great.
+* Keyboard shortcuts.
 * Play/Stop could be the same button.
+* Adding an AnalizerNode could enable fft visualization. 
 
 ## Versions
 
