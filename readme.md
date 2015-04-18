@@ -1,6 +1,6 @@
 # cmod3
 
-cmod3 is a module music player built by Josep Llodrà (aka herotyc^modulez).
+cmod3 is a module music player built by Josep Llodrà.
 
 ![screenshot](https://raw.githubusercontent.com/jllodra/cmod3/master/screenshot.png "screenshot")
 
@@ -28,6 +28,7 @@ cmod3 is entirely written in **Javascript**, works on node-webkit (nwjs) and use
 
 ## Things yet to improve
 
+* Can you draw? An app icon is needed.
 * Audio is being decoded on the main thread, which is not ideal, it should be done on a background worker/thread and see if it performs better.
 * Settings are not saved yet.
 * Keyboard shortcuts would be great.
