@@ -33,7 +33,7 @@ cmod3 is entirely written in **Javascript**, works on node-webkit (nwjs) and use
 * Settings are not saved yet.
 * Keyboard shortcuts.
 * Play/Stop could be the same button.
-* Adding an AnalizerNode could enable fft visualization. 
+* Adding an AnalyserNode could enable fft visualization. 
 
 ## Versions
 
