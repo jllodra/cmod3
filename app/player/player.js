@@ -62,9 +62,12 @@ angular.module('cmod.player', ['cmod.engine'])
         }.bind(this));
       },
       play: function() {
+        if(status.nectarine) {
+          this.stopNectarine();
+        }
         if(buffer !== null) {
           if(status.paused) {
-            pause();
+            this.pause();
           } else {
             engine.play();
             status.playing = true;
@@ -80,7 +83,9 @@ angular.module('cmod.player', ['cmod.engine'])
           status.stopped = true;
           status.paused = false;
         }
-        this.stopNectarine();
+        if(status.nectarine) {
+          this.stopNectarine();
+        }
       },
       pause: function() {
         if(buffer !== null) {
@@ -96,7 +101,6 @@ angular.module('cmod.player', ['cmod.engine'])
       },
       playNectarine: function() {
         try {
-          this.stop();
           var audioel = window.document.getElementById('audio');
           audioel.src="http://privat.is-by.us:8000/necta192.mp3";
           audioel.play();

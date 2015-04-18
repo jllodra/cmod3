@@ -1,11 +1,11 @@
 /* global */
 @font-face {
   font-family: 'Lobster';
-  src: url('fonts/Lobster_1.3.otf');
+  src: url('../fonts/Lobster_1.3.otf');
 }
 @font-face {
   font-family: 'Droid Sans';
-  src: url('fonts/DroidSans.ttf');
+  src: url('../fonts/DroidSans.ttf');
 }
 
 /* fixes */

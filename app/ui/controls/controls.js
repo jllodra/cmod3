@@ -34,6 +34,7 @@ angular.module('cmod.ui.controls', [
       };
 
       $scope.playNectarine = function() {
+        $scope.stop();
         player.playNectarine();
       };
 
