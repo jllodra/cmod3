@@ -11,4 +11,8 @@ angular.module('cmod.ui.info', [
 
       $scope.state = state;
 
+      $scope.refreshNectarineInfo = function() {
+        player.refreshNectarine();
+      };
+
 }]);

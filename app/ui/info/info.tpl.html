@@ -1,8 +1,63 @@
 <div id="info" class="container-fluid" style="height: {{ height }}px">
 
   <div ng-show="state.playing_nectarine" class="row">
-    <div class="col-xs-6" style="text-align: center; word-wrap: break-word;">
-      <p>Playing Nectarine Demoscene Radio!</p>
+    <div class="col-xs-12">
+      <div style="text-align: center">
+        <p>Playing Nectarine Demoscene Radio!</p>
+        <button class="btn btn-default" ng-click="refreshNectarineInfo()">
+          <span class="glyphicon glyphicon-refresh"></span>
+          Refresh info
+        </button>
+      </div>
+      <br/>
+      <table class="table table-condensed">
+        <thead>
+          <tr>
+            <th class="col-xs-5">Now playing</th>
+            <th class="col-xs-4">Artist</th>
+            <th class="col-xs-3">Requested by</th>
+          </tr>
+        </thead>
+        <tbody id="infoNectarine_now">
+          <tr ng-repeat="entry in state.nectarine_info.now">
+              <td>{{ entry.song }}</td>
+              <td>{{ entry.artist }}</td>
+              <td>{{ entry.requester }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <table class="table table-condensed">
+        <thead>
+          <tr>
+            <th class="col-xs-5">Queue</th>
+            <th class="col-xs-4">Artist</th>
+            <th class="col-xs-3">Requested by</th>
+          </tr>
+        </thead>
+        <tbody id="infoNectarine_queue">
+          <tr ng-repeat="entry in state.nectarine_info.queue">
+              <td>{{ entry.song }}</td>
+              <td>{{ entry.artist }}</td>
+              <td>{{ entry.requester }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <table class="table table-condensed">
+        <thead>
+          <tr>
+            <th class="col-xs-5">History</th>
+            <th class="col-xs-4">Artist</th>
+            <th class="col-xs-3">Requested by</th>
+          </tr>
+        </thead>
+        <tbody id="infoNectarine_history">
+          <tr ng-repeat="entry in state.nectarine_info.history">
+              <td>{{ entry.song }}</td>
+              <td>{{ entry.artist }}</td>
+              <td>{{ entry.requester }}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 

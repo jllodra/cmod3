@@ -19,6 +19,8 @@ angular.module('cmod.player', [
       hasEnded: false, // song did end
       nectarine: true // streaming nectarine
     };
+    // we should write a nectarine module/service
+    var nectarine_endpoint = "https://www.scenemusic.net/demovibes/xml/queue/";
 
     return {
       load: function(file, callback) {
@@ -109,8 +111,40 @@ angular.module('cmod.player', [
           audioel.play();
           status.nectarine = true;
           state.playing_nectarine = true;
+          this.refreshNectarine();
         } catch (e) {
           console.error("cant play nectarine :(");
+        }
+      },
+      refreshNectarine: function() {
+        if(state.playing_nectarine) {
+          var xhr = new XMLHttpRequest();
+          xhr.onload = function(evt) {
+            var xml = xhr.responseXML;
+            var lists = ['now', 'queue', 'history'];
+            for(var i = 0; i < lists.length; i++) {
+              state.nectarine_info[lists[i]] = [];
+              var list = xml.getElementsByTagName(lists[i])[0].getElementsByTagName('entry');
+              for(var j = 0; j < list.length; j++) {
+                var artist = list[j].getElementsByTagName('artist');
+                for(var k = 0, artists = []; k < artist.length; k++) {
+                  artists.push(artist[k].innerHTML);
+                }
+                var entry = {
+                  song: list[j].getElementsByTagName('song')[0].innerHTML,
+                  artist: artists.join('&'),
+                  requester: list[j].getElementsByTagName('requester')[0].innerHTML
+                }
+                state.nectarine_info[lists[i]].push(entry);
+              }
+            }
+
+            // TODO: remove
+            window.blaeh = xml;
+
+          };
+          xhr.open('GET', nectarine_endpoint, true);
+          xhr.send(null);
         }
       },
       stopNectarine: function() {
