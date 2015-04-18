@@ -35,7 +35,6 @@ angular.module('cmod', [
     function (nwgui, player, $rootScope,   $state,   $stateParams) {
       console.log("run");
       var win = nwgui.Window.get();
-      win.showDevTools();
       win.on("close", function() {
         player.quit();
         this.close(true);
@@ -47,7 +46,8 @@ angular.module('cmod', [
       };
       win.on("loaded", setCorrectHeight);
       win.on("resize", setCorrectHeight);
-      win.moveTo(win.x, 30);
+      //win.moveTo(win.x, 30);
+      //win.showDevTools();
 }])
 .controller('cmodAppCtrl',
   [          'nwgui', 'player', '$rootScope', '$scope',

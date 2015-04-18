@@ -1,17 +1,16 @@
 <!DOCTYPE html>
 <html ng-app="cmod">
   <head>
-
-    <!-- https://bootswatch.com/slate/ -->
     <link rel="stylesheet" href="bootstrap/dist/css/bootstrap-slate.min.css">
     <script>
       var package = require('./package.json');
       document.title = "cmod3 v" + package.version;
+      // prevent logging
+      console.log = function(){};
     </script>
-    <!--script src="bower_components/jquery/dist/jquery.js"></script-->
+
     <script src="bower_components/angular/angular.min.js"></script>
     <script src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
-    <!--script src="bootstrap/dist/js/bootstrap-without-jquery.min.js"></script-->
 
     <script src="app/cmod.js"></script>
     <script src="app/nwgui.js"></script>
@@ -50,6 +49,7 @@
         height: 100%;
         overflow: hidden;
         -webkit-app-region: drag;
+        -webkit-overflow-scrolling: none;
       }
       body {
         width: 100%;
