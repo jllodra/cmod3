@@ -2,7 +2,7 @@
 
 cmod3 is a module music player built by Josep Llodrà.
 
-![screenshot](https://raw.githubusercontent.com/jllodra/cmod3/master/screenshot.png "screenshot")
+![cmod3](https://raw.githubusercontent.com/jllodra/cmod3/master/screenshot.png "cmod3")
 
 Don't you know what tracked music is? [Look here](http://en.wikipedia.org/wiki/Music_tracker).
 
