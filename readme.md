@@ -30,7 +30,7 @@ cmod3 is entirely written in **Javascript**, works on node-webkit (nwjs) and use
 
 * Can you draw? An app icon is needed.
 * Audio is being decoded on the main thread, which is not ideal, it should be done on a background worker/thread and see if it performs better.
-* Settings are not saved yet.
+* Settings are not being saved yet.
 * Keyboard shortcuts.
 * Play/Stop could be the same button.
 * Adding an AnalyserNode could enable fft visualization. 
