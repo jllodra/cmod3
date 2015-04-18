@@ -1,9 +1,12 @@
 "use strict";
 
-angular.module('cmod.player', ['cmod.engine'])
+angular.module('cmod.player', [
+  'cmod.playerState',
+  'cmod.engine'
+])
 .factory('player', [
-  'engine',
-  function(engine) {
+  'state', 'engine',
+  function(state, engine) {
 
     var supported_formats = "mod s3m xm it mptm stm nst m15 stk wow ult 669 mtm med far mdl ams dsm amf okt dmf ptm psm mt2 dbm digi imf j2b gdm umx mo3 xpk ppm mmcmp".split(" ");
 
@@ -105,6 +108,7 @@ angular.module('cmod.player', ['cmod.engine'])
           audioel.src="http://privat.is-by.us:8000/necta192.mp3";
           audioel.play();
           status.nectarine = true;
+          state.playing_nectarine = true;
         } catch (e) {
           console.error("cant play nectarine :(");
         }
@@ -115,6 +119,7 @@ angular.module('cmod.player', ['cmod.engine'])
           audioel.pause();
           audioel.src='';
           status.nectarine = false;
+          state.playing_nectarine = false;
         } catch (e) {
           console.error("cant stop nectarine :(");
         }

@@ -35,6 +35,11 @@ angular.module('cmod', [
     function (nwgui, player, $rootScope,   $state,   $stateParams) {
       console.log("run");
       var win = nwgui.Window.get();
+      if (process.platform === "darwin") {
+        var mb = new nwgui.Menu({type: 'menubar'});
+        mb.createMacBuiltin('cmod3', { hideEdit: false });
+        win.menu = mb;
+      }
       win.on("close", function() {
         player.quit();
         this.close(true);
@@ -53,13 +58,6 @@ angular.module('cmod', [
   [          'nwgui', 'player', '$rootScope', '$scope',
     function (nwgui, player, $rootScope, $scope) {
       console.log("cmodAppCtrl");
-      console.log(player);
-
-      if (process.platform === "darwin") {
-        var mb = new nwgui.Menu({type: 'menubar'});
-        mb.createMacBuiltin('cmod3', { hideEdit: false });
-        nwgui.Window.get().menu = mb;
-      }
 }])
 .directive('ngRightClick', function($parse) {
   return function(scope, element, attrs) {

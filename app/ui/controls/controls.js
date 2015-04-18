@@ -5,8 +5,8 @@ angular.module('cmod.ui.controls', [
   'cmod.playerState'
 ])
 .controller('cmodControlsCtrl',
-  [         'nwgui', 'player', 'state', '$window', '$rootScope', '$scope',
-    function(nwgui, player, state, $window, $rootScope, $scope) {
+  [         'nwgui', 'player', 'state', '$window', '$rootScope', '$scope', '$state',
+    function(nwgui, player, state, $window, $rootScope, $scope, $state) {
       console.log("Controls controller");
 
       var win = nwgui.Window.get();
@@ -36,6 +36,7 @@ angular.module('cmod.ui.controls', [
       $scope.playNectarine = function() {
         $scope.stop();
         player.playNectarine();
+        $state.go('info');
       };
 
       /* TODO: add files using a button (Add files)
