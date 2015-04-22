@@ -35,6 +35,7 @@ cmod3 is entirely written in **Javascript**, works on node-webkit (nwjs) and use
 * Play/Stop could be the same button.
 * Adding an AnalyserNode could enable fft visualization.
 * Volume control using a GainNode.
+* Choose a Nectarine stream among a list of streams.
 
 ## Versions
 
