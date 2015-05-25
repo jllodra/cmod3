@@ -1,5 +1,7 @@
 # cmod3
 
+[![Join the chat at https://gitter.im/jllodra/cmod3](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/jllodra/cmod3?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 cmod3 is a module music player built by Josep Llodrà.
 
 ![cmod3](https://raw.githubusercontent.com/jllodra/cmod3/master/screenshot.png "cmod3")
