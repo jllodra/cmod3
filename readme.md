@@ -42,6 +42,7 @@ cmod3 is entirely written in **Javascript**, works on node-webkit (nwjs) and use
 ## Versions
 
 25/05/2015: 1.0 - public release
+
 17/04/2015: 0.0.5 - beta
 
 ## Do you like it?
