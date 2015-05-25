@@ -10,9 +10,9 @@ Don't you know what tracked music is? [Look here](http://en.wikipedia.org/wiki/M
 
 ## Download cmod3
 
-* Mac OSX x64: soon
-* Windows: soon
-* Linux: soon
+* Mac OSX x64: <https://github.com/jllodra/cmod3/raw/master/releases/cmod3-1.0-mac-x64.zip>
+* Windows x64: <https://github.com/jllodra/cmod3/raw/master/releases/cmod3-1.0-windows-x64.zip>
+* Linux x64: <https://github.com/jllodra/cmod3/raw/master/releases/cmod3-1.0-linux-x64.zip>
 
 
 ## Features
@@ -41,6 +41,11 @@ cmod3 is entirely written in **Javascript**, works on node-webkit (nwjs) and use
 
 ## Versions
 
-17/04/2015: 0.0.5 - first release
+25/05/2015: 1.0 - public release
+17/04/2015: 0.0.5 - beta
+
+## Do you like it?
+
+Well, you can contribute to the code then, or make a small donation via paypal to jlg.hrtc@gmail.com, thanks!
 
 
