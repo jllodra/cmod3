@@ -1,0 +1,27 @@
+{
+	"strict"	: true,
+	"globalstrict": true,
+	"esnext"	: true,
+	"futurehostile": true,
+	"predef"   : ["-Promise"],
+	"globals": {
+		"$"           : false,
+		"angular"     : true,
+		"define"      : false,
+		"jasmine"     : false,
+		"require"     : true,
+		"exports"     : true,
+		"console"     : true,
+		"module"      : false,
+		"describe"    : false,
+		"before"      : false,
+		"beforeEach"  : false,
+		"after"       : false,
+		"afterEach"   : false,
+		"it"          : false,
+		"inject"      : false,
+		"expect"      : false,
+		"spyOn"       : false,
+		"window"			: true
+	}
+}

@@ -67,17 +67,24 @@ angular.module('cmod.player', [
         }.bind(this));
       },
       play: function() {
-        if(status.nectarine) {
-          this.stopNectarine();
-        }
-        if(buffer !== null) {
-          if(status.paused) {
-            this.pause();
-          } else {
-            engine.play();
-            status.playing = true;
-            status.stopped = false;
-            status.hasEnded = false;
+        if(state.current_song_index === null && state.playlist.length > 0) {
+          state.current_song = state.playlist[0];
+          state.current_song_path = state.playlist[0].path;
+          state.current_song_index = 0;
+          this.loadAndPlay(state.playlist[0].path);
+        } else {
+          if(status.nectarine) {
+            this.stopNectarine();
+          }
+          if(buffer !== null) {
+            if(status.paused) {
+              this.pause();
+            } else {
+              engine.play();
+              status.playing = true;
+              status.stopped = false;
+              status.hasEnded = false;
+            }
           }
         }
       },
@@ -174,6 +181,6 @@ angular.module('cmod.player', [
       // check this because it's ugly
       getMetadata: function() {return metadata; },
       getStatus: function() { return status; }
-    }
+    };
 
 }]);

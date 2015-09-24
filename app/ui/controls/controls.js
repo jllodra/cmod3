@@ -11,18 +11,31 @@ angular.module('cmod.ui.controls', [
 
       var win = nwgui.Window.get();
 
+      $scope.playback_status = player.getStatus();
       $scope.state = state;
       $scope.progress_bar_scaleX = 0;
 
+      $scope.playOrPause = function() {
+        var status = player.getStatus();
+        if(status.stopped) {
+          player.play();
+        } else if(status.playing) {
+          player.pause();
+        } else if(status.paused) {
+          player.pause();
+        }
+      };
+
       $scope.play = function() {
-        if(state.current_song_index === null && state.playlist.length > 0) {
+        /*if(state.current_song_index === null && state.playlist.length > 0) {
           state.current_song = state.playlist[0];
           state.current_song_path = state.playlist[0].path;
           state.current_song_index = 0;
           player.loadAndPlay(state.playlist[0].path);
         } else {
           player.play();
-        }
+        }*/
+        player.play();
       };
 
       $scope.stop = function() {
@@ -65,10 +78,10 @@ angular.module('cmod.ui.controls', [
         var completed = 0;
         var seconds_elapsed = null;
         var duration = null;
-        if(state.current_song != null) {
+        if(state.current_song !== null) {
           if(!player.hasEnded()) {
-            var seconds_elapsed = player.getPosition();
-            var duration = state.current_song.metadata.duration;
+            seconds_elapsed = player.getPosition();
+            duration = state.current_song.metadata.duration;
             completed = seconds_elapsed / duration;
           } else {
             if(player.getPosition() >= state.current_song.metadata.duration) {

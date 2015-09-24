@@ -1,3 +1,3 @@
 #!/bin/bash
 
-../nwjs-v0.12.1-osx-x64/nwjs.app/Contents/MacOS/nwjs .
+~/Projects/nwjs/nwjs-v0.12.3-osx-x64/nwjs.app/Contents/MacOS/nwjs .

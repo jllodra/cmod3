@@ -37,6 +37,12 @@ angular.module('cmod.ui.playlist', [
 
       $scope.removeSongFromPlaylist = function() {
         state.playlist.splice(state.current_song_index_context_menu, 1);
+        if(state.current_song_index_context_menu === state.current_song_index) {
+          player.stop();
+          state.current_song = null;
+          state.current_song_path = null;
+          state.current_song_index = null;
+        }
       };
 
       $scope.removeAllSongsFromPlaylist = function() {
@@ -46,7 +52,6 @@ angular.module('cmod.ui.playlist', [
         state.current_song_path = null;
         state.current_song_index = null;
       };
-
 
       $scope.ondrop = function(e) {
         this.className = '';
