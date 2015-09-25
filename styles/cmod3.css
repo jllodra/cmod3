@@ -59,7 +59,7 @@ div.vu_overlay {
 }
 div#header {
 }
-table#playlist {
+table#playlist, table#search_results {
   border-radius: 5px;
 }
 table#playlist tr.selected_song {
@@ -70,7 +70,7 @@ div#footer {
   color: #444;
   margin-top: 4px; padding-bottom: 0px;
 }
-div#main {
+div#main, div#modarchive {
   overflow-y: scroll;
   padding-top: 10px;
   padding-bottom: 10px;

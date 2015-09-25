@@ -125,7 +125,7 @@ angular.module('cmod.player', [
       },
       refreshNectarine: function() {
         if(state.playing_nectarine) {
-          var xhr = new XMLHttpRequest();
+          var xhr = new window.XMLHttpRequest();
           xhr.onload = function(evt) {
             var xml = xhr.responseXML;
             var lists = ['now', 'queue', 'history'];
@@ -141,14 +141,10 @@ angular.module('cmod.player', [
                   song: list[j].getElementsByTagName('song')[0].innerHTML,
                   artist: artists.join('&'),
                   requester: list[j].getElementsByTagName('requester')[0].innerHTML
-                }
+                };
                 state.nectarine_info[lists[i]].push(entry);
               }
             }
-
-            // TODO: remove
-            window.blaeh = xml;
-
           };
           xhr.open('GET', nectarine_endpoint, true);
           xhr.send(null);

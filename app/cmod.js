@@ -8,10 +8,11 @@ angular.module('cmod', [
   'cmod.ui.playlist',
   'cmod.ui.controls',
   'cmod.ui.info',
+  'cmod.ui.modarchive',
   'cmod.ui.settings'
 ])
-.config(['$stateProvider', '$urlRouterProvider',
-  function($stateProvider, $urlRouterProvider) {
+.config(['$stateProvider', '$urlRouterProvider', 'toastrConfig',
+  function($stateProvider, $urlRouterProvider, toastrConfig) {
     $urlRouterProvider.otherwise("playlist");
     $stateProvider
     .state('playlist', {
@@ -24,11 +25,19 @@ angular.module('cmod', [
       templateUrl: "app/ui/info/info.tpl.html",
       controller: "cmodInfoCtrl"
     })
+    .state('modarchive', {
+      url: "/modarchive",
+      templateUrl: "app/ui/modarchive/modarchive.tpl.html",
+      controller: "cmodModarchiveCtrl"
+    })
     .state('settings', {
       url: "/settings",
       templateUrl: "app/ui/settings/settings.tpl.html",
       controller: "cmodSettingsCtrl"
-    })
+    });
+    angular.extend(toastrConfig, {
+      positionClass: 'toast-bottom-right',
+    });
 }])
 .run(
   [          'nwgui', 'player', '$rootScope', '$state', '$stateParams',
@@ -48,7 +57,7 @@ angular.module('cmod', [
         $rootScope.$apply(function() {
           $rootScope.height = window.innerHeight - document.getElementById('header').offsetHeight - document.getElementById('footer').offsetHeight;
         });
-      };
+      }
       win.on("loaded", setCorrectHeight);
       win.on("resize", setCorrectHeight);
       //win.moveTo(win.x, 30);
@@ -74,9 +83,9 @@ angular.module('cmod', [
   return function(seconds) {
     if(typeof seconds == "number") {
       var minutes = Math.floor(seconds/60);
-      var seconds = ("0" + Math.round(seconds - minutes * 60)).substr(-2, 2);
+      seconds = ("0" + Math.round(seconds - minutes * 60)).substr(-2, 2);
       return minutes + ":" + seconds;
     }
     return "0:00";
-  }
+  };
 });

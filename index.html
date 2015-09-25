@@ -4,14 +4,18 @@
     <link rel="stylesheet" href="bootstrap/dist/css/bootstrap-slate.min.css">
     <link rel="stylesheet" href="styles/cmod3.css">
     <script>
-      var package = require('./package.json');
-      document.title = "cmod3 v" + package.version;
+      "use strict";
+      var pkg = require('./package.json');
+      document.title = "cmod3 v" + pkg.version;
       // prevent logging
-      console.log = function(){};
+      // console.log = function(){};
     </script>
+
+    <link rel="stylesheet" type="text/css" href="bower_components/angular-toastr/dist/angular-toastr.min.css" />
 
     <script src="bower_components/angular/angular.min.js"></script>
     <script src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+    <script src="bower_components/angular-toastr/dist/angular-toastr.tpls.min.js"></script>
 
     <script src="app/cmod.js"></script>
     <script src="app/nwgui.js"></script>
@@ -22,6 +26,7 @@
     <script src="app/ui/playlist/playlist.js"></script>
     <script src="app/ui/controls/controls.js"></script>
     <script src="app/ui/info/info.js"></script>
+    <script src="app/ui/modarchive/modarchive.js"></script>
     <script src="app/ui/settings/settings.js"></script>
   </head>
 

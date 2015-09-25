@@ -13,7 +13,8 @@ angular.module('cmod.playerState', [])
       now: [],
       queue: [],
       history: []
-    }
+    },
+    search_results: []
   };
 
   return state;

@@ -22,6 +22,8 @@
 		"inject"      : false,
 		"expect"      : false,
 		"spyOn"       : false,
-		"window"			: true
+		"window"			: true,
+		"process"			: true,
+		"document"		: true
 	}
 }
