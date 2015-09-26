@@ -3,17 +3,16 @@
 angular.module('cmod.ui.modarchive', [
   'cmod.player',
   'cmod.playerState',
+  'cmod.config',
+  'cmod.utils',
   'toastr'
 ])
 .controller('cmodModarchiveCtrl',
-  [         'player', 'state', '$rootScope', '$scope', '$http', 'toastr',
-    function(player, state, $rootScope, $scope, $http, toastr) {
+  [         'player', 'state', '$rootScope', '$scope', 'toastr', 'config', 'utils',
+    function(player, state, $rootScope, $scope, toastr, config, utils) {
       console.log("Modarchive controller");
 
-      var Download = require('download');
-      var Entities = new (require('html-entities').AllHtmlEntities)();
-
-      var TEST = "http://api.modarchive.org/xml-tools.php?key=&request=view_modules_by_guessed_artist&query=";
+      var REQUEST = "http://api.modarchive.org/xml-tools.php?key=" + config.modarchive  + "&request=view_modules_by_guessed_artist&query=";
 
       $scope.state = state;
       $scope.searchString = "";
@@ -40,7 +39,7 @@ angular.module('cmod.ui.modarchive', [
               state.search_results.push({
                 id: modulesEl[i].getElementsByTagName('id')[0].textContent,
                 url: modulesEl[i].getElementsByTagName('url')[0].textContent,
-                name: Entities.decode(modulesEl[i].getElementsByTagName('songtitle')[0].textContent),
+                name: utils.Entities.decode(modulesEl[i].getElementsByTagName('songtitle')[0].textContent),
                 filename: modulesEl[i].getElementsByTagName('filename')[0].textContent,
                 size: modulesEl[i].getElementsByTagName('size')[0].textContent,
                 date: modulesEl[i].getElementsByTagName('date')[0].textContent
@@ -50,7 +49,7 @@ angular.module('cmod.ui.modarchive', [
             console.log(count);
             console.log(state.search_results);
           };
-          xhr.open('GET', TEST + $scope.searchString, true);
+          xhr.open('GET', REQUEST + $scope.searchString, true);
           xhr.send(null);
         }
       };
@@ -58,7 +57,7 @@ angular.module('cmod.ui.modarchive', [
       $scope.downloadSongAndPlay = function(i) {
         var module = state.search_results[i];
         console.log(module);
-        new Download({mode: '755'})
+        new utils.Download({mode: '755'})
           .get(module.url)
           .dest('/Users/josep/modules')
           .rename(module.id + '_' + module.filename)

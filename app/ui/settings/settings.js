@@ -1,3 +1,5 @@
+"use strict";
+
 angular.module('cmod.ui.settings', [])
 .factory('settings', function($rootScope) {
   //TODO: initialize settings from localstorage
@@ -9,11 +11,11 @@ angular.module('cmod.ui.settings', [])
   function setSetting(key, value) {
       settings[key] = value;
       $rootScope.$broadcast(key+'changed');
-  };
+  }
 
   function getSetting(key) {
     return settings[key];
-  };
+  }
 
   return {
     set: setSetting,
