@@ -5,6 +5,8 @@ angular.module('cmod.utils', [])
   function() {
     return {
       Download: require('download'),
-      Entities: new (require('html-entities').AllHtmlEntities)()
+      Entities: new (require('html-entities').AllHtmlEntities)(),
+      fs: require('fs'),
+      os: require('os')
     };
 }]);

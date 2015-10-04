@@ -4,14 +4,17 @@ angular.module('cmod', [
   'ui.router',
   'cmod.nwgui',
   'cmod.player',
+  'cmod.playerState',
+  'cmod.utils',
   'cmod.ui.header',
   'cmod.ui.playlist',
   'cmod.ui.controls',
   'cmod.ui.info',
   'cmod.ui.modarchive',
-  'cmod.ui.settings'
+  'cmod.ui.settings',
+  'toastr'
 ])
-.config(['$stateProvider', '$urlRouterProvider', 'toastrConfig',
+.config([ '$stateProvider', '$urlRouterProvider', 'toastrConfig',
   function($stateProvider, $urlRouterProvider, toastrConfig) {
     $urlRouterProvider.otherwise("playlist");
     $stateProvider
@@ -39,8 +42,7 @@ angular.module('cmod', [
       positionClass: 'toast-bottom-right',
     });
 }])
-.run(
-  [          'nwgui', 'player', '$rootScope', '$state', '$stateParams',
+.run([       'nwgui', 'player', '$rootScope', '$state', '$stateParams',
     function (nwgui, player, $rootScope,   $state,   $stateParams) {
       console.log("run");
       var win = nwgui.Window.get();
@@ -60,7 +62,9 @@ angular.module('cmod', [
       }
       win.on("loaded", setCorrectHeight);
       win.on("resize", setCorrectHeight);
-      //win.moveTo(win.x, 30);
+      win.focus();
+      // and this is debug...
+      win.moveTo(0, 20);
       //win.showDevTools();
 }])
 .controller('cmodAppCtrl',
