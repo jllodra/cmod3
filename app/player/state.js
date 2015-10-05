@@ -14,8 +14,18 @@ angular.module('cmod.playerState', [])
       queue: [],
       history: []
     },
-    search_results: [],
-    is_downloading_modarchive: false
+    modarchive: {
+      search_results: [],
+      is_downloading_modarchive: false,
+      current_artist_text: "",
+      current_song_text: "",
+      more_songs_to_load: false,
+      current_page: 1,
+      current_type: "",
+      current_text: "",
+      current_request: "",
+      loading_text: ""
+    }
   };
 
   return state;

@@ -1,5 +1,5 @@
-<div class="loading_overlay" ng-show="state.is_downloading_modarchive">
-  <div class="loading_overlay_text">{{loading_text}}</div>
+<div class="loading_overlay" ng-show="state.modarchive.is_downloading_modarchive">
+  <div class="loading_overlay_text">{{state.modarchive.loading_text}}</div>
 </div>
 
 <div id="modarchive" class="container-fluid" style="height: {{ height }}px">
@@ -8,7 +8,7 @@
     <div class="panel-body">
     <div class="col-xs-5">
       <form ng-submit="searchButton('artist')" class="input-group">
-        <input type="text" class="form-control input-sm" placeholder="Search for artist name..." ng-model="searchArtistString">
+        <input type="text" class="form-control input-sm" placeholder="Search for artist name..." ng-model="state.modarchive.current_artist_text">
         <span class="input-group-btn">
           <!--<input class="btn btn-default" type="submit" id="submit" />-->
           <button class="btn btn-default btn-sm" type="submit"><i class="glyphicon glyphicon-search"></i></button>
@@ -17,7 +17,7 @@
     </div>
     <div class="col-xs-offset-2 col-xs-5">
       <form ng-submit="searchButton('song')" class="input-group">
-        <input type="text" class="form-control input-sm" placeholder="Search for song name..." ng-model="searchSongString">
+        <input type="text" class="form-control input-sm" placeholder="Search for song name..." ng-model="state.modarchive.current_song_text">
         <span class="input-group-btn">
           <!--<input class="btn btn-default" type="submit" id="submit" />-->
           <button class="btn btn-default btn-sm" type="submit"><i class="glyphicon glyphicon-search"></i></button>
@@ -27,7 +27,7 @@
   </div>
   </div>
 
-  <div ng-show="state.search_results.length > 0">
+  <div ng-show="state.modarchive.search_results.length > 0">
     <div class="row" style="margin-top: 12px;">
       <div class="col-xs-12">
         <table id="search_results" class="table table-condensed table-hover">
@@ -42,10 +42,9 @@
           </thead>
           <tbody>
             <tr
-              ng-repeat="song in state.search_results"
+              ng-repeat="song in state.modarchive.search_results"
               ng-click="downloadSongAndPlay($index)"
               ng-right-click="showOptions($index, $event)"
-              ng-class="{ selected_song: ($index === state.current_song_index) }"
               >
                 <td>{{ $index + 1 }} ({{ song.id }})</td>
                 <td>{{ song.name }}</td>
@@ -56,9 +55,9 @@
           </tbody>
           <tfoot>
             <tr>
-              <td colspan="5"><small>Total songs: {{ state.search_results.length }}</small></td>
+              <td colspan="5"><small>Total songs: {{ state.modarchive.search_results.length }}</small></td>
             </tr>
-            <tr ng-show="more_songs_to_load">
+            <tr ng-show="state.modarchive.more_songs_to_load">
               <td colspan="5" style="text-align: center;">
                 <button type="button" class="btn btn-default btn-sm" ng-click="loadMoreSongs()">Load more songs...</button>
               </td>
