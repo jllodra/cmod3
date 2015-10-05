@@ -68,7 +68,7 @@ angular.module('cmod', [
       win.on("resize", setCorrectHeight);
       win.focus();
       // and this is debug...
-      win.moveTo(0, 20);
+      //win.moveTo(0, 20);
       //win.showDevTools();
       document.addEventListener('keyup', function(e) {
         if (e.ctrlKey && e.keyCode == 48) {
