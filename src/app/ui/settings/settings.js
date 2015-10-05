@@ -3,21 +3,22 @@
 angular.module('cmod.ui.settings', [])
 .factory('settings', ['$rootScope', function($rootScope) {
 
-  var settings = {};
+  var settings = {
+    vu: true,
+    repeat: false,
+    shuffle: false,
+    moddir: process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME'] + '/modules',
+    _lastPlaylist: []
+  };
+
   var localSettings = window.localStorage.getItem('settings');
   if(localSettings) {
     var parsedSettings = JSON.parse(localSettings);
     for(var key in parsedSettings) {
-      settings[key] = parsedSettings[key];
+      if(parsedSettings[key]) {
+        settings[key] = parsedSettings[key];
+      }
     }
-  } else {
-    settings = {
-      vu: true,
-      repeat: false,
-      shuffle: false,
-      moddir: process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME'] + '/modules',
-      _lastPlaylist: []
-    };
   }
 
   function setSetting(key, value) {
