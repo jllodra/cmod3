@@ -15,7 +15,7 @@ angular.module('cmod.ui.settings', [])
   if(localSettings) {
     var parsedSettings = JSON.parse(localSettings);
     for(var key in parsedSettings) {
-      if(parsedSettings[key]) {
+      if(typeof parsedSettings[key] !== 'undefined') {
         settings[key] = parsedSettings[key];
       }
     }
