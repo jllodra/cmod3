@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html ng-app="cmod">
   <head>
+    <script src="lib/libopenmpt-0.2.5602_cc.js"></script>
     <link rel="stylesheet" href="bootstrap/dist/css/bootstrap-slate.min.css">
     <link rel="stylesheet" href="styles/cmod3.css">
     <script>
       "use strict";
       var pkg = require('./package.json');
       document.title = "cmod3 v" + pkg.version;
+      window.ompt = Module;
       // prevent logging
-      // console.log = function(){};
+      console.log = function(){};
     </script>
 
     <link rel="stylesheet" type="text/css" href="bower_components/angular-toastr/dist/angular-toastr.min.css" />

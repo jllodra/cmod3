@@ -20,7 +20,7 @@
     "min_height": 280,
     "visible": true,
     "as_desktop": false,
-    "toolbar": true,
+    "toolbar": false,
     "min_width": 590,
     "position": "mouse",
     "show_in_taskbar": true,

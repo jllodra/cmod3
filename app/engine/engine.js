@@ -1,10 +1,8 @@
 "use strict";
 
 angular.module('cmod.engine', [])
-.constant('ompt', require(process.cwd() + '/lib/libopenmpt-0.2.4923.js'))
-.factory('engine', [ 'ompt',
-  function engine(ompt) {
-
+.factory('engine', [ //'ompt',
+  function engine() {
     var audioContext = new window.AudioContext();
     var processNode = null;
     var isConnected = false;
@@ -34,7 +32,7 @@ angular.module('cmod.engine', [])
       rightBufferPtr = ompt._malloc(4 * maxFramesPerChunk);
     };
 
-    function metadata(buffer) {
+    function readMetadata(buffer) {
       var byteArray = new Int8Array(buffer);
       var filePtr = ompt._malloc(byteArray.byteLength);
       ompt.HEAPU8.set(byteArray, filePtr);
@@ -121,7 +119,7 @@ angular.module('cmod.engine', [])
       return {
         l: leftVU,
         r: rightVU
-      }
+      };
     };
 
     var onaudioprocess = function(e) {
@@ -166,7 +164,7 @@ angular.module('cmod.engine', [])
         framesRendered += framesPerChunk;
         leftVU = leftVU / framesPerChunk;
         rightVU = rightVU / framesPerChunk;
-        if(actualFramesPerChunk == 0) {
+        if(actualFramesPerChunk === 0) {
           end();
         }
       }
@@ -182,7 +180,7 @@ angular.module('cmod.engine', [])
       unload: unload,
       getPosition: getPosition,
       setPosition: setPosition,
-      metadata: metadata,
+      metadata: readMetadata,
       play: play,
       stop: stop,
       pause: pause,
