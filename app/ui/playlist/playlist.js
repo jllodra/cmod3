@@ -53,6 +53,20 @@ angular.module('cmod.ui.playlist', [
         state.current_song_index = null;
       };
 
+      var chooser = document.querySelector('#addFilesToPlaylistHidden');
+      chooser.addEventListener("change", function(evt) {
+        console.log(this.value);
+        var files = this.value.split(';');
+        var name;
+        for(var i = 0; i < files.length; i++) {
+          name = files[i].replace(/^.*[\\\/]/, ''); // TODO: does this work on win32?
+          $scope.addSongToPlaylist(name, files[i]);
+        }
+      }, false);
+      $scope.addFilesToPlaylist = function() {
+        chooser.click();
+      };
+
       $scope.ondrop = function(e) {
         this.className = '';
         e.preventDefault();
@@ -68,7 +82,7 @@ angular.module('cmod.ui.playlist', [
               emitter.on('file', function(path, stat) {
                 if(player.isFormatSupported(path)) {
                   $scope.$apply(function() {
-                    var name = path.replace(/^.*[\\\/]/, '');
+                    var name = path.replace(/^.*[\\\/]/, ''); // TODO: does this work on win32?
                     $scope.addSongToPlaylist(name, path);
                   });
                 }
@@ -87,7 +101,7 @@ angular.module('cmod.ui.playlist', [
           }
         }
         return false;
-      }
+      };
 
       $scope.$on('songend', function() {
         if(state.playlist.length > 0) {
@@ -109,15 +123,13 @@ angular.module('cmod.ui.playlist', [
 
       // prevent default behavior from changing page on dropped file
       var holder = document.body;
-      window.ondragover = function(e) { e.preventDefault(); return false };
-      window.ondrop = function(e) { e.preventDefault(); return false };
+      window.ondragover = function(e) { e.preventDefault(); return false; };
+      window.ondrop = function(e) { e.preventDefault(); return false; };
       holder.ondragover = function () { this.className = 'hover'; return false; };
       holder.ondragleave = function () { this.className = ''; return false; };
       holder.ondrop = $scope.ondrop;
 
-
-
-
+      // right-click menu
       var menu = new nwgui.Menu();
       menu.append(new nwgui.MenuItem({ label: 'Remove' }));
       menu.append(new nwgui.MenuItem({ label: 'Remove all' }));

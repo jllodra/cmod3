@@ -13,7 +13,9 @@ angular.module('cmod.playerState', [])
       now: [],
       queue: [],
       history: []
-    }
+    },
+    search_results: [],
+    is_downloading_modarchive: false
   };
 
   return state;

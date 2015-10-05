@@ -17,6 +17,12 @@
           <input ng-model="shuffle" ng-change="shufflePlaylist()" type="checkbox"> Shuffle playlist
         </label>
       </div>
+      <hr/>
+      <div class="form-inline">
+        <label for="destPathInput">Save Modarchive downloaded files in: </label><br/>
+        <input style="width: 40%" id="destPathInput" type="text" ng-model="moddir" placeholder="Directory path" ng-click="changeModDir()" />
+        <input style="display: none;" id="destPathInputHidden" type="file" nwworkingdir="{{basedir}}" nwdirectory />
+      </div>
     </div>
   </div>
 </div>

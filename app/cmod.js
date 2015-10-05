@@ -4,14 +4,18 @@ angular.module('cmod', [
   'ui.router',
   'cmod.nwgui',
   'cmod.player',
+  'cmod.playerState',
+  'cmod.utils',
   'cmod.ui.header',
   'cmod.ui.playlist',
   'cmod.ui.controls',
   'cmod.ui.info',
-  'cmod.ui.settings'
+  'cmod.ui.modarchive',
+  'cmod.ui.settings',
+  'toastr'
 ])
-.config(['$stateProvider', '$urlRouterProvider',
-  function($stateProvider, $urlRouterProvider) {
+.config([ '$stateProvider', '$urlRouterProvider', 'toastrConfig',
+  function($stateProvider, $urlRouterProvider, toastrConfig) {
     $urlRouterProvider.otherwise("playlist");
     $stateProvider
     .state('playlist', {
@@ -24,14 +28,25 @@ angular.module('cmod', [
       templateUrl: "app/ui/info/info.tpl.html",
       controller: "cmodInfoCtrl"
     })
+    .state('modarchive', {
+      url: "/modarchive",
+      templateUrl: "app/ui/modarchive/modarchive.tpl.html",
+      controller: "cmodModarchiveCtrl"
+    })
     .state('settings', {
       url: "/settings",
       templateUrl: "app/ui/settings/settings.tpl.html",
       controller: "cmodSettingsCtrl"
     })
+    .state('about', {
+      url: "/about",
+      templateUrl: "app/ui/misc/about.tpl.html"
+    });
+    angular.extend(toastrConfig, {
+      positionClass: 'toast-bottom-right',
+    });
 }])
-.run(
-  [          'nwgui', 'player', '$rootScope', '$state', '$stateParams',
+.run([       'nwgui', 'player', '$rootScope', '$state', '$stateParams',
     function (nwgui, player, $rootScope,   $state,   $stateParams) {
       console.log("run");
       var win = nwgui.Window.get();
@@ -48,10 +63,12 @@ angular.module('cmod', [
         $rootScope.$apply(function() {
           $rootScope.height = window.innerHeight - document.getElementById('header').offsetHeight - document.getElementById('footer').offsetHeight;
         });
-      };
+      }
       win.on("loaded", setCorrectHeight);
       win.on("resize", setCorrectHeight);
-      //win.moveTo(win.x, 30);
+      win.focus();
+      // and this is debug...
+      win.moveTo(0, 20);
       //win.showDevTools();
 }])
 .controller('cmodAppCtrl',
@@ -74,9 +91,9 @@ angular.module('cmod', [
   return function(seconds) {
     if(typeof seconds == "number") {
       var minutes = Math.floor(seconds/60);
-      var seconds = ("0" + Math.round(seconds - minutes * 60)).substr(-2, 2);
+      seconds = ("0" + Math.round(seconds - minutes * 60)).substr(-2, 2);
       return minutes + ":" + seconds;
     }
     return "0:00";
-  }
+  };
 });
