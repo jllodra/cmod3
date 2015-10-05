@@ -78,7 +78,7 @@ angular.module('cmod.ui.modarchive', [
           };
           xhr.open('GET', request + searchText + "&page=" + state.modarchive.current_page, true);
           $scope.state.modarchive.is_downloading_modarchive = true;
-          $scope.state.modarchive.loading_text = "Searching the modarchive...";
+          $scope.state.modarchive.loading_text = "Searching for «"+searchText+"»…";
           xhr.send(null);
         }
       };
@@ -93,7 +93,7 @@ angular.module('cmod.ui.modarchive', [
         if(andPlay) {
           $scope.state.modarchive.is_downloading_modarchive = true;
         }
-        $scope.state.modarchive.loading_text = "Downloading song...";
+        $scope.state.modarchive.loading_text = "Downloading «"+module.filename+"»...";
         var filename = '[' + module.id + ']_' + module.filename;
         var path = settings.get('moddir') + '/';
         if(module.artist) {
