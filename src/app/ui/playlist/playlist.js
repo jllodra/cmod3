@@ -91,10 +91,11 @@ angular.module('cmod.ui.playlist', [
               var name = files[i].name;
               if(player.isFormatSupported(name)) {
                 var size = files[i].size;
-                $scope.$apply(function() {
+                console.log("aqui");
+                //$scope.$apply(function() {
                   var path = files[i].path;
                   $scope.addSongToPlaylist(name, path);
-                });
+                //});
               }
 
             }

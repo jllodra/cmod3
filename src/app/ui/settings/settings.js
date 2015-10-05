@@ -15,13 +15,14 @@ angular.module('cmod.ui.settings', [])
       vu: true,
       repeat: false,
       shuffle: false,
-      moddir: process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME'] + '/modules'
+      moddir: process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME'] + '/modules',
+      _lastPlaylist: []
     };
   }
 
   function setSetting(key, value) {
       settings[key] = value;
-      window.localStorage.setItem('settings', JSON.stringify(settings));
+      window.localStorage.setItem('settings', angular.toJson(settings));
       $rootScope.$broadcast(key+'changed');
   }
 

@@ -46,8 +46,8 @@ angular.module('cmod', [
       positionClass: 'toast-bottom-right',
     });
 }])
-.run([       'nwgui', 'player', '$rootScope', '$state', '$stateParams',
-    function (nwgui, player, $rootScope,   $state,   $stateParams) {
+.run([       'nwgui', 'player', '$rootScope', '$state', '$stateParams', 'state', 'settings',
+    function (nwgui, player, $rootScope,   $state,   $stateParams, state, settings) {
       console.log("run");
       var win = nwgui.Window.get();
       if (process.platform === "darwin") {
@@ -55,10 +55,15 @@ angular.module('cmod', [
         mb.createMacBuiltin('cmod3', { hideEdit: false });
         win.menu = mb;
       }
+
+      state.playlist = settings.get('_lastPlaylist');
+      window.state = state;
       win.on("close", function() {
         player.quit();
+        settings.set('_lastPlaylist', state.playlist);
         this.close(true);
       });
+
       function setCorrectHeight() {
         $rootScope.$apply(function() {
           $rootScope.height = window.innerHeight - document.getElementById('header').offsetHeight - document.getElementById('footer').offsetHeight;
