@@ -90,14 +90,7 @@ div#footer {
   color: #444;
   margin-top: 4px; padding-bottom: 0px;
 }
-div#main {
-  overflow-y: scroll;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  padding-left: 40px;
-  padding-right: 40px;
-}
-div#modarchive {
+div#main, div#modarchive, div#about {
   overflow-y: scroll;
   padding-top: 10px;
   padding-bottom: 10px;

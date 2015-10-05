@@ -37,6 +37,10 @@ angular.module('cmod', [
       url: "/settings",
       templateUrl: "app/ui/settings/settings.tpl.html",
       controller: "cmodSettingsCtrl"
+    })
+    .state('about', {
+      url: "/about",
+      templateUrl: "app/ui/misc/about.tpl.html"
     });
     angular.extend(toastrConfig, {
       positionClass: 'toast-bottom-right',

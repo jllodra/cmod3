@@ -3,7 +3,7 @@
     <div class="col-xs-12">
       <div ng-show="state.playlist.length === 0" class="panel panel-default">
         <div class="panel-body">
-          Drop here some .IT, .XM, S3M, .MOD files.
+          Drop here some .IT, .XM, S3M, .MOD files or click “Add file(s)”.
         </div>
       </div>
       <table ng-show="state.playlist.length > 0" id="playlist" class="table table-condensed table-hover">
@@ -35,6 +35,14 @@
         </tfoot>
       </table>
     </div>
+    <div style="text-align: center">
+      <button class="btn btn-default" ng-click="addFilesToPlaylist()">
+        <span class="glyphicon glyphicon-file"></span>
+        Add file(s)
+      </button>
+      <input style="display: none;" id="addFilesToPlaylistHidden" type="file" nwworkingdir="{{basedir}}" multiple accept=".it,.xm,.s3m,.mod">
+    </div>
+
   </div>
   <!--
   <div class="row">
