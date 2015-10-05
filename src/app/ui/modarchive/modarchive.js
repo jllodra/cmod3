@@ -79,7 +79,7 @@ angular.module('cmod.ui.modarchive', [
           };
           xhr.open('GET', request + searchText + "&page=" + state.modarchive.current_page, true);
           $scope.state.modarchive.is_downloading_modarchive = true;
-          $scope.state.modarchive.loading_text = "Searching for "+searchText+"»…";
+          $scope.state.modarchive.loading_text = "Searching for «"+searchText+"»…";
           xhr.send(null);
         }
       };

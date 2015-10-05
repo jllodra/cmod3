@@ -33,10 +33,10 @@
         <table id="search_results" class="table table-condensed table-hover">
           <thead>
             <tr>
-              <th class="col-xs-2"><small>#</small></th>
-              <th class="col-xs-5"><small>SONG</small></th>
-              <th class="col-xs-3"><small>FILENAME</small></th>
-              <th class="col-xs-1"><small>ARTIST</small></th>
+              <th class="col-xs-1" style="text-align:center;"><small>#</small></th>
+              <th class="col-xs-2" style="text-align:center;"><small>ARTIST</small></th>
+              <th class="col-xs-4" style="text-align:center;"><small>SONG</small></th>
+              <th class="col-xs-4"><small>FILENAME</small></th>
               <th class="col-xs-1"><small>SIZE</small></th>
               <th></th>
             </tr>
@@ -47,10 +47,10 @@
               ng-click="downloadSong($index, true)"
               ng-right-click="showOptions($index, $event)"
               >
-                <td>{{ $index + 1 }} ({{ song.id }})</td>
-                <td>{{ song.name }}</td>
+                <td style="text-align:center;">{{ $index + 1 }} ({{ song.id }})</td>
+                <td style="text-align:center;">{{ song.artist || "-" }}</td>
+                <td style="text-align:center;">{{ song.name }}</td>
                 <td>{{ song.filename }}</td>
-                <td>{{ song.artist || "-" }}</td>
                 <td>{{ song.size }}</td>
                 <td style="color: #FFCF00; opacity: {{song.score}};">&#x2605;</td>
             </tr>
