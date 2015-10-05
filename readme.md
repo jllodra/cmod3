@@ -21,6 +21,7 @@ Watch cmod3 in action here: <https://www.youtube.com/watch?v=ZDABiY7pAk0>.
 * Drag and drop (folders and files)
 * Metadata for the current module
 * **Nectarine Radio player built-in!**
+* **Browse and download from Modarchive!**
 * Repeat and shuffle modes
 * Classic VU meter
 
