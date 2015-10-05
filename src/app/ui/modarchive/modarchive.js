@@ -163,6 +163,8 @@ angular.module('cmod.ui.modarchive', [
       menu.append(new nwgui.MenuItem({ label: 'Download in background' }));
       menu.items[0].click = function() {
         $scope.$apply(function() {
+          var module = $scope.state.modarchive.search_results[$scope.current_item_index_context_menu];
+          toastr.info(module.filename, 'Background downloading:');
           $scope.downloadSong($scope.current_item_index_context_menu, false);
         });
       };
