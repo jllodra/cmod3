@@ -45,6 +45,7 @@ angular.module('cmod.ui.modarchive', [
 
         if(searchText) {
           console.log("searchButton: " + searchText);
+          document.querySelector('input').blur();
           var xhr = new window.XMLHttpRequest();
           xhr.onload = function(evt) {
             $scope.state.modarchive.is_downloading_modarchive = false;

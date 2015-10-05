@@ -107,6 +107,21 @@ angular.module('cmod.ui.controls', [
           if (e.keyCode == 32) {
             $scope.playOrPause();
           }
+          if (e.keyCode == 49) {
+            $state.go('playlist');
+          }
+          if (e.keyCode == 50) {
+            $state.go('modarchive');
+          }
+          if (e.keyCode == 51) {
+            $state.go('info');
+          }
+          if (e.keyCode == 52) {
+            $state.go('settings');
+          }
+          if (e.keyCode == 53) {
+            $state.go('about');
+          }
         }
       }, false);
 
