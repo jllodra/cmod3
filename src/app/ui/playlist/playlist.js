@@ -104,8 +104,7 @@ angular.module('cmod.ui.playlist', [
         return false;
       };
 
-      var songendcleanup = $rootScope.$on('songend', function() {
-        console.log("songend recieved");
+      $scope.playNext = function(forced) {
         if($scope.state.playlist.length > 0) {
           if(settings.get('shuffle')) {
             console.log('suffle');
@@ -119,15 +118,71 @@ angular.module('cmod.ui.playlist', [
                 console.log('repeat');
                 $scope.playSongInPlaylist(0);
               } else {
-                player.stop();
+                if(forced) {
+                  $scope.playSongInPlaylist(0);
+                } else {
+                  player.stop();
+                }
               }
             }
           }
         }
-      });
-      $scope.$on('$destroy', function() {
-        songendcleanup();
-      });
+      };
+
+      $scope.playPrev = function(forced) {
+        if($scope.state.playlist.length > 0) {
+          if(settings.get('shuffle')) {
+            console.log('suffle');
+            $scope.playSongInPlaylist(Math.floor(Math.random() * $scope.state.playlist.length));
+          } else {
+            if($scope.state.current_song_index-1 >= 0) {
+              console.log('prev');
+              $scope.playSongInPlaylist($scope.state.current_song_index-1);
+            } else {
+              if(settings.get('repeat')) {
+                console.log('repeat');
+                $scope.playSongInPlaylist($scope.state.playlist.length-1);
+              } else {
+                if(forced) {
+                  $scope.playSongInPlaylist(0);
+                } else {
+                  player.stop();
+                }
+              }
+            }
+          }
+        }
+      };
+
+      if(!$rootScope.songendcleanup) {
+        $rootScope.songendcleanup = $rootScope.$on('songend', function() {
+          console.log("songend recieved");
+          $scope.playNext(false);
+        });
+        /*$scope.$on('$destroy', function() {
+          songendcleanup();
+        });*/
+      }
+
+      if(!$rootScope.playnextcleanup) {
+        $rootScope.playnextcleanup = $rootScope.$on('playnext', function() {
+          console.log("playnext recieved");
+          $scope.playNext(true);
+        });
+        /*$scope.$on('$destroy', function() {
+          playnextcleanup();
+        });*/
+      }
+
+      if(!$rootScope.playprevcleanup) {
+        $rootScope.playprevcleanup = $rootScope.$on('playprev', function() {
+          console.log("playprev recieved");
+          $scope.playPrev(true);
+        });
+        /*$scope.$on('$destroy', function() {
+          playprevcleanup();
+        });*/
+      }
 
       // prevent default behavior from changing page on dropped file
       var holder = document.body;
@@ -137,7 +192,6 @@ angular.module('cmod.ui.playlist', [
       holder.ondragleave = function () { this.className = ''; return false; };
       holder.ondrop = $scope.ondrop;
 
-      // right-click menu
       var menu = new nwgui.Menu();
       menu.append(new nwgui.MenuItem({ label: 'Remove' }));
       menu.append(new nwgui.MenuItem({ label: 'Remove all' }));
@@ -165,5 +219,4 @@ angular.module('cmod.ui.playlist', [
         state.current_song_index_context_menu = $index;
         menu.popup($event.pageX, $event.pageY);
       };
-
 }]);

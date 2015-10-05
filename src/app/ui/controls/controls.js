@@ -102,4 +102,44 @@ angular.module('cmod.ui.controls', [
 
       $window.setInterval(updateProgressBar, 1000); // text updates
 
+      document.addEventListener('keyup', function(e) {
+        if (e.keyCode == 32) {
+          $scope.playOrPause();
+        }
+      }, false);
+
+      var playOrPauseKey = new nwgui.Shortcut({
+        key: 'MediaPlayPause',
+        active: function() {
+          $scope.playOrPause();
+        },
+        failed: function() {
+          console.error('MediaPlayPause failed');
+        }
+      });
+
+      var nextKey = new nwgui.Shortcut({
+        key: 'MediaNextTrack',
+        active: function() {
+          $rootScope.$broadcast('playnext');
+        },
+        failed: function() {
+          console.error('MediaNextTrack failed');
+        }
+      });
+
+      var prevKey = new nwgui.Shortcut({
+        key: 'MediaPrevTrack',
+        active: function() {
+          $rootScope.$broadcast('playprev');
+        },
+        failed: function() {
+          console.error('MediaPrevTrack failed');
+        }
+      });
+
+      nwgui.App.registerGlobalHotKey(playOrPauseKey);
+      nwgui.App.registerGlobalHotKey(nextKey);
+      nwgui.App.registerGlobalHotKey(prevKey);
+
 }]);
