@@ -60,6 +60,7 @@ angular.module('cmod.ui.settings', [])
     var chooser = document.querySelector('#destPathInputHidden');
     chooser.addEventListener("change", function(evt) {
       $scope.moddir = this.value;
+      settings.set('moddir', this.value);
     }, false);
 
     $scope.changeModDir = function() {
