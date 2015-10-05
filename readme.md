@@ -24,6 +24,7 @@ Watch cmod3 in action here: <https://www.youtube.com/watch?v=ZDABiY7pAk0>.
 * **Browse and download from Modarchive!**
 * Repeat and shuffle modes
 * Classic VU meter
+* Keyboard shortcuts: OSX multimedia keys, <space> play/pause
 
 ## How does cmod3 work?
 
@@ -34,7 +35,7 @@ cmod3 is entirely written in **Javascript**, works on node-webkit (nwjs) and use
 * Can you draw? An app icon is needed.
 * Audio is being decoded on the main thread, which is not ideal, it should be done on a background worker/thread and see if it performs better.
 * ~~Settings are not being saved yet.~~
-* Keyboard shortcuts.
+* ~~Keyboard shortcuts.~~
 * Adding an AnalyserNode could enable fft visualization.
 * Volume control using a GainNode.
 * Choose a Nectarine stream among a list of streams.
