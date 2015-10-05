@@ -2,6 +2,7 @@
 mods
 output
 config.json
+lib/src
 
 # --------------------
 # OSX Files
