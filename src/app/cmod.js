@@ -56,6 +56,8 @@ angular.module('cmod', [
         win.menu = mb;
       }
 
+      window.state=state;
+      window.settings=settings;
       state.playlist = settings.get('_lastPlaylist');
       win.on("close", function() {
         player.quit();

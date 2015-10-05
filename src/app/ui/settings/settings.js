@@ -40,7 +40,6 @@ angular.module('cmod.ui.settings', [])
           'settings', '$scope',
   function(settings,   $scope) {
 
-    // get all settings from localStorage please?
     $scope.vuDisabled = !settings.get('vu');
     $scope.repeat = settings.get('repeat');
     $scope.shuffle = settings.get('shuffle');

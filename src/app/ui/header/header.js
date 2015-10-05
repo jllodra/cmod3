@@ -7,8 +7,8 @@ angular.module('cmod.ui.header', [
   'cmod.ui.settings'
 ])
 .controller('cmodHeaderCtrl',
-  [         'settings', 'nwgui', 'player', 'engine', '$scope',
-    function(settings, nwgui, player, engine, $scope) {
+  [         'settings', 'nwgui', 'player', 'engine', '$scope', '$rootScope',
+    function(settings, nwgui, player, engine, $scope, $rootScope) {
 
       var requestId;
 
@@ -30,7 +30,7 @@ angular.module('cmod.ui.header', [
         nwgui.Window.get().showDevTools();
       };
 
-      $scope.$on('vuchanged', function() {
+      $rootScope.$on('vuchanged', function() {
         if (settings.get('vu')) {
           requestId = window.requestAnimationFrame(updateUI);
         } else {
@@ -52,6 +52,8 @@ angular.module('cmod.ui.header', [
       });
 
       function updateUI() {
+        if(!settings.get('vu')) return;
+
         requestId = window.requestAnimationFrame(updateUI);
 
         if(drops < max_drops) {

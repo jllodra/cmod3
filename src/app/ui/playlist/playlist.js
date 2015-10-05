@@ -17,7 +17,7 @@ angular.module('cmod.ui.playlist', [
         player.metadataFromFile(path, function(metadata) {
           console.log(metadata);
           $scope.$apply(function() {
-            state.playlist.push({
+            $scope.state.playlist.push({
               'name': metadata.title,
               'filename': name,
               'path': path,
@@ -28,11 +28,11 @@ angular.module('cmod.ui.playlist', [
       };
 
       $scope.playSongInPlaylist = function(i) {
-        state.current_song = state.playlist[i];
-        state.current_song_path = state.playlist[i].path;
-        state.current_song_index = i;
-        console.log(state.current_song.metadata);
-        player.loadAndPlay(state.playlist[i].path);
+        $scope.state.current_song = $scope.state.playlist[i];
+        $scope.state.current_song_path = $scope.state.playlist[i].path;
+        $scope.state.current_song_index = i;
+        console.log($scope.state.current_song.metadata);
+        player.loadAndPlay($scope.state.playlist[i].path);
       };
 
       $scope.removeSongFromPlaylist = function() {
@@ -104,16 +104,19 @@ angular.module('cmod.ui.playlist', [
         return false;
       };
 
-      $rootScope.$on('songend', function() {
+      var songendcleanup = $rootScope.$on('songend', function() {
         console.log("songend recieved");
-        if(state.playlist.length > 0) {
+        if($scope.state.playlist.length > 0) {
           if(settings.get('shuffle')) {
-            $scope.playSongInPlaylist(Math.floor(Math.random() * state.playlist.length));
+            console.log('suffle');
+            $scope.playSongInPlaylist(Math.floor(Math.random() * $scope.state.playlist.length));
           } else {
-            if(state.current_song_index+1 < state.playlist.length) {
-              $scope.playSongInPlaylist(state.current_song_index+1);
+            if($scope.state.current_song_index+1 < $scope.state.playlist.length) {
+              console.log('next');
+              $scope.playSongInPlaylist($scope.state.current_song_index+1);
             } else {
               if(settings.get('repeat')) {
+                console.log('repeat');
                 $scope.playSongInPlaylist(0);
               } else {
                 player.stop();
@@ -121,6 +124,9 @@ angular.module('cmod.ui.playlist', [
             }
           }
         }
+      });
+      $scope.$on('$destroy', function() {
+        songendcleanup();
       });
 
       // prevent default behavior from changing page on dropped file
