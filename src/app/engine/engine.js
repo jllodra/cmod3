@@ -30,7 +30,7 @@ angular.module('cmod.engine', [])
       memPtr = ompt._openmpt_module_create_from_memory(filePtr, byteArray.byteLength, 0, 0, 0);
       leftBufferPtr = ompt._malloc(4 * maxFramesPerChunk);
       rightBufferPtr = ompt._malloc(4 * maxFramesPerChunk);
-    };
+    }
 
     function readMetadata(buffer) {
       var byteArray = new Int8Array(buffer);
@@ -39,7 +39,7 @@ angular.module('cmod.engine', [])
       var memPtr = ompt._openmpt_module_create_from_memory(filePtr, byteArray.byteLength, 0, 0, 0);
       var metadata = {};
       var metadata_keys = ompt.Pointer_stringify(ompt._openmpt_module_get_metadata_keys(memPtr));
-      var keys = metadata_keys.split(';');;
+      var keys = metadata_keys.split(';');
       var keyNameBuffer = 0;
       for (var i = 0; i < keys.length; i++) {
         keyNameBuffer = ompt._malloc(keys[i].length + 1);
@@ -52,27 +52,27 @@ angular.module('cmod.engine', [])
       ompt._free(filePtr);
       ompt._openmpt_module_destroy(memPtr);
       return metadata;
-    };
+    }
 
     function getPosition() {
       return ompt._openmpt_module_get_position_seconds(memPtr);
-    };
+    }
 
     function setPosition(seconds) {
       ompt._openmpt_module_set_position_seconds(memPtr, seconds);
-    };
+    }
 
     function connect() {
       if(processNode !== null)
         processNode.connect(audioContext.destination);
-    };
+    }
 
     function disconnect() {
       if(processNode !== null) {
         processNode.disconnect();
         isConnected = false;
       }
-    };
+    }
 
     function play() {
       if(!isConnected) {
@@ -80,7 +80,7 @@ angular.module('cmod.engine', [])
         isConnected = true;
       }
       status.stopped = false;
-    };
+    }
 
     function unload() {
       if (!status.stopped) {
@@ -98,13 +98,13 @@ angular.module('cmod.engine', [])
       memPtr = null;
       leftBufferPtr = null;
       rightBufferPtr = null;
-    };
+    }
 
     function stop() {
       status.stopped = true;
       status.paused = false;
       ompt._openmpt_module_set_position_seconds(memPtr, 0);
-    };
+    }
 
     function end() {
       status.stopped = true;
@@ -113,22 +113,23 @@ angular.module('cmod.engine', [])
 
     function pause() {
       status.paused = !status.paused;
-    };
+    }
 
     function getVU() {
       return {
         l: leftVU,
         r: rightVU
       };
-    };
+    }
 
     var onaudioprocess = function(e) {
       var outputL = e.outputBuffer.getChannelData(0);
       var outputR = e.outputBuffer.getChannelData(1);
       var framesToRender = outputL.length;
       //
+      var i;
       if(status.stopped || status.paused) { // stop
-        for (var i = 0; i < framesToRender; ++i) {
+        for (i = 0; i < framesToRender; ++i) {
           outputL[i] = 0;
           outputR[i] = 0;
         }
@@ -150,13 +151,13 @@ angular.module('cmod.engine', [])
         var rawAudioRight = ompt.HEAPF32.subarray(rightBufferPtr / 4, rightBufferPtr / 4 + actualFramesPerChunk);
         leftVU = 0;
         rightVU = 0;
-        for (var i = 0; i < actualFramesPerChunk; ++i) {
+        for (i = 0; i < actualFramesPerChunk; ++i) {
           outputL[framesRendered + i] = rawAudioLeft[i];
           outputR[framesRendered + i] = rawAudioRight[i];
           leftVU += rawAudioLeft[i];
           rightVU += rawAudioRight[i];
         }
-        for (var i = actualFramesPerChunk; i < framesPerChunk; ++i) {
+        for (i = actualFramesPerChunk; i < framesPerChunk; ++i) {
           outputL[framesRendered + i] = 0;
           outputR[framesRendered + i] = 0;
         }

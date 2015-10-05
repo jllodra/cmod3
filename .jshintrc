@@ -24,6 +24,8 @@
 		"spyOn"       : false,
 		"window"			: true,
 		"process"			: true,
-		"document"		: true
+		"document"		: true,
+		"ompt"				: true,
+		"Int8Array"		: true
 	}
 }

@@ -104,7 +104,8 @@ angular.module('cmod.ui.playlist', [
         return false;
       };
 
-      $scope.$on('songend', function() {
+      $rootScope.$on('songend', function() {
+        console.log("songend recieved");
         if(state.playlist.length > 0) {
           if(settings.get('shuffle')) {
             $scope.playSongInPlaylist(Math.floor(Math.random() * state.playlist.length));
