@@ -23,6 +23,7 @@
 		"expect"      : false,
 		"spyOn"       : false,
 		"window"			: true,
+		"process"			: true,
 		"document"		: true
 	}
 }
