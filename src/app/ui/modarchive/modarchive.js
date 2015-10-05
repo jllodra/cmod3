@@ -30,7 +30,7 @@ angular.module('cmod.ui.modarchive', [
             searchText = $scope.state.modarchive.current_artist_text;
             request = REQUEST_ARTIST;
           } else if (type == 'song') {
-            searchText = $scope.state.modarchive.current_song_text
+            searchText = $scope.state.modarchive.current_song_text;
             request = REQUEST_SONG;
           }
           state.modarchive.current_type = type;
@@ -55,7 +55,7 @@ angular.module('cmod.ui.modarchive', [
             }
             count = count[0].textContent;
             var totalpages = xml.querySelector('totalpages').textContent;
-            $scope.more_songs_to_load = (totalpages != state.modarchive.current_page);
+            $scope.state.modarchive.more_songs_to_load = (totalpages != state.modarchive.current_page);
             toastr.success(count + ' songs found', searchText);
             var modulesEl = xml.getElementsByTagName('module');
             for(var i = 0; i < modulesEl.length; i++) {
