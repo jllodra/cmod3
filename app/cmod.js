@@ -53,6 +53,11 @@ angular.module('cmod', [
       win.on("resize", setCorrectHeight);
       //win.moveTo(win.x, 30);
       //win.showDevTools();
+      document.addEventListener('keyup', function(e) {
+        if (e.ctrlKey && e.keyCode == 48) {
+          win.showDevTools();
+        }
+      }, false);
 }])
 .controller('cmodAppCtrl',
   [          'nwgui', 'player', '$rootScope', '$scope',
