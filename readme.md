@@ -11,9 +11,9 @@ Watch cmod3 in action here: <https://www.youtube.com/watch?v=ZDABiY7pAk0>.
 
 ## Download cmod3 1.0.0
 
-* Mac OSX x64: <https://github.com/jllodra/cmod3/raw/master/releases/cmod3-1.0-mac-x64.zip>
-* Windows x64: <https://github.com/jllodra/cmod3/raw/master/releases/cmod3-1.0-windows-x64.zip>
-* Linux x64: <https://github.com/jllodra/cmod3/raw/master/releases/cmod3-1.0-linux-x64.zip>
+* Mac OSX x64: <http://herotyc.untergrund.net/cmod3/cmod3-1.5.0-osx64.zip>
+* Windows x64: <http://herotyc.untergrund.net/cmod3/cmod3-1.5.0-win64.zip>
+* Linux x64: <http://herotyc.untergrund.net/cmod3/cmod3-1.5.0-linux64.zip>
 
 ## Features
 
