@@ -52,4 +52,4 @@ cmod3 is entirely written in **Javascript**, works on node-webkit (nwjs) and use
 
 ## Do you like it?
 
-Contribute to the code and make this player better, or make a donation via paypal to jlg.hrtc@gmail.com if you want to support the development.
+Contribute to the code and make this player better, or make a donation via paypal to jlg.hrtc@gmail.com, modarchive.org and scenemusic.net as well.
