@@ -42,7 +42,9 @@ cmod3 is entirely written in **Javascript**, works on node-webkit (nwjs) and use
 
 ## Versions
 
-05/10/2015: 1.5.0 - modarchive support and lots of improvements
+06/10/2015: 1.6.0 - bugfixes and tons of enhancements
+
+05/10/2015: 1.5.0 - modarchive support
 
 24/09/2015: 1.1.0 - not released
 
