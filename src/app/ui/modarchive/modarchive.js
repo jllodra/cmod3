@@ -9,14 +9,15 @@ angular.module('cmod.ui.modarchive', [
   'toastr'
 ])
 .controller('cmodModarchiveCtrl',
-  [         'player', 'state', '$rootScope', '$scope', 'toastr', 'config', 'utils', 'settings',
-    function(player, state, $rootScope, $scope, toastr, config, utils, settings) {
+  [         'nwgui', 'player', 'state', '$rootScope', '$scope', 'toastr', 'config', 'utils', 'settings',
+    function(nwgui, player, state, $rootScope, $scope, toastr, config, utils, settings) {
       console.log("Modarchive controller");
 
       var REQUEST_ARTIST = "http://api.modarchive.org/xml-tools.php?key=" + config.modarchive + "&request=view_modules_by_guessed_artist&query=";
       var REQUEST_SONG = "http://api.modarchive.org/xml-tools.php?key=" + config.modarchive + "&request=search&type=filename_or_songtitle&query=";
 
       $scope.state = state;
+      $scope.current_item_index_context_menu = null;
 
       $scope.searchButton = function(type) {
 
@@ -86,11 +87,12 @@ angular.module('cmod.ui.modarchive', [
         $scope.searchButton();
       };
 
-      // TODO: no need to have this in $scope
-      $scope.downloadSongAndPlay = function(i) {
+      $scope.downloadSong = function(i, andPlay) {
         var module = $scope.state.modarchive.search_results[i];
         console.log(module);
-        $scope.state.modarchive.is_downloading_modarchive = true;
+        if(andPlay) {
+          $scope.state.modarchive.is_downloading_modarchive = true;
+        }
         $scope.state.modarchive.loading_text = "Downloading song...";
         var filename = '[' + module.id + ']_' + module.filename;
         var path = settings.get('moddir') + '/';
@@ -112,37 +114,62 @@ angular.module('cmod.ui.modarchive', [
             .rename(filename)
             .run(function() {
               console.log("download done!");
-              toastr.success(module.filename, 'Download completed, now playing:');
-              $scope.state.modarchive.is_downloading_modarchive = false;
-              player.metadataFromFile(path, function(metadata) {
-                console.log("got metadata...");
-                console.log(metadata);
-                $scope.addSongToPlaylistAndPlay(metadata, filename, path);
-              });
+              if(andPlay) {
+                toastr.success(module.filename, 'Download completed, now playing:');
+                $scope.state.modarchive.is_downloading_modarchive = false;
+                player.metadataFromFile(path, function(metadata) {
+                  console.log("got metadata...");
+                  console.log(metadata);
+                  $scope.addSongToPlaylist(metadata, filename, path, andPlay);
+                });
+              } else {
+                toastr.success(module.filename, 'Download completed:');
+                player.metadataFromFile(path, function(metadata) {
+                  console.log("got metadata...");
+                  console.log(metadata);
+                  $scope.addSongToPlaylist(metadata, filename, path, andPlay);
+                });
+              }
             });
         } else {
           player.metadataFromFile(path, function(metadata) {
             console.log("got metadata...");
             console.log(metadata);
             $scope.state.modarchive.is_downloading_modarchive = false;
-            $scope.addSongToPlaylistAndPlay(metadata, filename, path);
+            $scope.addSongToPlaylist(metadata, filename, path, andPlay);
           });
         }
       };
 
-      $scope.addSongToPlaylistAndPlay = function(metadata, filename, path) {
+      $scope.addSongToPlaylist = function(metadata, filename, path, andPlay) {
         $scope.state.playlist.push({
           'name': metadata.title,
           'filename': filename,
           'path': path,
           'metadata': metadata
         });
-        var song_position = $scope.state.playlist.length-1;
-        $scope.state.current_song = $scope.state.playlist[song_position];
-        $scope.state.current_song_path = $scope.state.playlist[song_position].path;
-        $scope.state.current_song_index = $scope.song_position;
-        console.log($scope.state.current_song.metadata);
-        player.loadAndPlay($scope.state.playlist[song_position].path);
+        if(andPlay) {
+          var song_position = $scope.state.playlist.length-1;
+          $scope.state.current_song = $scope.state.playlist[song_position];
+          $scope.state.current_song_path = $scope.state.playlist[song_position].path;
+          $scope.state.current_song_index = $scope.song_position;
+          console.log($scope.state.current_song.metadata);
+          player.loadAndPlay($scope.state.playlist[song_position].path);
+        }
       };
+
+      // right-click menu
+      var menu = new nwgui.Menu();
+      menu.append(new nwgui.MenuItem({ label: 'Download in background' }));
+      menu.items[0].click = function() {
+        $scope.$apply(function() {
+          $scope.downloadSong($scope.current_item_index_context_menu, false);
+        });
+      };
+      $scope.showOptions = function($index, $event) {
+        $scope.current_item_index_context_menu = $index;
+        menu.popup($event.pageX, $event.pageY);
+      };
+
 
 }]);

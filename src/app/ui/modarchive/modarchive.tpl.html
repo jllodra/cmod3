@@ -43,7 +43,7 @@
           <tbody>
             <tr
               ng-repeat="song in state.modarchive.search_results"
-              ng-click="downloadSongAndPlay($index)"
+              ng-click="downloadSong($index, true)"
               ng-right-click="showOptions($index, $event)"
               >
                 <td>{{ $index + 1 }} ({{ song.id }})</td>

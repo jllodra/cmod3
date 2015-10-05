@@ -6,8 +6,8 @@ angular.module('cmod.ui.playlist', [
   'cmod.ui.settings'
 ])
 .controller('cmodPlaylistCtrl',
-  [         'nwgui', 'player', 'state', 'settings', '$rootScope', '$scope',
-    function(nwgui, player, state, settings, $rootScope, $scope) {
+  [         'nwgui', 'player', 'state', 'settings', '$rootScope', '$scope', '$state',
+    function(nwgui, player, state, settings, $rootScope, $scope, $state) {
       console.log("playlist ctrl!");
 
       $scope.state = state;
@@ -137,6 +137,8 @@ angular.module('cmod.ui.playlist', [
       menu.append(new nwgui.MenuItem({ label: 'Remove all' }));
       menu.append(new nwgui.MenuItem({ type: 'separator' }));
       menu.append(new nwgui.MenuItem({ label: 'Info' }));
+      menu.append(new nwgui.MenuItem({ type: 'separator' }));
+      menu.append(new nwgui.MenuItem({ label: 'Add file(s)' }));
       menu.items[0].click = function() {
         $scope.$apply(function() {
           $scope.removeSongFromPlaylist();
@@ -148,7 +150,10 @@ angular.module('cmod.ui.playlist', [
         });
       };
       menu.items[3].click = function() {
-        console.log("info " + state.current_song_index_context_menu);
+        $state.go('info');
+      };
+      menu.items[5].click = function() {
+        $scope.addFilesToPlaylist();
       };
       $scope.showOptions = function($index, $event) {
         state.current_song_index_context_menu = $index;
