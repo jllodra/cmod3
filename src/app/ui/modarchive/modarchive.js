@@ -69,7 +69,8 @@ angular.module('cmod.ui.modarchive', [
                 filename: modulesEl[i].querySelector('filename').textContent,
                 size: modulesEl[i].querySelector('size').textContent,
                 date: modulesEl[i].querySelector('date').textContent,
-                artist: artist
+                artist: artist,
+                score: modulesEl[i].querySelector('overall_ratings comment_rating').textContent / 10
               });
             }
             console.log(xml);
@@ -78,7 +79,7 @@ angular.module('cmod.ui.modarchive', [
           };
           xhr.open('GET', request + searchText + "&page=" + state.modarchive.current_page, true);
           $scope.state.modarchive.is_downloading_modarchive = true;
-          $scope.state.modarchive.loading_text = "Searching for «"+searchText+"»…";
+          $scope.state.modarchive.loading_text = "Searching for "+searchText+"»…";
           xhr.send(null);
         }
       };

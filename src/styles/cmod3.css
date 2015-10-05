@@ -141,6 +141,9 @@ nav {
   margin-bottom: 0;
   border-radius: 0;
 }
+table {
+  font-size: 10px;
+}
 .table thead tr th {
   border: 0;
 }

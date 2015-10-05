@@ -38,6 +38,7 @@
               <th class="col-xs-3"><small>FILENAME</small></th>
               <th class="col-xs-1"><small>ARTIST</small></th>
               <th class="col-xs-1"><small>SIZE</small></th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -51,14 +52,15 @@
                 <td>{{ song.filename }}</td>
                 <td>{{ song.artist || "-" }}</td>
                 <td>{{ song.size }}</td>
+                <td style="color: yellow; opacity: {{song.score}};">&#x2605;</td>
             </tr>
           </tbody>
           <tfoot>
             <tr>
-              <td colspan="5"><small>Total songs: {{ state.modarchive.search_results.length }}</small></td>
+              <td colspan="6"><small>Total songs: {{ state.modarchive.search_results.length }}</small></td>
             </tr>
             <tr ng-show="state.modarchive.more_songs_to_load">
-              <td colspan="5" style="text-align: center;">
+              <td colspan="6" style="text-align: center;">
                 <button type="button" class="btn btn-default btn-sm" ng-click="loadMoreSongs()">Load more songs...</button>
               </td>
             </tr>
