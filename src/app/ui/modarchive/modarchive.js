@@ -152,7 +152,7 @@ angular.module('cmod.ui.modarchive', [
           var song_position = $scope.state.playlist.length-1;
           $scope.state.current_song = $scope.state.playlist[song_position];
           $scope.state.current_song_path = $scope.state.playlist[song_position].path;
-          $scope.state.current_song_index = $scope.song_position;
+          $scope.state.current_song_index = song_position;
           console.log($scope.state.current_song.metadata);
           player.loadAndPlay($scope.state.playlist[song_position].path);
         }
