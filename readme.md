@@ -9,7 +9,7 @@ cmod3 is a module music player.
 Don't you know what tracked music is? [Look here](http://en.wikipedia.org/wiki/Music_tracker).
 Watch cmod3 in action here: <https://www.youtube.com/watch?v=ZDABiY7pAk0>.
 
-## Download cmod3 1.0.0
+## Download cmod3
 
 * Mac OSX x64: <http://herotyc.untergrund.net/cmod3/cmod3-1.5.0-osx64.zip>
 * Windows x64: <http://herotyc.untergrund.net/cmod3/cmod3-1.5.0-win64.zip>
@@ -33,7 +33,7 @@ cmod3 is entirely written in **Javascript**, works on node-webkit (nwjs) and use
 
 * Can you draw? An app icon is needed.
 * Audio is being decoded on the main thread, which is not ideal, it should be done on a background worker/thread and see if it performs better.
-* Settings are not being saved yet.
+* ~~Settings are not being saved yet.~~
 * Keyboard shortcuts.
 * Adding an AnalyserNode could enable fft visualization.
 * Volume control using a GainNode.
@@ -41,8 +41,9 @@ cmod3 is entirely written in **Javascript**, works on node-webkit (nwjs) and use
 
 ## Versions
 
-24/09/2015: 1.x.x - not released yet
-- Play+Pause in one button
+05/10/2015: 1.5.0 - modarchive support and lots of improvements
+
+24/09/2015: 1.1.0 - not released
 
 25/05/2015: 1.0.0 - public release
 
@@ -50,4 +51,4 @@ cmod3 is entirely written in **Javascript**, works on node-webkit (nwjs) and use
 
 ## Do you like it?
 
-Contribute to the code make this player better, or make a donation via paypal to jlg.hrtc@gmail.com if you want to thanks the developer.
+Contribute to the code and make this player better, or make a donation via paypal to jlg.hrtc@gmail.com if you want to support the development.
