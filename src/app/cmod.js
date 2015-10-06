@@ -107,4 +107,10 @@ angular.module('cmod', [
     }
     return "0:00";
   };
+})
+.filter('notrailingspaces', function () {
+    return function (value) {
+        return (!value) ? '' : value.replace(/\s*$/g, '');
+    };
 });
+

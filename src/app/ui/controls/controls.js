@@ -102,8 +102,17 @@ angular.module('cmod.ui.controls', [
 
       $window.setInterval(updateProgressBar, 1000); // text updates
 
+      document.addEventListener('keydown', function(e) {
+        if (e.target.tagName.toUpperCase() !== 'INPUT') {
+          if (e.keyCode == 32) {
+            e.preventDefault();
+          }
+        }
+      });
+
       document.addEventListener('keyup', function(e) {
         if (e.target.tagName.toUpperCase() !== 'INPUT') {
+          e.preventDefault();
           if (e.keyCode == 32) {
             $scope.playOrPause();
           }

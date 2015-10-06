@@ -61,17 +61,21 @@
     </div>
   </div>
 
-  <div ng-show="state.current_song.metadata && !state.playing_nectarine" class="row">
-    <div class="col-xs-6" style="text-align: center; word-wrap: break-word;">
-      <hr/>
-      <p><strong>{{ state.current_song.metadata.title }}</strong></p>
-      <p>{{ state.current_song.metadata.duration | mmss }}</p>
-      <p>{{ state.current_song.metadata.tracker }}</p>
-      <p><small>{{ state.current_song.metadata.path }}</small></p>
-      <hr/>
+  <div ng-show="state.current_song.metadata && !state.playing_nectarine">
+    <div class="row">
+      <div class="col-xs-12" style="text-align: center; word-wrap: break-word;">
+        <hr/>
+        <p><strong>{{ state.current_song.metadata.title }}</strong></p>
+        <p>{{ state.current_song.metadata.duration | mmss }}</p>
+        <p>{{ state.current_song.metadata.tracker }}</p>
+        <p><small>{{ state.current_song.metadata.path }}</small></p>
+        <hr/>
+      </div>
     </div>
-    <div class="col-xs-6">
-      <pre class="well">{{ state.current_song.metadata.message }}</pre>
+    <div class="row">
+      <div class="col-xs-12">
+        <pre class="well">{{ state.current_song.metadata.message | notrailingspaces }}</pre>
+      </div>
     </div>
   </div>
 
