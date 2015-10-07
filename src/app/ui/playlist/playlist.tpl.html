@@ -23,7 +23,7 @@
             ng-right-click="showOptions($index, $event)"
             ng-class="{ active_row: ($index === state.current_song_index) }"
             >
-              <td style="text-align:center;"></td>
+              <td style="text-align:center;"><span ng-show="$index === state.current_song_index" class="glyphicon glyphicon-volume-up"></span></td>
               <td style="text-align:left;">{{ $index + 1 }}</td>
               <td style="text-align:center;">{{ song.name }}</td>
               <td>{{ song.filename }}</td>

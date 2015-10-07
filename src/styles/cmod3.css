@@ -89,7 +89,8 @@ tr.active_row {
 }
 div#main tr.active_row td:first-child::before,
 div#info tr.active_row td:first-child::before {
-  content: '🔈';
+  /*content: '🔈';*/
+  /*content:'<span class="glyphicon glyphicon-volume-up"></span>';*/
 }
 div#footer {
   background-color: black;

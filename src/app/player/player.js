@@ -126,16 +126,26 @@ angular.module('cmod.player', [
         }
       },
       refreshNectarine: function() {
+        // this is defensive coding
         $timeout.cancel(refresh_timeout);
         refresh_timeout = null;
         if(state.playing_nectarine) {
           var xhr = new window.XMLHttpRequest();
           xhr.onload = function(evt) {
-            var xml = xhr.responseXML;
+            //console.info(evt);
+            if(evt.currentTarget.status !== 200) {
+              refresh_timeout = $timeout(this.refreshNectarine.bind(this), 61000);
+              return console.error("not a 200");
+            }
+            var xml = evt.currentTarget.responseXML;
             var lists = ['now', 'queue', 'history'];
             for(var i = 0; i < lists.length; i++) {
-              state.nectarine_info[lists[i]] = [];
               var list = xml.getElementsByTagName(lists[i])[0].getElementsByTagName('entry');
+              if(!list) {
+                refresh_timeout = $timeout(this.refreshNectarine.bind(this), 61000);
+                return console.info("no now info"); // No "now"? Call in 10 secs // this should never happen
+              }
+              state.nectarine_info[lists[i]] = [];
               for(var j = 0; j < list.length; j++) {
                 var artist = list[j].getElementsByTagName('artist');
                 for(var k = 0, artists = []; k < artist.length; k++) {
@@ -143,12 +153,12 @@ angular.module('cmod.player', [
                 }
                 var song = list[j].getElementsByTagName('song')[0];
                 var entry = {
-                  song: song.innerHTML,
+                  song: song.textContent.length > 45 ? song.textContent.substring(0,45) + '…' : song.textContent,
                   artist: artists.join('&'),
                   requester: list[j].getElementsByTagName('requester')[0].innerHTML,
                   time: song.getAttribute('length')
                 };
-                if(lists[i] === 'now' && j === 0) {
+                if(i === 0 && j === 0) {
                   if(!refresh_timeout) {
                     var playstart = new Date(list[j].getElementsByTagName('playstart')[0].textContent);
                     var length = song.getAttribute('length').split(':');
@@ -158,7 +168,13 @@ angular.module('cmod.player', [
                     var playend = new Date(playstart.getTime() + mms);
                     var diffms = playend-(new Date());
                     diffms += 5000; // 5 extra safe secs
-                    refresh_timeout = $timeout(this.refreshNectarine.bind(this), diffms);
+                    //console.info("timeout set for " + diffms);
+                    if(diffms >= 5000) {
+                      refresh_timeout = $timeout(this.refreshNectarine.bind(this), diffms);
+                    } else {
+                      //console.info("ok... dunno what happened by 10000 safe")
+                      refresh_timeout = $timeout(this.refreshNectarine.bind(this), 10000);
+                    }
                   }
                 }
                 state.nectarine_info[lists[i]].push(entry);
