@@ -87,11 +87,10 @@ tr.active_row {
   background-color: #0D6957;
   color: #fff;
 }
-div#main tr.active_row td:first-child::before,
+/*div#main tr.active_row td:first-child::before,
 div#info tr.active_row td:first-child::before {
-  /*content: '🔈';*/
-  /*content:'<span class="glyphicon glyphicon-volume-up"></span>';*/
-}
+  content: '🔈';
+}*/
 div#footer {
   background-color: black;
   color: #444;
