@@ -17,7 +17,7 @@ angular.module('cmod.ui.header', [
 
       $scope.vuleft = 1;
       $scope.vuright = 1;
-      $scope.vo = 0;
+      $scope.vo = 100;
 
       $scope.minimize = function() {
         nwgui.Window.get().minimize();
@@ -31,13 +31,14 @@ angular.module('cmod.ui.header', [
         nwgui.Window.get().showDevTools();
       };
 
-      $scope.vochange = function(e) {
-        $scope.vo = 1 - e.layerX/40;
-        player.setVolume(e.layerX/40);
+      $scope.vochange = function() {
+        //console.info("vochange");
+        player.setVolume($scope.vo/100);
+        //console.info($scope.vo);
       };
 
       $rootScope.$on('vochanged', function() {
-        $scope.vo = 1 - player.getVolume();
+        $scope.vo = player.getVolume() * 100;
       });
 
       $rootScope.$on('vuchanged', function() {
