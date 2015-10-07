@@ -1,6 +1,6 @@
 "use strict";
 
-angular.module('cmod.ui.settings', [])
+angular.module('cmod.ui.settings', ['cmod.player', 'cmod.playerState'])
 .factory('settings', ['$rootScope', function($rootScope) {
 
   var settings = {
@@ -8,6 +8,7 @@ angular.module('cmod.ui.settings', [])
     repeat: false,
     shuffle: false,
     moddir: process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME'] + '/modules',
+    nectastream: 'http://privat.is-by.us:8000/necta192.mp3',
     _lastPlaylist: []
   };
 
@@ -37,14 +38,15 @@ angular.module('cmod.ui.settings', [])
   };
 }])
 .controller('cmodSettingsCtrl', [
-          'settings', '$scope',
-  function(settings,   $scope) {
+          'settings', '$scope', 'player', 'state',
+  function(settings,   $scope,   player,   state) {
 
     $scope.vuDisabled = !settings.get('vu');
     $scope.repeat = settings.get('repeat');
     $scope.shuffle = settings.get('shuffle');
     $scope.basedir = process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME'];
     $scope.moddir = settings.get('moddir');
+    $scope.nectarineStream = settings.get('nectastream');
 
     $scope.hideVU = function() {
       settings.set('vu', !$scope.vuDisabled);
@@ -66,6 +68,13 @@ angular.module('cmod.ui.settings', [])
 
     $scope.changeModDir = function() {
       chooser.click();
+    };
+
+    $scope.changeStream = function() {
+      settings.set('nectastream', $scope.nectarineStream);
+      if(state.playing_nectarine) {
+        player.playNectarine($scope.nectarineStream);
+      }
     };
 
 }]);

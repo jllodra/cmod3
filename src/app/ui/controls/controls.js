@@ -2,11 +2,12 @@
 
 angular.module('cmod.ui.controls', [
   'cmod.player',
-  'cmod.playerState'
+  'cmod.playerState',
+  'cmod.ui.settings'
 ])
 .controller('cmodControlsCtrl',
-  [         'nwgui', 'player', 'state', '$window', '$rootScope', '$scope', '$state',
-    function(nwgui, player, state, $window, $rootScope, $scope, $state) {
+  [         'nwgui', 'player', 'state', '$window', '$rootScope', '$scope', '$state', 'settings',
+    function(nwgui, player, state, $window, $rootScope, $scope, $state, settings) {
       console.log("Controls controller");
 
       var win = nwgui.Window.get();
@@ -48,7 +49,10 @@ angular.module('cmod.ui.controls', [
 
       $scope.playNectarine = function() {
         $scope.stop();
-        player.playNectarine();
+        $scope.state.current_song = null;
+        $scope.state.current_song_path = null;
+        $scope.state.current_song_index = null;
+        player.playNectarine(settings.get('nectastream'));
         $state.go('info');
       };
 

@@ -18,11 +18,26 @@
         </label>
       </div>
       <hr/>
-      <div class="form-inline">
-        <label for="destPathInput">Save Modarchive downloaded files in: </label><br/>
-        <input style="width: 40%" id="destPathInput" type="text" ng-model="moddir" placeholder="Directory path" ng-click="changeModDir()" />
-        <input style="display: none;" id="destPathInputHidden" type="file" nwworkingdir="{{basedir}}" nwdirectory />
-      </div>
+      <form>
+        <div class="form-group">
+          <label for="destPathInput">Save Modarchive downloaded files in: </label><br/>
+          <input class="form-control" style="margin: 0 auto; width: 40%" id="destPathInput" type="text" ng-model="moddir" placeholder="Directory path" ng-click="changeModDir()" />
+          <input style="display: none;" id="destPathInputHidden" type="file" nwworkingdir="{{basedir}}" nwdirectory />
+        </div>
+      </form>
+      <hr/>
+      <form>
+        <div class="form-group">
+          <label for="nectarineStreams">Select Nectarine stream:</label>
+          <select ng-model="nectarineStream" ng-change="changeStream()" style="margin: 0 auto; width: 50%;" class="form-control" id="nectarineStreams">
+            <option value="http://privat.is-by.us:8000/necta192.mp3">DE Continuum's relay 192 mp3 (by Continuum - MP3 - 192 kbps)</option>
+            <option value="http://nectarine.from-de.com/necta192">DE stream (High bitrate) (by amigaman - MP3 - 192 kbps)</option>
+            <option value="http://necta-relay.mnus.de:8000/necta192.mp3">FR stream (High bitrate) (by minus - MP3 - 192 kbps)</option>
+            <option value="http://no.scenemusic.net:9000/necta">NO stream (by teddy - MP3 - 192 kbps)</option>
+            <option value="http://necta.jansenit.com:8000/necta192.mp3">UK stream (High bitrate) (by jansenra - MP3 - 192 kbps)</option>
+          </select>
+        </div>
+      </form>
     </div>
   </div>
 </div>

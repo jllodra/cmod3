@@ -83,25 +83,25 @@ div#header {
 table#playlist, table#search_results {
   border-radius: 5px;
 }
-table#playlist tr.selected_song {
-  color: white;
+tr.active_row {
+  background-color: #0D6957;
+  color: #fff;
+}
+div#main tr.active_row td:first-child::before,
+div#info tr.active_row td:first-child::before {
+  content: '🔈';
 }
 div#footer {
   background-color: black;
   color: #444;
   margin-top: 4px; padding-bottom: 0px;
 }
-div#main, div#modarchive, div#about {
+div#main, div#modarchive, div#about, div#info {
   overflow-y: scroll;
   padding-top: 10px;
   padding-bottom: 10px;
   padding-left: 40px;
   padding-right: 40px;
-}
-div#info {
-  overflow-y: scroll;
-  padding-top: 10px;
-  padding-bottom: 10px;
 }
 table td {
   white-space: nowrap;
@@ -157,6 +157,10 @@ table {
 }
 .table thead, .table tfoot {
   background-color: #24272A;
+}
+div#settings .form-control {
+  font-size: 11px;
+  height: 24px;
 }
 .progress {
   height: 12px;

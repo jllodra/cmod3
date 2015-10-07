@@ -3,58 +3,71 @@
   <div ng-show="state.playing_nectarine" class="row">
     <div class="col-xs-12">
       <div style="text-align: center">
-        <p>Playing Nectarine Demoscene Radio!</p>
-        <button class="btn btn-default" ng-click="refreshNectarineInfo()">
+        <img style="max-width: 100%; opacity: 0.85" class="img-rounded" src="images/nectarine2.png"/>
+        <br/>
+        <!--button class="btn btn-default" ng-click="refreshNectarineInfo()">
           <span class="glyphicon glyphicon-refresh"></span>
           Refresh info
-        </button>
+        </button-->
       </div>
       <br/>
       <table class="table table-condensed">
         <thead>
           <tr>
-            <th class="col-xs-5">Now playing</th>
-            <th class="col-xs-4">Artist</th>
-            <th class="col-xs-3">Requested by</th>
+            <th class="col-xs-1"></th>
+            <th class="col-xs-5">NOW PLAYING</th>
+            <th class="col-xs-3">ARTIST</th>
+            <th class="col-xs-2">REQUESTED BY</th>
+            <th class="col-xs-1">TIME</th>
           </tr>
         </thead>
         <tbody id="infoNectarine_now">
-          <tr ng-repeat="entry in state.nectarine_info.now">
-              <td>{{ entry.song }}</td>
-              <td>{{ entry.artist }}</td>
-              <td>{{ entry.requester }}</td>
+          <tr ng-repeat="entry in state.nectarine_info.now" class="active_row">
+            <td style="text-align:center;"></td>
+            <td>{{ entry.song }}</td>
+            <td>{{ entry.artist }}</td>
+            <td>{{ entry.requester }}</td>
+            <td>{{ entry.time }}</td>
           </tr>
         </tbody>
       </table>
       <table class="table table-condensed">
         <thead>
           <tr>
-            <th class="col-xs-5">Queue</th>
-            <th class="col-xs-4">Artist</th>
-            <th class="col-xs-3">Requested by</th>
+            <th class="col-xs-1"></th>
+            <th class="col-xs-5">QUEUE</th>
+            <th class="col-xs-3">ARTIST</th>
+            <th class="col-xs-2">REQUESTED BY</th>
+            <th class="col-xs-1">TIME</th>
           </tr>
         </thead>
         <tbody id="infoNectarine_queue">
           <tr ng-repeat="entry in state.nectarine_info.queue">
-              <td>{{ entry.song }}</td>
-              <td>{{ entry.artist }}</td>
-              <td>{{ entry.requester }}</td>
+            <td></td>
+            <td>{{ entry.song }}</td>
+            <td>{{ entry.artist }}</td>
+            <td>{{ entry.requester }}</td>
+            <td>{{ entry.time }}</td>
           </tr>
         </tbody>
       </table>
       <table class="table table-condensed">
         <thead>
           <tr>
-            <th class="col-xs-5">History</th>
-            <th class="col-xs-4">Artist</th>
-            <th class="col-xs-3">Requested by</th>
+            <th class="col-xs-1"></th>
+            <th class="col-xs-5">HISTORY</th>
+            <th class="col-xs-3">ARTIST</th>
+            <th class="col-xs-2">REQUESTED BY</th>
+            <th class="col-xs-1">TIME</th>
           </tr>
         </thead>
         <tbody id="infoNectarine_history">
           <tr ng-repeat="entry in state.nectarine_info.history">
-              <td>{{ entry.song }}</td>
-              <td>{{ entry.artist }}</td>
-              <td>{{ entry.requester }}</td>
+            <td></td>
+            <td>{{ entry.song }}</td>
+            <td>{{ entry.artist }}</td>
+            <td>{{ entry.requester }}</td>
+            <td>{{ entry.time }}</td>
           </tr>
         </tbody>
       </table>

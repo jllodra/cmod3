@@ -4,6 +4,12 @@
 
 <div id="modarchive" class="container-fluid" style="height: {{ height }}px">
 
+  <div class="row" style="margin-bottom: 8px;">
+    <div class="col-xs-12" style="text-align: center;">
+      <img style="max-width: 100%; opacity: 0.85" class="img-rounded" src="images/modarchive.png"/>
+    </div>
+  </div>
+
   <div class="row panel panel-default">
     <div class="panel-body">
     <div class="col-xs-5">
@@ -33,10 +39,10 @@
         <table id="search_results" class="table table-condensed table-hover">
           <thead>
             <tr>
-              <th class="col-xs-1" style="text-align:center;"><small>#</small></th>
+              <th class="col-xs-2" style="text-align:center;"><small># (ID)</small></th>
               <th class="col-xs-2" style="text-align:center;"><small>ARTIST</small></th>
               <th class="col-xs-4" style="text-align:center;"><small>SONG</small></th>
-              <th class="col-xs-4"><small>FILENAME</small></th>
+              <th class="col-xs-3"><small>FILENAME</small></th>
               <th class="col-xs-1"><small>SIZE</small></th>
               <th></th>
             </tr>
@@ -46,6 +52,7 @@
               ng-repeat="song in state.modarchive.search_results"
               ng-click="downloadSong($index, true)"
               ng-right-click="showOptions($index, $event)"
+              ng-class="{ active_row: ($index === state.modarchive.current_song_index) }"
               >
                 <td style="text-align:center;">{{ $index + 1 }} ({{ song.id }})</td>
                 <td style="text-align:center;">{{ song.artist || "-" }}</td>

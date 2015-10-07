@@ -5,8 +5,8 @@ angular.module('cmod.player', [
   'cmod.engine'
 ])
 .factory('player', [
-  'state', 'engine',
-  function(state, engine) {
+  'state', 'engine', '$timeout',
+  function(state, engine, $timeout) {
 
     var supported_formats = "mod s3m xm it mptm stm nst m15 stk wow ult 669 mtm med far mdl ams dsm amf okt dmf ptm psm mt2 dbm digi imf j2b gdm umx mo3 xpk ppm mmcmp".split(" ");
 
@@ -21,6 +21,8 @@ angular.module('cmod.player', [
     };
     // we should write a nectarine module/service
     var nectarine_endpoint = "https://www.scenemusic.net/demovibes/xml/queue/";
+
+    var refresh_timeout = null;
 
     return {
       load: function(file, callback) {
@@ -111,10 +113,10 @@ angular.module('cmod.player', [
         status.hasEnded = engine.status.stopped;
         return status.hasEnded;
       },
-      playNectarine: function() {
+      playNectarine: function(streamUrl) {
         try {
           var audioel = window.document.getElementById('audio');
-          audioel.src="http://privat.is-by.us:8000/necta192.mp3";
+          audioel.src=streamUrl;
           audioel.play();
           status.nectarine = true;
           state.playing_nectarine = true;
@@ -124,6 +126,8 @@ angular.module('cmod.player', [
         }
       },
       refreshNectarine: function() {
+        $timeout.cancel(refresh_timeout);
+        refresh_timeout = null;
         if(state.playing_nectarine) {
           var xhr = new window.XMLHttpRequest();
           xhr.onload = function(evt) {
@@ -137,15 +141,30 @@ angular.module('cmod.player', [
                 for(var k = 0, artists = []; k < artist.length; k++) {
                   artists.push(artist[k].innerHTML);
                 }
+                var song = list[j].getElementsByTagName('song')[0];
                 var entry = {
-                  song: list[j].getElementsByTagName('song')[0].innerHTML,
+                  song: song.innerHTML,
                   artist: artists.join('&'),
-                  requester: list[j].getElementsByTagName('requester')[0].innerHTML
+                  requester: list[j].getElementsByTagName('requester')[0].innerHTML,
+                  time: song.getAttribute('length')
                 };
+                if(lists[i] === 'now' && j === 0) {
+                  if(!refresh_timeout) {
+                    var playstart = new Date(list[j].getElementsByTagName('playstart')[0].textContent);
+                    var length = song.getAttribute('length').split(':');
+                    var min = parseInt(length[0], 10);
+                    var secs = parseInt(length[1], 10);
+                    var mms = (min*60+secs)*1000;
+                    var playend = new Date(playstart.getTime() + mms);
+                    var diffms = playend-(new Date());
+                    diffms += 5000; // 5 extra safe secs
+                    refresh_timeout = $timeout(this.refreshNectarine.bind(this), diffms);
+                  }
+                }
                 state.nectarine_info[lists[i]].push(entry);
               }
             }
-          };
+          }.bind(this);
           xhr.open('GET', nectarine_endpoint, true);
           xhr.send(null);
         }

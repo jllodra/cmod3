@@ -30,7 +30,7 @@
     "transparent": false,
     "exe_icon": "icon.png"
   },
-  "version": "1.6.0",
+  "version": "1.7.0",
   "inject-js-start": "",
   "main": "index.html",
   "node-main": "",

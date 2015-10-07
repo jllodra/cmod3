@@ -11,9 +11,9 @@ Watch cmod3 in action here: <https://www.youtube.com/watch?v=ZDABiY7pAk0>.
 
 ## Download cmod3
 
-* Mac OSX x64: <http://herotyc.untergrund.net/cmod3/cmod3-1.6.0-osx64.zip>
-* Windows x64: <http://herotyc.untergrund.net/cmod3/cmod3-1.6.0-win64.zip>
-* Linux x64: <http://herotyc.untergrund.net/cmod3/cmod3-1.6.0-linux64.zip>
+* Mac OSX x64: <http://herotyc.untergrund.net/cmod3/cmod3-1.7.0-osx64.zip>
+* Windows x64: <http://herotyc.untergrund.net/cmod3/cmod3-1.7.0-win64.zip>
+* Linux x64: <http://herotyc.untergrund.net/cmod3/cmod3-1.7.0-linux64.zip>
 
 ## Features
 
@@ -24,7 +24,7 @@ Watch cmod3 in action here: <https://www.youtube.com/watch?v=ZDABiY7pAk0>.
 * **Browse and download from Modarchive!**
 * Repeat and shuffle modes
 * Classic VU meter
-* Keyboard shortcuts: OSX multimedia keys, <space> play/pause
+* Keyboard shortcuts: OSX multimedia keys, <space> play/pause, num 1-5
 
 ## How does cmod3 work?
 
@@ -35,12 +35,14 @@ cmod3 is entirely written in **Javascript**, works on node-webkit (nwjs) and use
 * Can you draw? An app icon is needed.
 * Audio is being decoded on the main thread, which is not ideal, it should be done on a background worker/thread and see if it performs better.
 * ~~Settings are not being saved yet.~~
-* ~~Keyboard shortcuts.~~
+* ~~Keyboard shortcuts (1, 2, 3, 4, 5 and mediakeys).~~
 * Adding an AnalyserNode could enable fft visualization.
 * Volume control using a GainNode.
-* Choose a Nectarine stream among a list of streams.
+* ~~Choose a Nectarine stream among a list of streams.~~
 
 ## Versions
+
+07/10/2015: 1.7.0 - nectarine and ui enhancements
 
 06/10/2015: 1.6.0 - bugfixes and tons of enhancements
 

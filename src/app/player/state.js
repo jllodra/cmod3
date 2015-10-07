@@ -24,7 +24,8 @@ angular.module('cmod.playerState', [])
       current_type: "",
       current_text: "",
       current_request: "",
-      loading_text: ""
+      loading_text: "",
+      current_song_index: null
     }
   };
 

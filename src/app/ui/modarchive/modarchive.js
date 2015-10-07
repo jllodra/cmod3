@@ -17,7 +17,6 @@ angular.module('cmod.ui.modarchive', [
       var REQUEST_SONG = "http://api.modarchive.org/xml-tools.php?key=" + config.modarchive + "&request=search&type=filename_or_songtitle&query=";
 
       $scope.state = state;
-      $scope.current_item_index_context_menu = null;
 
       $scope.searchButton = function(type) {
 
@@ -90,6 +89,7 @@ angular.module('cmod.ui.modarchive', [
       };
 
       $scope.downloadSong = function(i, andPlay) {
+        $scope.state.modarchive.current_song_index = i;
         var module = $scope.state.modarchive.search_results[i];
         console.log(module);
         if(andPlay) {
@@ -165,13 +165,13 @@ angular.module('cmod.ui.modarchive', [
       menu.append(new nwgui.MenuItem({ label: 'Download in background' }));
       menu.items[0].click = function() {
         $scope.$apply(function() {
-          var module = $scope.state.modarchive.search_results[$scope.current_item_index_context_menu];
+          var module = $scope.state.modarchive.search_results[$scope.state.modarchive.current_song_index];
           toastr.info(module.filename, 'Background downloading:');
-          $scope.downloadSong($scope.current_item_index_context_menu, false);
+          $scope.downloadSong($scope.state.modarchive.current_song_index, false);
         });
       };
       $scope.showOptions = function($index, $event) {
-        $scope.current_item_index_context_menu = $index;
+        $scope.state.modarchive.current_song_index = $index;
         menu.popup($event.pageX, $event.pageY);
       };
 
