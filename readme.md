@@ -5,6 +5,7 @@
 cmod3 is a module music player.
 
 ![cmod3](https://raw.githubusercontent.com/jllodra/cmod3/master/screenshot.png "cmod3")
+![cmod3](https://raw.githubusercontent.com/jllodra/cmod3/master/screenshot2.png "cmod3")
 
 Don't you know what tracked music is? [Look here](http://en.wikipedia.org/wiki/Music_tracker).
 Watch cmod3 in action here: <https://www.youtube.com/watch?v=ZDABiY7pAk0>.
