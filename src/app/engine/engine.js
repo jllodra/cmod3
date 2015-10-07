@@ -113,6 +113,10 @@ angular.module('cmod.engine', [])
 
     function pause() {
       status.paused = !status.paused;
+      if(status.paused) {
+        leftVU = 0;
+        rightVU = 0;
+      }
     }
 
     function getVU() {
