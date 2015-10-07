@@ -21,10 +21,8 @@
           </div>
         </li>
         <li>
-          <div id="vol" ng-click="vochange($event)">
-            <div id="volbar" class="vo">
-              <div class="vo_overlay" style="transform: scaleX({{ vo }})"></div>
-            </div>
+          <div id="vol">
+            <input id="volbar" class="vo" type="range" ng-model="vo" min="0" max="100" ng-change="vochange($event)"/>
           </div>
         </li>
       </ul>
