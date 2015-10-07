@@ -8,7 +8,7 @@ cmod3 is a module music player.
 
 * Mac OSX x64: <http://herotyc.untergrund.net/cmod3/cmod3-1.8.0-osx64.zip>
 * Windows x64: <http://herotyc.untergrund.net/cmod3/cmod3-1.8.0-win64.zip>
-* Linux x64: <http://herotyc.untergrund.net/cmod3/cmod3-1.8.0-linux64.zip>
+* Linux x64: <http://herotyc.untergrund.net/cmod3/cmod3-1.git 8.0-linux64.zip>
 
 ![cmod3](https://raw.githubusercontent.com/jllodra/cmod3/master/screenshot.png "cmod3")
 ![cmod3](https://raw.githubusercontent.com/jllodra/cmod3/master/screenshot2.png "cmod3")
@@ -33,13 +33,13 @@ cmod3 is entirely written in **Javascript**, works on node-webkit (nwjs) and use
 
 ## Things yet to do
 
-* Can you draw? An app icon is needed.
-* Audio is being decoded on the main thread, which is not ideal, it should be done on a background worker/thread and see if it performs better.
 * ~~Settings are not being saved yet.~~
 * ~~Keyboard shortcuts (1, 2, 3, 4, 5 and mediakeys).~~
-* Adding an AnalyserNode could enable fft visualization.
-* Volume control using a GainNode.
+* ~~Volume control using a GainNode.~~
 * ~~Choose a Nectarine stream among a list of streams.~~
+* Can you draw? An app icon is needed.
+* Adding an AnalyserNode could enable fft visualization.
+* Audio is being decoded on the main thread, which is not ideal, it should be done on a background worker/thread and see if it performs better.
 
 ## Versions
 
