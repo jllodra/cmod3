@@ -43,6 +43,8 @@ cmod3 is entirely written in **Javascript**, works on node-webkit (nwjs) and use
 
 ## Versions
 
+08/10/2015: 1.8.0 - gain control
+
 07/10/2015: 1.7.0 - nectarine and ui enhancements
 
 06/10/2015: 1.6.0 - bugfixes and tons of enhancements
