@@ -5,8 +5,8 @@ angular.module('cmod.player', [
   'cmod.engine'
 ])
 .factory('player', [
-  'state', 'engine', '$timeout',
-  function(state, engine, $timeout) {
+  'state', 'engine', '$timeout', '$rootScope',
+  function(state, engine, $timeout, $rootScope) {
 
     var supported_formats = "mod s3m xm it mptm stm nst m15 stk wow ult 669 mtm med far mdl ams dsm amf okt dmf ptm psm mt2 dbm digi imf j2b gdm umx mo3 xpk ppm mmcmp".split(" ");
 
@@ -62,6 +62,19 @@ angular.module('cmod.player', [
         if(buffer !== null) {
           engine.setPosition(seconds);
         }
+      },
+      getVolume: function() {
+        return engine.getVolume();
+      },
+      setVolume: function(v) {
+        engine.setVolume(v);
+        $rootScope.$broadcast('vochanged');
+      },
+      volumeUp: function(by) {
+        this.setVolume(engine.status.volume+by);
+      },
+      volumeDown: function(by) {
+        this.setVolume(engine.status.volume-by);
       },
       loadAndPlay: function(file) {
         this.load(file, function() {
