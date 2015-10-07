@@ -28,14 +28,6 @@ angular.module('cmod.ui.controls', [
       };
 
       $scope.play = function() {
-        /*if(state.current_song_index === null && state.playlist.length > 0) {
-          state.current_song = state.playlist[0];
-          state.current_song_path = state.playlist[0].path;
-          state.current_song_index = 0;
-          player.loadAndPlay(state.playlist[0].path);
-        } else {
-          player.play();
-        }*/
         player.play();
       };
 
@@ -134,6 +126,12 @@ angular.module('cmod.ui.controls', [
           }
           if (e.keyCode == 53) {
             $state.go('about');
+          }
+          if (e.keyCode == 187 || e.keyCode == 107) {
+            player.volumeUp(0.1);
+          }
+          if (e.keyCode == 189 || e.keyCode == 109) {
+            player.volumeDown(0.1);
           }
         }
       }, false);

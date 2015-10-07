@@ -5,6 +5,12 @@ angular.module('cmod.engine', [])
   function engine() {
     var audioContext = new window.AudioContext();
     var processNode = null;
+    var mp3stream = audioContext.createMediaElementSource(window.document.querySelector('audio'));
+    //var analyserNodeCh1 = audioContext.createAnalyser();
+    //var analyserNodeCh2 = audioContext.createAnalyser();
+    var gainNode = audioContext.createGain();
+    mp3stream.connect(gainNode);
+    gainNode.connect(audioContext.destination);
     var isConnected = false;
 
     var maxFramesPerChunk = 4096;
@@ -18,7 +24,8 @@ angular.module('cmod.engine', [])
 
     var status = {
       stopped: true,
-      paused: false
+      paused: false,
+      volume: 100
     };
 
     function loadBuffer(buffer) {
@@ -63,12 +70,18 @@ angular.module('cmod.engine', [])
     }
 
     function connect() {
-      if(processNode !== null)
-        processNode.connect(audioContext.destination);
+      //console.info("attempt connecting");
+      if(processNode !== null) {
+        //console.info("connecting");
+        processNode.connect(gainNode);
+        //processNode.connect(analyserNode);
+      }
     }
 
     function disconnect() {
+      //console.info("attempt disconnecting");
       if(processNode !== null) {
+        //console.info("disconnecting");
         processNode.disconnect();
         isConnected = false;
       }
@@ -76,7 +89,7 @@ angular.module('cmod.engine', [])
 
     function play() {
       if(!isConnected) {
-        connect(audioContext.destination);
+        connect(/*audioContext.destination*/); // ? param
         isConnected = true;
       }
       status.stopped = false;
@@ -117,6 +130,16 @@ angular.module('cmod.engine', [])
         leftVU = 0;
         rightVU = 0;
       }
+    }
+
+    function setVolume(v) {
+      v = Math.min(Math.max(v, 0), 1);
+      status.volume = v;
+      gainNode.gain.value = v;
+    }
+
+    function getVolume() {
+      return status.volume;
     }
 
     function getVU() {
@@ -185,6 +208,8 @@ angular.module('cmod.engine', [])
       unload: unload,
       getPosition: getPosition,
       setPosition: setPosition,
+      getVolume: getVolume,
+      setVolume: setVolume,
       metadata: readMetadata,
       play: play,
       stop: stop,
