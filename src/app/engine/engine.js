@@ -29,6 +29,7 @@ angular.module('cmod.engine', [])
     };
 
     function loadBuffer(buffer) {
+      //512 //4096 //8192 //16384 //
       processNode = audioContext.createScriptProcessor(4096, 0, 2);
       processNode.onaudioprocess = onaudioprocess;
       byteArray = new Int8Array(buffer);

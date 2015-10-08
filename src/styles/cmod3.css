@@ -166,6 +166,9 @@ pre {
   color: inherit;
   background-color: #242627;
   font-size: 11px;
+  /* center */
+  display: table;
+  margin: 0 auto;
 }
 hr {
   width: 33%;
