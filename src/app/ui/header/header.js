@@ -13,7 +13,7 @@ angular.module('cmod.ui.header', [
       var requestId;
 
       var drops = 0;
-      var max_drops = /*4*/ 0;
+      var max_drops = 4 /*0*/;
 
       $scope.vuleft = 1;
       $scope.vuright = 1;
