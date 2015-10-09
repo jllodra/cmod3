@@ -17,9 +17,15 @@ angular.module('cmod.ui.header', [
 
       $scope.vo = 100;
 
+      var gleft = 1;
+      var gright = 1;
       // angularjs shortcut
       var vuleftel = document.getElementById('vul_overlay');
       var vurightel = document.getElementById('vur_overlay');
+
+      // fft arrays
+      var arrayl = new Uint8Array(engine.analyzerNodeCh1.frequencyBinCount);
+      var arrayr = new Uint8Array(engine.analyzerNodeCh2.frequencyBinCount);
 
       $scope.minimize = function() {
         nwgui.Window.get().minimize();
@@ -64,16 +70,16 @@ angular.module('cmod.ui.header', [
         var left = 0;
         var right = 0;
 
-        var array = new Uint8Array(engine.analyzerNodeCh1.frequencyBinCount);
-        engine.analyzerNodeCh1.getByteFrequencyData(array);
-        var array2 = new Uint8Array(engine.analyzerNodeCh2.frequencyBinCount);
-        engine.analyzerNodeCh2.getByteFrequencyData(array2);
-        for (var i = 0, length = array.length/4; i < length; i++) {
-            left += array[i];
-            right += array2[i];
+        //var array = new Uint8Array(engine.analyzerNodeCh1.frequencyBinCount);
+        engine.analyzerNodeCh1.getByteFrequencyData(arrayl);
+        //var array2 = new Uint8Array(engine.analyzerNodeCh2.frequencyBinCount);
+        engine.analyzerNodeCh2.getByteFrequencyData(arrayr);
+        for (var i = 0, l = arrayl.length/4; i < l; i++) {
+            left += arrayl[i];
+            right += arrayr[i];
         }
-        left = left/length/255;
-        right = right/length/255;
+        left = left/l/255;
+        right = right/l/255;
 
         left = Math.abs(left - 1);
         right = Math.abs(right - 1);
@@ -92,8 +98,12 @@ angular.module('cmod.ui.header', [
         //left = (left == Infinity) ? 1 : left/300;
         //right = (right == Infinity) ? 1 : right/300;
 
-        vuleftel.style.transform = "scaleX(" +  left + ")";
-        vurightel.style.transform = "scaleX(" +  right + ")";
+        if(left !== gleft || right !== gright) {
+          gleft = left;
+          gright = right;
+          vuleftel.style.transform = "scaleX(" +  left + ")";
+          vurightel.style.transform = "scaleX(" +  right + ")";
+        }
 
         /*if(left !== $scope.vuleft || right !== $scope.vuright) {
           $scope.$apply(function() {
