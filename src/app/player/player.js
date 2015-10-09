@@ -10,8 +10,8 @@ angular.module('cmod.player', [
 
     var supported_formats = "mod s3m xm it mptm stm nst m15 stk wow ult 669 mtm med far mdl ams dsm amf okt dmf ptm psm mt2 dbm digi imf j2b gdm umx mo3 xpk ppm mmcmp".split(" ");
 
-    var buffer = null; // fa falta?
-    var metadata = null; // metadata from last loaded file, fa falta?
+    var buffer = null; // fa falta? // TODO
+    var metadata = null; // metadata from last loaded file, fa falta? TODO: next thing todo check this
     var status = {
       playing: false,
       stopped: true,
@@ -19,7 +19,7 @@ angular.module('cmod.player', [
       hasEnded: false, // song did end
       nectarine: true // streaming nectarine
     };
-    // we should write a nectarine module/service
+    // we should write a nectarine module&service TODO
     var nectarine_endpoint = "https://www.scenemusic.net/demovibes/xml/queue/";
 
     var refresh_timeout = null;
@@ -35,7 +35,7 @@ angular.module('cmod.player', [
             buffer = xhr.response;
             engine.unload();
             engine.loadBuffer(buffer);
-            callback();
+            process.nextTick(callback); // TODO: temp solution, works like a charm but use web workers
           }
         };
         xhr.send(null);
@@ -77,6 +77,7 @@ angular.module('cmod.player', [
         this.setVolume(engine.status.volume-by);
       },
       loadAndPlay: function(file) {
+        console.info("LOAD AND PLAY");
         this.load(file, function() {
           this.play();
         }.bind(this));
@@ -128,6 +129,7 @@ angular.module('cmod.player', [
       },
       playNectarine: function(streamUrl) {
         try {
+          // TODO: use the MediaElement please...
           var audioel = window.document.getElementById('audio');
           audioel.src=streamUrl;
           audioel.play();
@@ -165,9 +167,10 @@ angular.module('cmod.player', [
                   artists.push(artist[k].innerHTML);
                 }
                 var song = list[j].getElementsByTagName('song')[0];
+                var artiststext = artists.join('&');
                 var entry = {
                   song: song.textContent.length > 45 ? song.textContent.substring(0,45) + '…' : song.textContent,
-                  artist: artists.join('&'),
+                  artist: artiststext.length > 24 ? artiststext.substring(0,24) + '…' : artiststext,
                   requester: list[j].getElementsByTagName('requester')[0].innerHTML,
                   time: song.getAttribute('length')
                 };
@@ -200,6 +203,7 @@ angular.module('cmod.player', [
       },
       stopNectarine: function() {
         try {
+          //TODO: Use the MediaElement from the engine instead of the tag
           var audioel = window.document.getElementById('audio');
           audioel.pause();
           audioel.src='';

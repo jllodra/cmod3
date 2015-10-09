@@ -13,7 +13,7 @@ angular.module('cmod.ui.header', [
       var requestId;
 
       var drops = 0;
-      var max_drops = 4 /*0*/;
+      var max_drops = 4 /*0*/; // TODO: add a drop frame user setting!
 
       $scope.vuleft = 1;
       $scope.vuright = 1;
@@ -32,9 +32,7 @@ angular.module('cmod.ui.header', [
       };
 
       $scope.vochange = function() {
-        //console.info("vochange");
         player.setVolume($scope.vo/100);
-        //console.info($scope.vo);
       };
 
       $rootScope.$on('vochanged', function() {
@@ -49,15 +47,6 @@ angular.module('cmod.ui.header', [
           $scope.vuleft = 1;
           $scope.vuright = 1;
         }
-        /* else {
-          window.cancelAnimationFrame(requestId);
-          $scope.vuleft = 1;
-          $scope.vuright = 1;
-          //$scope.$apply(function() {
-            $scope.vuleft = left;
-            $scope.vuright = right;
-          //});
-        }*/
       });
 
       function updateUI() {
@@ -70,19 +59,34 @@ angular.module('cmod.ui.header', [
         }
         drops = 0;
 
-        var left = 1;
-        var right = 1;
-        if(!player.hasEnded()) {
-          //window.performance.mark('log10_start');
-          //left = -20*Math.log10(Math.abs(engine.getVU().l));
-          //right = -20*Math.log10(Math.abs(engine.getVU().r));
-          left = -20*Math.log(Math.abs(engine.getVU().l))/Math.LN10;
-          right = -20*Math.log(Math.abs(engine.getVU().r))/Math.LN10;
-          //window.performance.mark('log10_done');
-          //window.performance.measure('log10', 'log10_start', 'log10_done');
-          left = (left == Infinity) ? 1 : left/170;
-          right = (right == Infinity) ? 1 : right/170;
+        var left = 0;
+        var right = 0;
+
+        var analyserNodeCh1 = engine.analyzerNodeCh1;
+        var analyserNodeCh2 = engine.analyzerNodeCh2;
+
+        var array = new Uint8Array(analyserNodeCh1.frequencyBinCount);
+        analyserNodeCh1.getByteFrequencyData(array);
+        var array2 = new Uint8Array(analyserNodeCh2.frequencyBinCount);
+        analyserNodeCh2.getByteFrequencyData(array2);
+        for (var i = 0, length = array.length; i < length; i++) {
+            left += array[i];
+            right += array2[i];
         }
+        left = left/length/256;
+        right = right/length/256;
+
+        left = -20*Math.log(Math.abs(left))/Math.LN10;
+        right = -20*Math.log(Math.abs(right))/Math.LN10;
+        //left = -100*Math.log(Math.abs(left))/Math.LN10;
+        //right = -100*Math.log(Math.abs(right))/Math.LN10;
+        //window.performance.mark('log10_done');
+        //window.performance.measure('log10', 'log10_start', 'log10_done');
+        left = (left == Infinity) ? 1 : left/170;
+        right = (right == Infinity) ? 1 : right/170;
+        //left = (left == Infinity) ? 1 : left/300;
+        //right = (right == Infinity) ? 1 : right/300;
+
         if(left !== $scope.vuleft || right !== $scope.vuright) {
           $scope.$apply(function() {
             $scope.vuleft = left;
