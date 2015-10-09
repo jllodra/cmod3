@@ -2,21 +2,27 @@
 <html ng-app="cmod">
   <head>
     <meta charset="utf-8"/>
-    <script src="lib/libopenmpt-0.2.5602_opt2.js"></script>
     <link rel="stylesheet" href="bootstrap/dist/css/bootstrap-slate.min.css">
     <link rel="stylesheet" href="styles/cmod3.css">
     <script>
       "use strict";
       var pkg = require('./package.json');
       document.title = "cmod3 v" + pkg.version;
-      window.ompt = Module;
       // prevent logging
       console.log = function(){};
       // info is the new logging for engine
       console.info = function(){};
     </script>
-
     <link rel="stylesheet" type="text/css" href="bower_components/angular-toastr/dist/angular-toastr.min.css" />
+  </head>
+
+  <body ng-controller="cmodAppCtrl">
+    <audio id="audio" src=""></audio>
+    <div class="container-fluid" style="padding: 0;">
+      <ng-include src="'app/ui/header/header.tpl.html'"></ng-include>
+      <div ui-view></div>
+      <ng-include src="'app/ui/controls/controls.tpl.html'"></ng-include>
+    </div>
 
     <script src="bower_components/angular/angular.min.js"></script>
     <script src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
@@ -35,14 +41,11 @@
     <script src="app/ui/info/info.js"></script>
     <script src="app/ui/modarchive/modarchive.js"></script>
     <script src="app/ui/settings/settings.js"></script>
-  </head>
 
-  <body ng-controller="cmodAppCtrl">
-    <audio id="audio" src=""></audio>
-    <div class="container-fluid" style="padding: 0;">
-      <ng-include src="'app/ui/header/header.tpl.html'"></ng-include>
-      <div ui-view></div>
-      <ng-include src="'app/ui/controls/controls.tpl.html'"></ng-include>
-    </div>
+    <script src="lib/libopenmpt-0.2.5602_opt2.js"></script>
+    <script>
+      window.ompt = Module;
+    </script>
+
   </body>
 </html>

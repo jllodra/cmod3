@@ -83,8 +83,8 @@ angular.module('cmod', [
       }, false);
 }])
 .controller('cmodAppCtrl',
-  [          'nwgui', 'player', '$rootScope', '$scope',
-    function (nwgui, player, $rootScope, $scope) {
+  [          'nwgui', 'player', '$rootScope', '$scope', 
+    function (nwgui, player, $rootScope, $scope /*utils*/) {
       console.log("cmodAppCtrl");
 }])
 .directive('ngRightClick', function($parse) {

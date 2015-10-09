@@ -3,11 +3,12 @@
 angular.module('cmod.ui.playlist', [
   'cmod.player',
   'cmod.playerState',
-  'cmod.ui.settings'
+  'cmod.ui.settings',
+  'cmod.utils'
 ])
 .controller('cmodPlaylistCtrl',
-  [         'nwgui', 'player', 'state', 'settings', '$rootScope', '$scope', '$state',
-    function(nwgui, player, state, settings, $rootScope, $scope, $state) {
+  [         'nwgui', 'player', 'state', 'settings', '$rootScope', '$scope', '$state', 'utils', // We pre-load utils to avoid unnecessary future stuttering
+    function(nwgui, player, state, settings, $rootScope, $scope, $state, utils) {
       console.log("playlist ctrl!");
 
       $scope.state = state;
