@@ -18,12 +18,16 @@ angular.module('cmod.ui.controls', [
 
       $scope.playOrPause = function() {
         var status = player.getStatus();
-        if(status.stopped) {
-          player.play();
-        } else if(status.playing) {
-          player.pause();
-        } else if(status.paused) {
-          player.pause();
+        if($scope.state.playing_nectarine) {
+          player.stop();
+        } else {
+          if(status.stopped) {
+            player.play();
+          } else if(status.playing) {
+            player.pause();
+          } else if(status.paused) {
+            player.pause();
+          }
         }
       };
 

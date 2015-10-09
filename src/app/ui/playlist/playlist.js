@@ -167,7 +167,9 @@ angular.module('cmod.ui.playlist', [
       if(!$rootScope.playnextcleanup) {
         $rootScope.playnextcleanup = $rootScope.$on('playnext', function() {
           console.log("playnext recieved");
-          $scope.playNext(true);
+          if(!$scope.state.playing_nectarine) {
+            $scope.playNext(true);
+          }
         });
         /*$scope.$on('$destroy', function() {
           playnextcleanup();
@@ -177,7 +179,9 @@ angular.module('cmod.ui.playlist', [
       if(!$rootScope.playprevcleanup) {
         $rootScope.playprevcleanup = $rootScope.$on('playprev', function() {
           console.log("playprev recieved");
-          $scope.playPrev(true);
+          if(!$scope.state.playing_nectarine) {
+            $scope.playPrev(true);
+          }
         });
         /*$scope.$on('$destroy', function() {
           playprevcleanup();

@@ -20,8 +20,8 @@
           <span class="glyphicon glyphicon-file"></span>
           Add file(s)
         </button-->
-        <input style="display: none" id="fileDialog" type="file"/>
-        <button class="btn btn-default" ng-click="playNectarine()">
+        <!--<input style="display: none" id="fileDialog" type="file"/>-->
+        <button class="btn btn-default" ng-click="playNectarine()" ng-class="state.playing_nectarine ? 'disabled' : ''">
           <span class="glyphicon glyphicon-cd" ></span>
           Play Nectarine Radio
         </button>
