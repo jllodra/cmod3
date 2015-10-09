@@ -5,37 +5,31 @@ angular.module('cmod.engine', [])
   function engine() {
 
     var audioContext = new window.AudioContext();
+
+    var maxFramesPerChunk = 4096;
+
     var processNode = audioContext.createScriptProcessor(maxFramesPerChunk/*4096*//*8192*//*16384*/, 0, 2);
     var mp3stream = audioContext.createMediaElementSource(window.document.querySelector('audio'));
-
     var gainNode = audioContext.createGain();
     var safeGainNode = audioContext.createGain(); // we'll eliminate the need of this with a worker
-
     var splitter = audioContext.createChannelSplitter();
-
     var analyserNodeCh1 = audioContext.createAnalyser();
     analyserNodeCh1.smoothingTimeConstant = 0.3;
     analyserNodeCh1.fftSize = 64;
     var analyserNodeCh2 = audioContext.createAnalyser();
     analyserNodeCh2.smoothingTimeConstant = 0.3;
     analyserNodeCh2.fftSize = 64;
-
     processNode.connect(gainNode);
     mp3stream.connect(gainNode);
-
     gainNode.connect(safeGainNode);
-
     safeGainNode.connect(audioContext.destination);
     safeGainNode.connect(splitter);
-
     splitter.connect(analyserNodeCh1, 0, 0);
     splitter.connect(analyserNodeCh2, 1, 0);
 
-
-    var isConnected = false;
+    var isConnected = false; // TODO: not used
 
     //var maxFramesPerChunk = 512;
-    var maxFramesPerChunk = 4096;
     var byteArray = null;
     var filePtr = null;
     var memPtr = null;
@@ -70,18 +64,11 @@ angular.module('cmod.engine', [])
           framesPerChunk,
           leftBufferPtr,
           rightBufferPtr);
-        //if (actualFramesPerChunk == 0) {
-          //ended = true;
-        //}
         var rawAudioLeft = ompt.HEAPF32.subarray(leftBufferPtr / 4, leftBufferPtr / 4 + actualFramesPerChunk);
         var rawAudioRight = ompt.HEAPF32.subarray(rightBufferPtr / 4, rightBufferPtr / 4 + actualFramesPerChunk);
-        //leftVU = 0;
-        //rightVU = 0;
         for (i = 0; i < actualFramesPerChunk; ++i) {
           outputL[framesRendered + i] = rawAudioLeft[i];
           outputR[framesRendered + i] = rawAudioRight[i];
-          //leftVU += rawAudioLeft[i];
-          //rightVU += rawAudioRight[i];
         }
         for (i = actualFramesPerChunk; i < framesPerChunk; ++i) {
           outputL[framesRendered + i] = 0;
@@ -89,8 +76,6 @@ angular.module('cmod.engine', [])
         }
         framesToRender -= framesPerChunk;
         framesRendered += framesPerChunk;
-        //leftVU = leftVU / framesPerChunk;
-        //rightVU = rightVU / framesPerChunk;
         if(actualFramesPerChunk === 0) {
           end();
         }
@@ -99,7 +84,6 @@ angular.module('cmod.engine', [])
 
     function loadBuffer(buffer) {
       console.info("loadBuffer");
-
       byteArray = new Int8Array(buffer);
       filePtr = ompt._malloc(byteArray.byteLength);
       ompt.HEAPU8.set(byteArray, filePtr);
