@@ -62,13 +62,10 @@ angular.module('cmod.ui.header', [
         var left = 0;
         var right = 0;
 
-        var analyserNodeCh1 = engine.analyzerNodeCh1;
-        var analyserNodeCh2 = engine.analyzerNodeCh2;
-
-        var array = new Uint8Array(analyserNodeCh1.frequencyBinCount);
-        analyserNodeCh1.getByteFrequencyData(array);
-        var array2 = new Uint8Array(analyserNodeCh2.frequencyBinCount);
-        analyserNodeCh2.getByteFrequencyData(array2);
+        var array = new Uint8Array(engine.analyzerNodeCh1.frequencyBinCount);
+        engine.analyzerNodeCh1.getByteFrequencyData(array);
+        var array2 = new Uint8Array(engine.analyzerNodeCh2.frequencyBinCount);
+        engine.analyzerNodeCh2.getByteFrequencyData(array2);
         for (var i = 0, length = array.length; i < length; i++) {
             left += array[i];
             right += array2[i];
