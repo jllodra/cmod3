@@ -48,9 +48,13 @@ angular.module('cmod.player', [
           // TODO: check possible errors
           if(xhr.response) {
             var buffer = xhr.response;
-            metadata = engine.metadata(buffer);
-            metadata.path = file;
-            callback(metadata);
+            //metadata = engine.metadata(buffer);
+            engine.readMetadataAsync(buffer, function(metadata) {
+              metadata.path = file;
+              callback(metadata);
+            });
+            //metadata.path = file;
+            //callback(metadata);
           }
         };
         xhr.send(null);

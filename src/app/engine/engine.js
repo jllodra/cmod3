@@ -4,6 +4,18 @@ angular.module('cmod.engine', [])
 .factory('engine', [ //'ompt',
   function engine() {
 
+    var worker = new Worker("app/engine/worker.js");
+    var workeridmsg = 0;
+    var workermessages = {};
+    worker.onmessage = function (e) {
+      if(e.data.command === 'readMetadata') {
+        console.warn(e.data.command + ": worker response");
+        console.warn(e.data.id);
+        workermessages[e.data.id](e.data.data);
+        delete workermessages[e.data.id];
+      }
+    };
+
     var audioContext = new window.AudioContext();
 
     var maxFramesPerChunk = 4096;
@@ -29,7 +41,6 @@ angular.module('cmod.engine', [])
 
     var isConnected = false; // TODO: not used
 
-    //var maxFramesPerChunk = 512;
     var byteArray = null;
     var filePtr = null;
     var memPtr = null;
@@ -84,6 +95,10 @@ angular.module('cmod.engine', [])
 
     function loadBuffer(buffer) {
       console.info("loadBuffer");
+      /*worker.postMessage({
+        command: "loadBuffer",
+        data: buffer
+      });*/
       byteArray = new Int8Array(buffer);
       filePtr = ompt._malloc(byteArray.byteLength);
       ompt.HEAPU8.set(byteArray, filePtr);
@@ -92,27 +107,14 @@ angular.module('cmod.engine', [])
       rightBufferPtr = ompt._malloc(4 * maxFramesPerChunk);
     }
 
-    function readMetadata(buffer) {
-      console.info("readMetadata");
-      var byteArray = new Int8Array(buffer);
-      var filePtr = ompt._malloc(byteArray.byteLength);
-      ompt.HEAPU8.set(byteArray, filePtr);
-      var memPtr = ompt._openmpt_module_create_from_memory(filePtr, byteArray.byteLength, 0, 0, 0);
-      var metadata = {};
-      var metadata_keys = ompt.Pointer_stringify(ompt._openmpt_module_get_metadata_keys(memPtr));
-      var keys = metadata_keys.split(';');
-      var keyNameBuffer = 0;
-      for (var i = 0; i < keys.length; i++) {
-        keyNameBuffer = ompt._malloc(keys[i].length + 1);
-        ompt.writeStringToMemory(keys[i], keyNameBuffer);
-        metadata[keys[i]] = ompt.Pointer_stringify(ompt._openmpt_module_get_metadata(memPtr, keyNameBuffer));
-        ompt._free(keyNameBuffer);
-      }
-      metadata.duration = ompt._openmpt_module_get_duration_seconds(memPtr);
-      ompt._openmpt_free_string(metadata_keys);
-      ompt._free(filePtr);
-      ompt._openmpt_module_destroy(memPtr);
-      return metadata;
+    function readMetadataAsync(buffer, callback) {
+      console.warn("readMetadataAsync");
+      workermessages[workeridmsg] = callback;
+      worker.postMessage({
+        command: "readMetadata",
+        id: workeridmsg++,
+        data: buffer
+      });
     }
 
     function getPosition() {
@@ -199,7 +201,8 @@ angular.module('cmod.engine', [])
       setPosition: setPosition,
       getVolume: getVolume,
       setVolume: setVolume,
-      metadata: readMetadata,
+      //metadata: readMetadata,
+      readMetadataAsync: readMetadataAsync,
       play: play,
       stop: stop,
       pause: pause
