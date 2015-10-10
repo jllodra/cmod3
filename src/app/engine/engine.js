@@ -14,11 +14,11 @@ angular.module('cmod.engine', [])
     var safeGainNode = audioContext.createGain(); // we'll eliminate the need of this with a worker
     var splitter = audioContext.createChannelSplitter();
     var analyserNodeCh1 = audioContext.createAnalyser();
-    analyserNodeCh1.smoothingTimeConstant = 0.3;
-    analyserNodeCh1.fftSize = 64;
+    analyserNodeCh1.smoothingTimeConstant = 0.8;
+    analyserNodeCh1.fftSize = 32;
     var analyserNodeCh2 = audioContext.createAnalyser();
-    analyserNodeCh2.smoothingTimeConstant = 0.3;
-    analyserNodeCh2.fftSize = 64;
+    analyserNodeCh2.smoothingTimeConstant = 0.8;
+    analyserNodeCh2.fftSize = 32;
     processNode.connect(gainNode);
     mp3stream.connect(gainNode);
     gainNode.connect(safeGainNode);

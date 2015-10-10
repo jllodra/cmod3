@@ -15,9 +15,17 @@ angular.module('cmod.ui.header', [
       var drops = 0;
       var max_drops = 4 /*0*/; // TODO: add a drop frame user setting!
 
-      $scope.vuleft = 1;
-      $scope.vuright = 1;
       $scope.vo = 100;
+
+      var gleft = 1;
+      var gright = 1;
+      // angularjs shortcut
+      var vuleftel = document.getElementById('vul_overlay');
+      var vurightel = document.getElementById('vur_overlay');
+
+      // fft arrays
+      var arrayl = new Uint8Array(engine.analyzerNodeCh1.frequencyBinCount);
+      var arrayr = new Uint8Array(engine.analyzerNodeCh2.frequencyBinCount);
 
       $scope.minimize = function() {
         nwgui.Window.get().minimize();
@@ -44,8 +52,8 @@ angular.module('cmod.ui.header', [
           requestId = window.requestAnimationFrame(updateUI);
         } else {
           window.cancelAnimationFrame(requestId);
-          $scope.vuleft = 1;
-          $scope.vuright = 1;
+          vuleftel.style.transform = "scaleX(1)";
+          vurightel.style.transform = "scaleX(1)";
         }
       });
 
@@ -62,37 +70,47 @@ angular.module('cmod.ui.header', [
         var left = 0;
         var right = 0;
 
-        var analyserNodeCh1 = engine.analyzerNodeCh1;
-        var analyserNodeCh2 = engine.analyzerNodeCh2;
-
-        var array = new Uint8Array(analyserNodeCh1.frequencyBinCount);
-        analyserNodeCh1.getByteFrequencyData(array);
-        var array2 = new Uint8Array(analyserNodeCh2.frequencyBinCount);
-        analyserNodeCh2.getByteFrequencyData(array2);
-        for (var i = 0, length = array.length; i < length; i++) {
-            left += array[i];
-            right += array2[i];
+        //var array = new Uint8Array(engine.analyzerNodeCh1.frequencyBinCount);
+        engine.analyzerNodeCh1.getByteFrequencyData(arrayl);
+        //var array2 = new Uint8Array(engine.analyzerNodeCh2.frequencyBinCount);
+        engine.analyzerNodeCh2.getByteFrequencyData(arrayr);
+        for (var i = 0, l = arrayl.length/4; i < l; i++) {
+            left += arrayl[i];
+            right += arrayr[i];
         }
-        left = left/length/256;
-        right = right/length/256;
+        left = left/l/255;
+        right = right/l/255;
 
-        left = -20*Math.log(Math.abs(left))/Math.LN10;
-        right = -20*Math.log(Math.abs(right))/Math.LN10;
+        left = Math.abs(left - 1);
+        right = Math.abs(right - 1);
+
+        ////left = -20*Math.log(Math.abs(left))/Math.LN10;
+        ////right = -20*Math.log(Math.abs(right))/Math.LN10;
+
         //left = -100*Math.log(Math.abs(left))/Math.LN10;
         //right = -100*Math.log(Math.abs(right))/Math.LN10;
         //window.performance.mark('log10_done');
         //window.performance.measure('log10', 'log10_start', 'log10_done');
-        left = (left == Infinity) ? 1 : left/170;
-        right = (right == Infinity) ? 1 : right/170;
+
+        ////left = (left == Infinity) ? 1 : left/170;
+        ////right = (right == Infinity) ? 1 : right/170;
+
         //left = (left == Infinity) ? 1 : left/300;
         //right = (right == Infinity) ? 1 : right/300;
 
-        if(left !== $scope.vuleft || right !== $scope.vuright) {
+        if(left !== gleft || right !== gright) {
+          gleft = left;
+          gright = right;
+          vuleftel.style.transform = "scaleX(" +  left + ")";
+          vurightel.style.transform = "scaleX(" +  right + ")";
+        }
+
+        /*if(left !== $scope.vuleft || right !== $scope.vuright) {
           $scope.$apply(function() {
             $scope.vuleft = left;
             $scope.vuright = right;
           });
-        }
+        }*/
       }
 
       requestId = window.requestAnimationFrame(updateUI);
