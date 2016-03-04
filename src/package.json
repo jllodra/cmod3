@@ -1,5 +1,6 @@
 {
   "app_name": "cmod3",
+  "version": "2.0.1",
   "nodejs": true,
   "additional_trust_anchors": "",
   "inject-js-end": "",
@@ -30,7 +31,6 @@
     "transparent": false,
     "exe_icon": "icon.png"
   },
-  "version": "2.0.0",
   "inject-js-start": "",
   "main": "index.html",
   "node-main": "",

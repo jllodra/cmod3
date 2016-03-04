@@ -19,7 +19,13 @@ angular.module('cmod.ui.controls', [
       $scope.playOrPause = function() {
         var status = player.getStatus();
         if($scope.state.playing_nectarine) {
-          player.stop();
+          if(status.stopped) {
+            player.play();
+          } else if(status.playing) {
+            player.pause();
+          } else if(status.paused) {
+            player.pause();
+          }
         } else {
           if(status.stopped) {
             player.play();
@@ -36,6 +42,9 @@ angular.module('cmod.ui.controls', [
       };
 
       $scope.stop = function() {
+        if($scope.state.playing_nectarine && $state.$current.name === 'info') {
+          $state.go('playlist');
+        }
         player.stop();
       };
 

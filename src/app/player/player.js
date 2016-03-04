@@ -12,10 +12,11 @@ angular.module('cmod.player', [
 
     var buffer = null; // necessary? // TODO: next thing todo check this, remove in future versions
     var metadata = null; // metadata from last loaded file, necessary? TODO: next thing todo check this, remove in future versions
-    var status = {
+    var status = { // TODO: need to rethink about "state" "status" "engine.status" stuff
       playing: false,
       stopped: true,
       paused: false,
+      loading: false, // disables play/pause button // TODO: check if it is updated in all necessary places
       hasEnded: false, // song did end
       nectarine: true // streaming nectarine
     };
@@ -30,6 +31,7 @@ angular.module('cmod.player', [
         var xhr = new window.XMLHttpRequest();
         xhr.open('GET', file, true);
         xhr.responseType = 'arraybuffer';
+        status.loading = true;
         xhr.onload = function (evt) {
           // TODO: check possible errors
           if(xhr.response) {
@@ -37,14 +39,15 @@ angular.module('cmod.player', [
             engine.unload();
             function _() {
               if(engine.status.bufferIsEmptyEnsured) {
+                status.loading = false;
                 engine.loadBuffer(buffer);
                 //process.nextTick(callback); // TODO: not necessary because we wait for the buffer to be emptied
                 callback();
               } else {
-                setTimeout(_, 200);
+                setTimeout(_, 300);
               }
             }
-            setTimeout(_, 100);
+            setTimeout(_, 200);
           }
         };
         xhr.send(null);
@@ -133,6 +136,9 @@ angular.module('cmod.player', [
           engine.pause();
           status.paused = !status.paused;
         }
+        if(status.nectarine) {
+          this.pauseNectarine();
+        }
       },
       hasEnded: function() {
         status.playing = !engine.status.stopped;
@@ -143,11 +149,16 @@ angular.module('cmod.player', [
       playNectarine: function(streamUrl) {
         try {
           // TODO: use the MediaElement please...
+          // TODO: move this to engine
           var audioel = window.document.getElementById('audio');
-          audioel.src=streamUrl;
-          audioel.play();
+          audioel.src = streamUrl;
+          engine.status.playingNectarine = true;
           status.nectarine = true;
+          /*status.playing = true;
+          status.paused = false;
+          status.stopped = false;*/
           state.playing_nectarine = true;
+          audioel.play();
           this.refreshNectarine();
         } catch (e) {
           console.error("cant play nectarine :(");
@@ -217,10 +228,15 @@ angular.module('cmod.player', [
       stopNectarine: function() {
         try {
           //TODO: Use the MediaElement from the engine instead of the tag
+          //TODO: move to engine
           var audioel = window.document.getElementById('audio');
           audioel.pause();
           audioel.src='';
           status.nectarine = false;
+          /*status.playing = false;
+          status.paused = false;
+          status.stopped = true;*/
+          engine.status.playingNectarine = false;
           state.playing_nectarine = false;
         } catch (e) {
           console.error("cant stop nectarine :(");

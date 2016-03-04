@@ -51,6 +51,7 @@ angular.module('cmod.engine', [])
     var status = {
       stopped: true,
       paused: false,
+      playingNectarine: false,
       bufferIsEmptyEnsured: false,
       volume: 100
     };
@@ -61,13 +62,17 @@ angular.module('cmod.engine', [])
       var framesToRender = outputL.length;
       //
       var i;
-      if(status.stopped || status.paused) { // stop
+      if(status.stopped || status.paused || status.playingNectarine) { // stop
         for (i = 0; i < framesToRender; ++i) {
           outputL[i] = 0;
           outputR[i] = 0;
         }
-        safeGainNode.gain.value = 0; // no data (disconnecting through the safe gain node)
-        status.bufferIsEmptyEnsured = true;
+        if(!status.bufferIsEmptyEnsured) {
+          safeGainNode.gain.value = 0; // no data (disconnecting through the safe gain node)
+          status.bufferIsEmptyEnsured = true;
+        } else {
+          safeGainNode.gain.value = 1;
+        }
         return;
       }
       status.bufferIsEmptyEnsured = false;

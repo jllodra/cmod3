@@ -8,9 +8,9 @@
     </div>
     <div class="row">
       <div style="margin-bottom: 4px" class="col-xs-12">
-        <button class="btn btn-default" ng-click="playOrPause()">
-          <span class="glyphicon" ng-class="playback_status.playing === true && playback_status.paused === false ? 'glyphicon-pause' : 'glyphicon-play'"></span>
-          {{ playback_status.playing === true && playback_status.paused === false ? "Pause" : "Play" }}
+        <button class="btn btn-default" ng-click="playOrPause()" ng-class="{'hidden': state.playing_nectarine, 'disabled': playback_status.loading}">
+          <span class="glyphicon" ng-class="playback_status.playing === true && playback_status.paused === false && playback_status.loading !== true ? 'glyphicon-pause' : 'glyphicon-play'"></span>
+          {{ playback_status.playing === true && playback_status.paused === false && playback_status.loading !== true ? "Pause" : "Play" }}
         </button>
         <button class="btn btn-default" ng-click="stop()">
           <span class="glyphicon glyphicon-stop"></span>
