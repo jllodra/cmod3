@@ -3,8 +3,6 @@
 importScripts('../../lib/libopenmpt-0.2.5602_opt2.js');
 self.ompt = Module;
 
-console.info("Worker created");
-
 //postMessage("Worker launched");
 
 /*var maxFramesPerChunk = 4096;

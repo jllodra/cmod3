@@ -43,6 +43,8 @@ angular.module('cmod.ui.playlist', [
           state.current_song = null;
           state.current_song_path = null;
           state.current_song_index = null;
+        } else if (state.current_song_index_context_menu < state.current_song_index) {
+          state.current_song_index--;
         }
       };
 
@@ -92,13 +94,11 @@ angular.module('cmod.ui.playlist', [
               var name = files[i].name;
               if(player.isFormatSupported(name)) {
                 var size = files[i].size;
-                console.log("aqui");
                 //$scope.$apply(function() {
                   var path = files[i].path;
                   $scope.addSongToPlaylist(name, path);
                 //});
               }
-
             }
           }
         }
