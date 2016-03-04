@@ -6,9 +6,9 @@ cmod3 is a module music player.
 
 ## Download cmod3
 
-* Mac OSX x64: <http://herotyc.untergrund.net/cmod3/cmod3-1.8.0-osx64.zip>
-* Windows x64: <http://herotyc.untergrund.net/cmod3/cmod3-1.8.0-win64.zip>
-* Linux x64: <http://herotyc.untergrund.net/cmod3/cmod3-1.8.0-linux64.zip>
+* Mac OSX x64: <http://herotyc.untergrund.net/cmod3/cmod3-2.0.0-osx64.zip>
+* Windows x64: <http://herotyc.untergrund.net/cmod3/cmod3-2.0.0-win64.zip>
+* Linux x64: <http://herotyc.untergrund.net/cmod3/cmod3-2.0.0-linux64.zip>
 
 ![cmod3](https://raw.githubusercontent.com/jllodra/cmod3/master/screenshot.png "cmod3")
 ![cmod3](https://raw.githubusercontent.com/jllodra/cmod3/master/screenshot2.png "cmod3")
@@ -21,11 +21,11 @@ Watch cmod3 in action here: <https://www.youtube.com/watch?v=ZDABiY7pAk0>. Brows
 * Play/Stop/Pause/Seek...
 * Drag and drop (folders and files)
 * Metadata for the current module
-* **Nectarine Radio player built-in!**
-* **Browse and download from Modarchive!**
 * Repeat and shuffle modes
 * Classic VU meter
 * Keyboard shortcuts: OSX multimedia keys, <space> play/pause, num 1-5
+* **Nectarine Radio player built-in!**
+* **Browse and download from Modarchive!**
 
 ## How does cmod3 work?
 
@@ -37,11 +37,14 @@ cmod3 is entirely written in **Javascript**, works on node-webkit (nwjs) and use
 * ~~Keyboard shortcuts (1, 2, 3, 4, 5 and mediakeys).~~
 * ~~Volume control using a GainNode.~~
 * ~~Choose a Nectarine stream among a list of streams.~~
-* Can you draw? An app icon is needed.
-* Adding an AnalyserNode could enable fft visualization.
-* Audio is being decoded on the main thread, which is not ideal, it should be done on a background worker/thread and see if it performs better.
+* ~~Adding an AnalyserNode could enable VU meter for nectarine.~~
+* Can you draw? An nice app icon is needed.
+* Audio is being decoded on the main thread, which is not ideal, it should be done on a background worker/thread and see if it performs better (not possible afaik, any idea?).
+* New ideas? Open an Issue.
 
 ## Versions
+
+04/03/2016: 2.0.0 - optimizations, metadata reading in webworker, glitch-free
 
 08/10/2015: 1.8.0 - gain control
 
@@ -59,4 +62,4 @@ cmod3 is entirely written in **Javascript**, works on node-webkit (nwjs) and use
 
 ## Do you like it?
 
-Contribute to the code and make this player better, or make a donation via paypal to jlg.hrtc@gmail.com, modarchive.org and scenemusic.net as well.
+Contribute to the code via pull-requests and make this player better, or make a donation via paypal to jlg.hrtc@gmail.com, modarchive.org and scenemusic.net as well.
