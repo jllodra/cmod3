@@ -21,7 +21,7 @@
     "visible": true,
     "as_desktop": false,
     "toolbar": false,
-    "min_width": 590,
+    "min_width": 640,
     "position": "mouse",
     "show_in_taskbar": true,
     "mac_icon": "icon.png",

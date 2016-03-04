@@ -4,6 +4,19 @@ angular.module('cmod.engine', [])
 .factory('engine', [ //'ompt',
   function engine() {
 
+    console.info("creating worker");
+    var worker = new Worker("app/engine/worker.js");
+    var workeridmsg = 0;
+    var workermessages = {};
+    worker.onmessage = function (e) {
+      if(e.data.command === 'readMetadata') {
+        console.warn(e.data.command + ": worker response");
+        console.warn(e.data.id);
+        workermessages[e.data.id](e.data.data);
+        delete workermessages[e.data.id];
+      }
+    };
+
     var audioContext = new window.AudioContext();
 
     var maxFramesPerChunk = 4096;
@@ -11,7 +24,7 @@ angular.module('cmod.engine', [])
     var processNode = audioContext.createScriptProcessor(maxFramesPerChunk/*4096*//*8192*//*16384*/, 0, 2);
     var mp3stream = audioContext.createMediaElementSource(window.document.querySelector('audio'));
     var gainNode = audioContext.createGain();
-    var safeGainNode = audioContext.createGain(); // we'll eliminate the need of this with a worker
+    var safeGainNode = audioContext.createGain(); // we'll hopefully fix this with a worker that supports a ScriptProcessor
     var splitter = audioContext.createChannelSplitter();
     var analyserNodeCh1 = audioContext.createAnalyser();
     analyserNodeCh1.smoothingTimeConstant = 0.8;
@@ -29,7 +42,6 @@ angular.module('cmod.engine', [])
 
     var isConnected = false; // TODO: not used
 
-    //var maxFramesPerChunk = 512;
     var byteArray = null;
     var filePtr = null;
     var memPtr = null;
@@ -39,6 +51,7 @@ angular.module('cmod.engine', [])
     var status = {
       stopped: true,
       paused: false,
+      bufferIsEmptyEnsured: false,
       volume: 100
     };
 
@@ -53,8 +66,11 @@ angular.module('cmod.engine', [])
           outputL[i] = 0;
           outputR[i] = 0;
         }
+        safeGainNode.gain.value = 0; // no data (disconnecting through the safe gain node)
+        status.bufferIsEmptyEnsured = true;
         return;
       }
+      status.bufferIsEmptyEnsured = false;
       var framesRendered = 0;
       while (framesToRender > 0) {
         var framesPerChunk = Math.min(framesToRender, maxFramesPerChunk);
@@ -78,12 +94,18 @@ angular.module('cmod.engine', [])
         framesRendered += framesPerChunk;
         if(actualFramesPerChunk === 0) {
           end();
+        } else {
+          safeGainNode.gain.value = 1; // we have data (reconnecting through the safe gain node)
         }
       }
     };
 
     function loadBuffer(buffer) {
       console.info("loadBuffer");
+      /*worker.postMessage({
+        command: "loadBuffer",
+        data: buffer
+      });*/
       byteArray = new Int8Array(buffer);
       filePtr = ompt._malloc(byteArray.byteLength);
       ompt.HEAPU8.set(byteArray, filePtr);
@@ -92,48 +114,39 @@ angular.module('cmod.engine', [])
       rightBufferPtr = ompt._malloc(4 * maxFramesPerChunk);
     }
 
-    function readMetadata(buffer) {
-      console.info("readMetadata");
-      var byteArray = new Int8Array(buffer);
-      var filePtr = ompt._malloc(byteArray.byteLength);
-      ompt.HEAPU8.set(byteArray, filePtr);
-      var memPtr = ompt._openmpt_module_create_from_memory(filePtr, byteArray.byteLength, 0, 0, 0);
-      var metadata = {};
-      var metadata_keys = ompt.Pointer_stringify(ompt._openmpt_module_get_metadata_keys(memPtr));
-      var keys = metadata_keys.split(';');
-      var keyNameBuffer = 0;
-      for (var i = 0; i < keys.length; i++) {
-        keyNameBuffer = ompt._malloc(keys[i].length + 1);
-        ompt.writeStringToMemory(keys[i], keyNameBuffer);
-        metadata[keys[i]] = ompt.Pointer_stringify(ompt._openmpt_module_get_metadata(memPtr, keyNameBuffer));
-        ompt._free(keyNameBuffer);
-      }
-      metadata.duration = ompt._openmpt_module_get_duration_seconds(memPtr);
-      ompt._openmpt_free_string(metadata_keys);
-      ompt._free(filePtr);
-      ompt._openmpt_module_destroy(memPtr);
-      return metadata;
+    function readMetadataAsync(buffer, callback) {
+      console.warn("readMetadataAsync");
+      workermessages[workeridmsg] = callback;
+      worker.postMessage({
+        command: "readMetadata",
+        id: workeridmsg++,
+        data: buffer
+      });
     }
 
     function getPosition() {
-      return ompt._openmpt_module_get_position_seconds(memPtr);
+      if(memPtr) {
+        return ompt._openmpt_module_get_position_seconds(memPtr);
+      }
     }
 
     function setPosition(seconds) {
-      ompt._openmpt_module_set_position_seconds(memPtr, seconds);
+      if(memPtr) {
+        ompt._openmpt_module_set_position_seconds(memPtr, seconds);
+      }
     }
 
-    function connect() {
+    /*function connect() {
       safeGainNode.gain.value = 1; // TODO: use web workers and let the buffer empty
     }
 
     function disconnect() {
       safeGainNode.gain.value = 0; // TODO: use web workers and let the buffer empty
-    }
+    }*/
 
     function play() {
       console.info("engine: play");
-      connect();
+      //connect();
       status.stopped = false;
     }
 
@@ -142,7 +155,7 @@ angular.module('cmod.engine', [])
       if (!status.stopped) {
         stop();
       }
-      disconnect();
+      //disconnect();
       if(memPtr !== null && memPtr !== 0) {
         ompt._free(filePtr);
         ompt._openmpt_module_destroy(memPtr);
@@ -199,7 +212,8 @@ angular.module('cmod.engine', [])
       setPosition: setPosition,
       getVolume: getVolume,
       setVolume: setVolume,
-      metadata: readMetadata,
+      //metadata: readMetadata,
+      readMetadataAsync: readMetadataAsync,
       play: play,
       stop: stop,
       pause: pause

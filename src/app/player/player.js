@@ -10,8 +10,8 @@ angular.module('cmod.player', [
 
     var supported_formats = "mod s3m xm it mptm stm nst m15 stk wow ult 669 mtm med far mdl ams dsm amf okt dmf ptm psm mt2 dbm digi imf j2b gdm umx mo3 xpk ppm mmcmp".split(" ");
 
-    var buffer = null; // fa falta? // TODO
-    var metadata = null; // metadata from last loaded file, fa falta? TODO: next thing todo check this
+    var buffer = null; // necessary? // TODO: next thing todo check this, remove in future versions
+    var metadata = null; // metadata from last loaded file, necessary? TODO: next thing todo check this, remove in future versions
     var status = {
       playing: false,
       stopped: true,
@@ -19,13 +19,14 @@ angular.module('cmod.player', [
       hasEnded: false, // song did end
       nectarine: true // streaming nectarine
     };
-    // we should write a nectarine module&service TODO
+    // we should write a nectarine module&service TODO (pull-request anyone?)
     var nectarine_endpoint = "https://www.scenemusic.net/demovibes/xml/queue/";
 
     var refresh_timeout = null;
 
     return {
       load: function(file, callback) {
+        console.log("load");
         var xhr = new window.XMLHttpRequest();
         xhr.open('GET', file, true);
         xhr.responseType = 'arraybuffer';
@@ -34,8 +35,16 @@ angular.module('cmod.player', [
           if(xhr.response) {
             buffer = xhr.response;
             engine.unload();
-            engine.loadBuffer(buffer);
-            process.nextTick(callback); // TODO: temp solution, works like a charm but use web workers
+            function _() {
+              if(engine.status.bufferIsEmptyEnsured) {
+                engine.loadBuffer(buffer);
+                //process.nextTick(callback); // TODO: not necessary because we wait for the buffer to be emptied
+                callback();
+              } else {
+                setTimeout(_, 200);
+              }
+            }
+            setTimeout(_, 100);
           }
         };
         xhr.send(null);
@@ -48,9 +57,13 @@ angular.module('cmod.player', [
           // TODO: check possible errors
           if(xhr.response) {
             var buffer = xhr.response;
-            metadata = engine.metadata(buffer);
-            metadata.path = file;
-            callback(metadata);
+            //metadata = engine.metadata(buffer);
+            engine.readMetadataAsync(buffer, function(metadata) {
+              metadata.path = file;
+              callback(metadata);
+            });
+            //metadata.path = file;
+            //callback(metadata);
           }
         };
         xhr.send(null);

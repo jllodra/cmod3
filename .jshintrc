@@ -27,6 +27,10 @@
 		"document"		: true,
 		"ompt"				: true,
 		"Int8Array"		: true,
-		"Uint8Array"	: true
+		"Uint8Array"	: true,
+		"Module"			: true,
+		"self"				: true,
+		"postMessage" : true,
+		"importScripts": true
 	}
 }
