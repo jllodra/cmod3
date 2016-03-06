@@ -6,15 +6,18 @@ cmod3 is a module music player.
 
 ## Download cmod3
 
-* Mac OSX x64: <http://herotyc.untergrund.net/cmod3/cmod3-2.0.1-osx64.zip>
-* Windows x64: <http://herotyc.untergrund.net/cmod3/cmod3-2.0.1-win64.zip>
-* Linux x64: <http://herotyc.untergrund.net/cmod3/cmod3-2.0.1-linux64.zip>
+* Mac OSX x64: <http://herotyc.untergrund.net/cmod3/cmod3-2.0.2-osx64.zip>
+* Windows x64: <http://herotyc.untergrund.net/cmod3/cmod3-2.0.2-win64.zip>
+* Linux x64: <http://herotyc.untergrund.net/cmod3/cmod3-2.0.2-linux64.zip>
 
 ![cmod3](https://raw.githubusercontent.com/jllodra/cmod3/master/screenshot.png "cmod3")
 ![cmod3](https://raw.githubusercontent.com/jllodra/cmod3/master/screenshot2.png "cmod3")
 
 Don't you know what tracked music is? [Look here](http://en.wikipedia.org/wiki/Music_tracker).
-Watch cmod3 in action here: <https://www.youtube.com/watch?v=ZDABiY7pAk0>. Browse the Wiki for more information.
+
+Watch cmod3 in action here: <https://www.youtube.com/watch?v=ZDABiY7pAk0>.
+
+Browse the Wiki for more information.
 
 ## Features
 
@@ -43,6 +46,8 @@ cmod3 is entirely written in **Javascript**, works on node-webkit (nwjs) and use
 * New ideas? Open an Issue.
 
 ## Versions
+
+06/03/2016: 2.0.2 - mac icon fixed
 
 04/03/2016: 2.0.1 - optimizations, metadata reading in webworker, glitch-free, bugfixes
 
