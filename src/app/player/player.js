@@ -109,14 +109,11 @@ angular.module('cmod.player', [
             this.stopNectarine();
           }
           if(buffer !== null) {
-            if(status.paused) {
-              this.pause();
-            } else {
-              engine.play();
-              status.playing = true;
-              status.stopped = false;
-              status.hasEnded = false;
-            }
+            engine.play();
+            status.playing = true;
+            status.stopped = false;
+            status.paused = false;
+            status.hasEnded = false;
           }
         }
       },
@@ -135,9 +132,6 @@ angular.module('cmod.player', [
         if(buffer !== null) {
           engine.pause();
           status.paused = !status.paused;
-        }
-        if(status.nectarine) {
-          this.pauseNectarine();
         }
       },
       hasEnded: function() {

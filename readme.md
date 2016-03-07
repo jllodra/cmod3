@@ -6,9 +6,9 @@ cmod3 is a module music player.
 
 ## Download cmod3
 
-* Mac OSX x64: <http://herotyc.untergrund.net/cmod3/cmod3-2.0.2-osx64.zip>
-* Windows x64: <http://herotyc.untergrund.net/cmod3/cmod3-2.0.2-win64.zip>
-* Linux x64: <http://herotyc.untergrund.net/cmod3/cmod3-2.0.2-linux64.zip>
+* Mac OSX x64: <http://herotyc.untergrund.net/cmod3/cmod3-2.0.3-osx64.zip>
+* Windows x64: <http://herotyc.untergrund.net/cmod3/cmod3-2.0.3-win64.zip>
+* Linux x64: <http://herotyc.untergrund.net/cmod3/cmod3-2.0.3-linux64.zip>
 
 ![cmod3](https://raw.githubusercontent.com/jllodra/cmod3/master/screenshot.png "cmod3")
 ![cmod3](https://raw.githubusercontent.com/jllodra/cmod3/master/screenshot2.png "cmod3")
@@ -41,11 +41,14 @@ cmod3 is entirely written in **Javascript**, works on node-webkit (nwjs) and use
 * ~~Volume control using a GainNode.~~
 * ~~Choose a Nectarine stream among a list of streams.~~
 * ~~Adding an AnalyserNode could enable VU meter for nectarine.~~
+* More playlist features.
 * Can you draw? An nice app icon is needed.
-* Audio is being decoded on the main thread, which is not ideal, it should be done on a background worker/thread and see if it performs better (not possible afaik, any idea?).
+* Audio is being decoded on the main thread, which is not ideal, it should be done on a background worker/thread (not possible afaik, any idea? Audio Workers issue: <https://bugs.chromium.org/p/chromium/issues/detail?id=469639>).
 * New ideas? Open an Issue.
 
 ## Versions
+
+07/03/2016: 2.0.3 - bugfixes with mediakeys
 
 06/03/2016: 2.0.2 - mac icon fixed
 

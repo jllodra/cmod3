@@ -19,13 +19,7 @@ angular.module('cmod.ui.controls', [
       $scope.playOrPause = function() {
         var status = player.getStatus();
         if($scope.state.playing_nectarine) {
-          if(status.stopped) {
-            player.play();
-          } else if(status.playing) {
-            player.pause();
-          } else if(status.paused) {
-            player.pause();
-          }
+          $scope.stop();
         } else {
           if(status.stopped) {
             player.play();
@@ -153,6 +147,7 @@ angular.module('cmod.ui.controls', [
         key: 'MediaPlayPause',
         active: function() {
           $scope.playOrPause();
+          $scope.$apply();
         },
         failed: function() {
           console.error('MediaPlayPause failed');
