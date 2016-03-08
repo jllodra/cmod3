@@ -9,15 +9,18 @@
 }
 
 /* fixes */
+::-webkit-scrollbar { width: 0 !important; }
+
 button {
   -webkit-app-region: no-drag;
 }
+
 button:focus {outline:0 !important;}
+
 * {
   cursor: default !important;
   -webkit-user-select: none;
 }
-::-webkit-scrollbar { width: 0 !important }
 
 /* design */
 html {
@@ -37,9 +40,12 @@ body.hover {
   opacity: 0.5;
   background-color: #101723;
 }
-#brand {
+span#brand {
   font-family: 'Lobster', cursive;
   font-size: 22px;
+}
+div#cmodContainer {
+  padding: 0;
 }
 div#vus {
   position: absolute;
@@ -157,6 +163,13 @@ table td {
 .dropdown:hover .dropdown-menu {
   display: block;
 }
+.form-control {
+  border: 1px solid rgb(30, 32, 35);
+}
+.form-control:focus {
+  border: 1px solid rgb(30, 32, 35);
+  box-shadow: inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px rgba(102,175,133,0.6);
+}
 input[type="radio"], input[type="checkbox"] {
   margin: 2px 0 0;
   line-height: normal;
@@ -178,6 +191,10 @@ nav {
   padding-left: 20px;
 }
 .navbar {
+  border-top: 0px;
+  border-left: 0px;
+  border-right: 0px;
+  border-bottom: 1px solid #303235;
   margin-bottom: 0;
   border-radius: 0;
 }

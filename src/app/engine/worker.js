@@ -19,7 +19,7 @@ function loadBuffer(buffer) {
 }*/
 
 function readMetadata(buffer) {
-  console.info("readMetadata in Worker");
+  //console.info("readMetadata in Worker");
   var byteArray = new Int8Array(buffer);
   var filePtr = ompt._malloc(byteArray.byteLength);
   ompt.HEAPU8.set(byteArray, filePtr);
@@ -42,7 +42,7 @@ function readMetadata(buffer) {
 }
 
 var onmessage = function (e) {
-  console.warn(ompt);
+  //console.warn(ompt);
   if(e.data.command === 'loadBuffer') {
     //loadBuffer(e.data.data);
     //postMessage(e.data.data);

@@ -1,7 +1,7 @@
 "use strict";
 
 angular.module('cmod.playerState', [])
-.factory('state', function() {
+.factory('state', function($rootScope) {
   var state = {
     playlist: [],
     current_song: null,

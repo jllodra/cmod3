@@ -55,7 +55,6 @@ angular.module('cmod', [
         mb.createMacBuiltin('cmod3', { hideEdit: false });
         win.menu = mb;
       }
-
       window.state=state;
       window.settings=settings;
       state.playlist = settings.get('_lastPlaylist');

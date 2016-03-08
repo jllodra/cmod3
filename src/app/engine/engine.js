@@ -10,8 +10,8 @@ angular.module('cmod.engine', [])
     var workermessages = {};
     worker.onmessage = function (e) {
       if(e.data.command === 'readMetadata') {
-        console.warn(e.data.command + ": worker response");
-        console.warn(e.data.id);
+        //console.warn(e.data.command + ": worker response");
+        //console.warn(e.data.id);
         workermessages[e.data.id](e.data.data);
         delete workermessages[e.data.id];
       }
@@ -120,7 +120,7 @@ angular.module('cmod.engine', [])
     }
 
     function readMetadataAsync(buffer, callback) {
-      console.warn("readMetadataAsync");
+      //console.warn("readMetadataAsync");
       workermessages[workeridmsg] = callback;
       worker.postMessage({
         command: "readMetadata",
