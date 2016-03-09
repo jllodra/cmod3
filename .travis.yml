@@ -1,62 +1,58 @@
 language: node_js
 node_js:
-- '4.1'
+  - '4.1'
 sudo: required
 before_install:
-- export VERSION=$(./version.sh)
-- sudo add-apt-repository -y ppa:ubuntu-wine/ppa
-- sudo apt-get update
-- apt-cache search wine-mono
-- sudo apt-get install -qq -y wine wine-mono0.0.8 winetricks
-- export DISPLAY=:99.0
-- sh -e /etc/init.d/xvfb start
-- export WINEARCH=win32
-- export WINEPREFIX=~/.wine32
-- env WINEARCH=win32 WINEPREFIX=~/.wine32 winetricks -q dotnet20
-- npm install -g bower
-- npm install -g nw-builder
-- mkdir -p cache/0.12.3 && mkdir builds
-- cd cache/0.12.3
-- wget http://dl.nwjs.io/v0.12.3/nwjs-v0.12.3-linux-x64.tar.gz
-- wget http://dl.nwjs.io/v0.12.3/nwjs-v0.12.3-win-x64.zip
-- wget http://dl.nwjs.io/v0.12.3/nwjs-v0.12.3-osx-x64.zip
-- tar xzf nwjs-v0.12.3-linux-x64.tar.gz && rm nwjs-v0.12.3-linux-x64.tar.gz
-- unzip nwjs-v0.12.3-win-x64.zip && rm nwjs-v0.12.3-win-x64.zip
-- unzip nwjs-v0.12.3-osx-x64.zip && rm nwjs-v0.12.3-osx-x64.zip
-- mv nwjs-v0.12.3-linux-x64 linux64
-- mv nwjs-v0.12.3-win-x64 win64
-- mv nwjs-v0.12.3-osx-x64 osx64
-- cd ../..
-- cp codecs-libs/libffmpegsumo.so cache/0.12.3/linux64
-- cp codecs-libs/ffmpegsumo.dll cache/0.12.3/win64
-- cp codecs-libs/ffmpegsumo.so "cache/0.12.3/osx64/nwjs.app/Contents/Frameworks/nwjs
-  Framework.framework/Libraries"
+  - export VERSION=$(./version.sh)
+  - sudo add-apt-repository -y ppa:ubuntu-wine/ppa
+  - sudo apt-get update
+  - apt-cache search wine-mono
+  - sudo apt-get install -qq -y wine wine-mono0.0.8 winetricks
+  - export DISPLAY=:99.0
+  - sh -e /etc/init.d/xvfb start
+  - export WINEARCH=win32
+  - export WINEPREFIX=~/.wine32
+  - env WINEARCH=win32 WINEPREFIX=~/.wine32 winetricks -q dotnet20
+  - npm install -g bower
+  - npm install -g nw-builder
+  - mkdir -p cache/0.12.3 && mkdir builds
+  - cd cache/0.12.3
+  - wget http://dl.nwjs.io/v0.12.3/nwjs-v0.12.3-linux-x64.tar.gz
+  - wget http://dl.nwjs.io/v0.12.3/nwjs-v0.12.3-win-x64.zip
+  - wget http://dl.nwjs.io/v0.12.3/nwjs-v0.12.3-osx-x64.zip
+  - tar xzf nwjs-v0.12.3-linux-x64.tar.gz && rm nwjs-v0.12.3-linux-x64.tar.gz
+  - unzip nwjs-v0.12.3-win-x64.zip && rm nwjs-v0.12.3-win-x64.zip
+  - unzip nwjs-v0.12.3-osx-x64.zip && rm nwjs-v0.12.3-osx-x64.zip
+  - mv nwjs-v0.12.3-linux-x64 linux64
+  - mv nwjs-v0.12.3-win-x64 win64
+  - mv nwjs-v0.12.3-osx-x64 osx64
+  - cd ../..
+  - cp codecs-libs/libffmpegsumo.so cache/0.12.3/linux64
+  - cp codecs-libs/ffmpegsumo.dll cache/0.12.3/win64
+  - cp codecs-libs/ffmpegsumo.so "cache/0.12.3/osx64/nwjs.app/Contents/Frameworks/nwjs Framework.framework/Libraries"
 install:
-- cd src
-- npm install
-- bower install
-- cd ..
+  - cd src
+  - npm install
+  - bower install
+  - cd ..
 script:
-- ls -l
-- ls -l cache
-- ls -l cache/0.12.3
-- ls -l cache/0.12.3/linux64
-- nwbuild -p linux64 -v 0.12.3 --cacheDir ./cache --buildDir ./builds                          ./src
-  | grep -v ^Zipping
-- nwbuild -p osx64   -v 0.12.3 --cacheDir ./cache --buildDir ./builds --macIcns ./macicon.icns
-  ./src | grep -v ^Zipping
-- env WINEARCH=win32 WINEPREFIX=~/.wine32 nwbuild -p win64   -v 0.12.3 --cacheDir
-  ./cache --buildDir ./builds --winIco  ./icon.png     ./src | grep -v ^Zipping
+  - ls -l
+  - ls -l cache
+  - ls -l cache/0.12.3
+  - ls -l cache/0.12.3/linux64
+  - nwbuild -p linux64 -v 0.12.3 --cacheDir ./cache --buildDir ./builds ./src | grep -v ^Zipping
+  - nwbuild -p osx64   -v 0.12.3 --cacheDir ./cache --buildDir ./builds --macIcns ./macicon.icns ./src | grep -v ^Zipping
+  - env WINEARCH=win32 WINEPREFIX=~/.wine32 nwbuild -p win64 -v 0.12.3 --cacheDir ./cache --buildDir ./builds --winIco  ./icon.png ./src | grep -v ^Zipping
 after_success:
-- mv builds/cmod3/osx64 builds/cmod3/cmod3-${VERSION}-osx64
-- mv builds/cmod3/win64 builds/cmod3/cmod3-${VERSION}-win64
-- mv builds/cmod3/linux64 builds/cmod3/cmod3-${VERSION}-linux64
-- pushd builds/cmod3
-- zip -q -r cmod3-${VERSION}-osx64.zip cmod3-${VERSION}-osx64
-- zip -q -r cmod3-${VERSION}-win64.zip cmod3-${VERSION}-win64
-- zip -q -r cmod3-${VERSION}-linux64.zip cmod3-${VERSION}-linux64
-- popd
-- ls -l builds/cmod3
+  - mv builds/cmod3/osx64 builds/cmod3/cmod3-${VERSION}-osx64
+  - mv builds/cmod3/win64 builds/cmod3/cmod3-${VERSION}-win64
+  - mv builds/cmod3/linux64 builds/cmod3/cmod3-${VERSION}-linux64
+  - pushd builds/cmod3
+  - zip -q -r cmod3-${VERSION}-osx64.zip cmod3-${VERSION}-osx64
+  - zip -q -r cmod3-${VERSION}-win64.zip cmod3-${VERSION}-win64
+  - zip -q -r cmod3-${VERSION}-linux64.zip cmod3-${VERSION}-linux64
+  - popd
+  - ls -l builds/cmod3
 deploy:
   provider: releases
   api_key:
@@ -68,3 +64,4 @@ deploy:
   skip_cleanup: true
   on:
     repo: jllodra/cmod3
+    tags: true
