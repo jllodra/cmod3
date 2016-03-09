@@ -8,14 +8,16 @@ before_install:
   - sudo apt-get install -qq -y wine winetricks
   - "export DISPLAY=:99.0"
   - "sh -e /etc/init.d/xvfb start"
-  #- env WINEARCH=win32 WINEPREFIX=~/.wine32 winetricks -q dotnet20
-  #- env WINEARCH=win32 WINEPREFIX=~/.wine32 winetricks -q mono28
+  - export WINEARCH=win32
+  - export WINEPREFIX=~/.wine32
+  - env WINEARCH=win32 WINEPREFIX=~/.wine32 winetricks -q dotnet20
+  - env WINEARCH=win32 WINEPREFIX=~/.wine32 winetricks -q mono28
   #- mkdir -p $HOME/.wine/drive_c/windows
   #- chmod -R 775 $HOME/.wine
   #- rm -rf $HOME/.wine
   #- WINEARCH=win32 winecfg
-  - winetricks -q dotnet20
-  - winetricks -q mono28
+  #- winetricks -q dotnet20
+  #- winetricks -q mono28
   #-
   - npm install -g bower
   - npm install -g nw-builder
@@ -41,4 +43,4 @@ script:
   - ls -l cache/0.12.3
   - ls -l cache/0.12.3/linux64
   - nwbuild -p linux64 -v 0.12.3 --cacheDir ./cache --buildDir ./builds                     ./src | grep -v ^Zipping #quiet
-  - nwbuild -p win64   -v 0.12.3 --cacheDir ./cache --buildDir ./builds --winIco ./icon.png ./src | grep -v ^Zipping #quiet
+  - env WINEARCH=win32 WINEPREFIX=~/.wine32 nwbuild -p win64   -v 0.12.3 --cacheDir ./cache --buildDir ./builds --winIco ./icon.png ./src | grep -v ^Zipping #quiet
