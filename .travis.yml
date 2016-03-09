@@ -3,7 +3,18 @@ node_js:
   - "4.1"
 before_install:
   - npm install -g bower
+  - npm install -g node-webkit-builder
+  - mkdir -p cache/0.12.3 && mkdir cmod3-build
+  - cd cache/0.12.3
+  - wget http://dl.nwjs.io/v0.12.3/nwjs-v0.12.3-linux-x64.tar.gz
+  - tar xzf nwjs-v0.12.3-linux-x64.tar.gz && rm nwjs-v0.12.3-linux-x64.tar.gz
+  - mv nwjs-v0.12.3-linux-x64 linux64
+  - cd ../..
+  - cp codecs-libs/libffmpegsumo.so cache/0.12.3/linux64
 install:
   - cd src
   - npm install
   - bower install
+  - cd ..
+script:
+  - nwbuild -p linux64 -v 0.12.3 --cacheDir ./nwjs --buildDir ./cmod3-build ./src
