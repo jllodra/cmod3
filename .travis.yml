@@ -2,7 +2,7 @@ language: node_js
 node_js:
   - "4.1"
 before_install:
-  - sh -c "if [ ! -z '$WINE' ]; then sudo apt-get install -qq wine; fi"
+  - sudo apt-get install -y wine
   - npm install -g bower
   - npm install -g nw-builder
   - mkdir -p cache/0.12.3 && mkdir builds
