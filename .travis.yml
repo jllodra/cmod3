@@ -3,6 +3,7 @@ node_js:
   - "4.1"
 sudo: required
 before_install:
+  - export VERSION=$(cat src/package.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[",]//g' | tr -d '[[:space:]]')
   - sudo add-apt-repository -y ppa:ubuntu-wine/ppa
   - sudo apt-get update
   #- wine
