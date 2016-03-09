@@ -3,7 +3,7 @@ node_js:
   - "4.1"
 sudo: required
 before_install:
-  - sudo add-apt-repository ppa:ubuntu-wine/ppa
+  - sudo add-apt-repository -y ppa:ubuntu-wine/ppa
   - sudo apt-get update
   #- wine
   - sudo apt-get install -qq -y wine1.7 wine-mono4.5.4 winetricks
