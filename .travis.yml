@@ -45,6 +45,10 @@ script:
   -                                         nwbuild -p linux64 -v 0.12.3 --cacheDir ./cache --buildDir ./builds                          ./src | grep -v ^Zipping #quiet
   -                                         nwbuild -p osx64   -v 0.12.3 --cacheDir ./cache --buildDir ./builds --macIcns ./macicon.icns ./src | grep -v ^Zipping #quiet
   - env WINEARCH=win32 WINEPREFIX=~/.wine32 nwbuild -p win64   -v 0.12.3 --cacheDir ./cache --buildDir ./builds --winIco  ./icon.png     ./src | grep -v ^Zipping #quiet
+after_success:
+  - mv builds/cmod3/osx64 builds/cmod3/cmod3-${VERSION}-osx64
+  - mv builds/cmod3/win64 builds/cmod3/cmod3-${VERSION}-win64
+  - mv builds/cmod3/linux64 builds/cmod3/cmod3-${VERSION}-linux64
   - pushd builds/cmod3
   - zip -q -r cmod3-${VERSION}-osx64.zip cmod3-${VERSION}-osx64
   - zip -q -r cmod3-${VERSION}-win64.zip cmod3-${VERSION}-win64
