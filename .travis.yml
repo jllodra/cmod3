@@ -6,6 +6,8 @@ before_install:
   - sudo apt-get install -qq -y wine
   - "export DISPLAY=:99.0"
   - "sh -e /etc/init.d/xvfb start"
+  - mkdir -p $HOME/.wine/drive_c/windows
+  - chmod -R 775 $HOME/.wine
   - npm install -g bower
   - npm install -g nw-builder
   - mkdir -p cache/0.12.3 && mkdir builds
