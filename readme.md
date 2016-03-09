@@ -7,9 +7,9 @@ cmod3 is a module music player.
 
 ## Download cmod3
 
-* Mac OSX x64: <http://herotyc.untergrund.net/cmod3/cmod3-2.0.4-osx64.zip>
-* Windows x64: <http://herotyc.untergrund.net/cmod3/cmod3-2.0.4-win64.zip>
-* Linux x64: <http://herotyc.untergrund.net/cmod3/cmod3-2.0.4-linux64.zip>
+[Releases page on GitHub](https://github.com/jllodra/cmod3/releases)
+
+Versions for **Mac OSX x64**, **Windows x64**, and **Linux x64** available.
 
 ![cmod3](https://raw.githubusercontent.com/jllodra/cmod3/master/screenshot.png "cmod3")
 ![cmod3](https://raw.githubusercontent.com/jllodra/cmod3/master/screenshot2.png "cmod3")
