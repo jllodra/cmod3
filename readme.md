@@ -48,6 +48,8 @@ cmod3 is entirely written in **Javascript**, works on node-webkit (nwjs) and use
 
 ## Versions
 
+08/03/2016: 2.0.4 - minor improvements
+
 07/03/2016: 2.0.3 - bugfixes with mediakeys
 
 06/03/2016: 2.0.2 - mac icon fixed
