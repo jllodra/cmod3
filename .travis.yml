@@ -3,7 +3,7 @@ node_js:
   - "4.1"
 before_install:
   - npm install -g bower
-  - npm install -g node-webkit-builder
+  - npm install -g nw-builder
   - mkdir -p cache/0.12.3 && mkdir builds
   - cd cache/0.12.3
   - wget http://dl.nwjs.io/v0.12.3/nwjs-v0.12.3-linux-x64.tar.gz
@@ -21,5 +21,9 @@ install:
   - bower install
   - cd ..
 script:
+  - ls -l
+  - ls -l cache
+  - ls -l cache/0.12.3
+  - ls -l cache/0.12.3/linux64
   - nwbuild -p linux64 -v 0.12.3 --cacheDir ./cache --buildDir ./builds                     ./src | grep -v ^Zipping #quiet
   - nwbuild -p win64   -v 0.12.3 --cacheDir ./cache --buildDir ./builds --winIco ./icon.png ./src | grep -v ^Zipping #quiet
