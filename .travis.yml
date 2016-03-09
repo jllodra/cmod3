@@ -8,12 +8,13 @@ before_install:
   - sudo apt-get install -qq -y wine winetricks
   - "export DISPLAY=:99.0"
   - "sh -e /etc/init.d/xvfb start"
+  - env WINEARCH=win32 WINEPREFIX=~/.wine32 winetricks dotnet20
   #- mkdir -p $HOME/.wine/drive_c/windows
   #- chmod -R 775 $HOME/.wine
-  - rm -rf $HOME/.wine
-  - WINEARCH=win32 winecfg
-  - winetricks dotnet20
-  - winetricks mono28
+  #- rm -rf $HOME/.wine
+  #- WINEARCH=win32 winecfg
+  #- winetricks dotnet20
+  #- winetricks mono28
   #-
   - npm install -g bower
   - npm install -g nw-builder
