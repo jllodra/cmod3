@@ -4,17 +4,22 @@ node_js:
 before_install:
   - npm install -g bower
   - npm install -g node-webkit-builder
-  - mkdir -p cache/0.12.3 && mkdir cmod3-build
+  - mkdir -p cache/0.12.3 && mkdir builds
   - cd cache/0.12.3
   - wget http://dl.nwjs.io/v0.12.3/nwjs-v0.12.3-linux-x64.tar.gz
+  - wget http://dl.nwjs.io/v0.12.3/nwjs-v0.12.3-win-x64.tar.gz
   - tar xzf nwjs-v0.12.3-linux-x64.tar.gz && rm nwjs-v0.12.3-linux-x64.tar.gz
+  - tar xzf nwjs-v0.12.3-win-x64.tar.gz && rm nwjs-v0.12.3-win-x64.tar.gz
   - mv nwjs-v0.12.3-linux-x64 linux64
+  - mv nwjs-v0.12.3-win-x64 win64
   - cd ../..
   - cp codecs-libs/libffmpegsumo.so cache/0.12.3/linux64
+  - cp codecs-libs/ffmpegsumo.dll cache/0.12.3/win64
 install:
   - cd src
   - npm install
   - bower install
   - cd ..
 script:
-  - nwbuild -p linux64 -v 0.12.3 --cacheDir ./nwjs --buildDir ./cmod3-build ./src
+  - nwbuild -p linux64 -v 0.12.3 --cacheDir ./cache --buildDir ./builds                     ./src | grep -v ^Zipping #quiet
+  - nwbuild -p win64   -v 0.12.3 --cacheDir ./cache --buildDir ./builds --winIco ./icon.png ./src | grep -v ^Zipping #quiet
