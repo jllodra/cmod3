@@ -7,9 +7,9 @@ before_install:
   - mkdir -p cache/0.12.3 && mkdir builds
   - cd cache/0.12.3
   - wget http://dl.nwjs.io/v0.12.3/nwjs-v0.12.3-linux-x64.tar.gz
-  - wget http://dl.nwjs.io/v0.12.3/nwjs-v0.12.3-win-x64.tar.gz
+  - wget http://dl.nwjs.io/v0.12.3/nwjs-v0.12.3-win-x64.zip
   - tar xzf nwjs-v0.12.3-linux-x64.tar.gz && rm nwjs-v0.12.3-linux-x64.tar.gz
-  - tar xzf nwjs-v0.12.3-win-x64.tar.gz && rm nwjs-v0.12.3-win-x64.tar.gz
+  - unzip nwjs-v0.12.3-win-x64.zip && rm nwjs-v0.12.3-win-x64.zip
   - mv nwjs-v0.12.3-linux-x64 linux64
   - mv nwjs-v0.12.3-win-x64 win64
   - cd ../..
