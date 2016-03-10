@@ -7,6 +7,7 @@ angular.module('cmod.playerState', [])
     current_song: null,
     current_song_path: null,
     current_song_index: null,
+    current_song_index_marked: null,
     current_song_index_context_menu: null,
     playing_nectarine: false,
     nectarine_info: {
@@ -25,7 +26,8 @@ angular.module('cmod.playerState', [])
       current_text: "",
       current_request: "",
       loading_text: "",
-      current_song_index: null
+      current_song_index: null,
+      current_song_index_marked: null
     }
   };
 

@@ -2,7 +2,7 @@
   <div class="loading_overlay_text">{{state.modarchive.loading_text}}</div>
 </div>
 
-<div id="modarchive" class="container-fluid" style="height: {{ height }}px">
+<div id="modarchive" ng-click="markSong(null, $event)" class="container-fluid" style="height: {{ height }}px">
 
   <div class="row" style="margin-bottom: 8px;">
     <div class="col-xs-12" style="text-align: center;">
@@ -50,9 +50,10 @@
           <tbody>
             <tr
               ng-repeat="song in state.modarchive.search_results"
-              ng-click="downloadSong($index, true)"
+              ng-click="markSong($index, $event)"
+              ng-dblclick="downloadSong($index, true)"
               ng-right-click="showOptions($index, $event)"
-              ng-class="{ active_row: ($index === state.modarchive.current_song_index) }"
+              ng-class="{ marked_row: ($index === state.modarchive.current_song_index_marked), active_row: ($index === state.modarchive.current_song_index) }"
               >
                 <td style="text-align:center;">{{ $index + 1 }} ({{ song.id }})</td>
                 <td style="text-align:center;">{{ song.artist || "-" }}</td>

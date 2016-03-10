@@ -28,10 +28,16 @@ angular.module('cmod.ui.playlist', [
         });
       };
 
+      $scope.markSongInPlaylist = function(i, $event) {
+        $scope.state.current_song_index_marked = i;
+        $event.stopPropagation();
+      };
+
       $scope.playSongInPlaylist = function(i) {
         $scope.state.current_song = $scope.state.playlist[i];
         $scope.state.current_song_path = $scope.state.playlist[i].path;
         $scope.state.current_song_index = i;
+        $scope.state.current_song_index_marked = null;
         console.log($scope.state.current_song.metadata);
         player.loadAndPlay($scope.state.playlist[i].path);
       };
@@ -46,6 +52,7 @@ angular.module('cmod.ui.playlist', [
         } else if (state.current_song_index_context_menu < state.current_song_index) {
           state.current_song_index--;
         }
+        state.current_song_index_marked = null;
       };
 
       $scope.removeAllSongsFromPlaylist = function() {
@@ -54,6 +61,7 @@ angular.module('cmod.ui.playlist', [
         state.current_song = null;
         state.current_song_path = null;
         state.current_song_index = null;
+        state.current_song_index_marked = null;
       };
 
       var chooser = document.querySelector('#addFilesToPlaylistHidden');

@@ -23,6 +23,9 @@ angular.module('cmod.ui.modarchive', [
         var searchText;
         var request;
 
+        $scope.state.modarchive.current_song_index = null;
+        $scope.state.modarchive.current_song_index_marked = null;
+
         if(type) {
           $scope.state.modarchive.search_results = [];
           state.modarchive.current_page = 1;
@@ -88,8 +91,16 @@ angular.module('cmod.ui.modarchive', [
         $scope.searchButton();
       };
 
+      $scope.markSong = function(i, $event) {
+        $scope.state.modarchive.current_song_index_marked = i;
+        $event.stopPropagation();
+      };
+
       $scope.downloadSong = function(i, andPlay) {
-        $scope.state.modarchive.current_song_index = i;
+        if(andPlay) {
+          $scope.state.modarchive.current_song_index_marked = null;
+          $scope.state.modarchive.current_song_index = i;
+        }
         var module = $scope.state.modarchive.search_results[i];
         console.log(module);
         if(andPlay) {
@@ -134,6 +145,7 @@ angular.module('cmod.ui.modarchive', [
               }
             });
         } else {
+          toastr.success(module.filename, 'Found in cache, skipping downloading:');
           player.metadataFromFile(path, function(metadata) {
             console.log("got metadata...");
             console.log(metadata);
@@ -165,13 +177,13 @@ angular.module('cmod.ui.modarchive', [
       menu.append(new nwgui.MenuItem({ label: 'Download in background' }));
       menu.items[0].click = function() {
         $scope.$apply(function() {
-          var module = $scope.state.modarchive.search_results[$scope.state.modarchive.current_song_index];
+          var module = $scope.state.modarchive.search_results[$scope.state.modarchive.current_song_index_marked];
           toastr.info(module.filename, 'Background downloading:');
-          $scope.downloadSong($scope.state.modarchive.current_song_index, false);
+          $scope.downloadSong($scope.state.modarchive.current_song_index_marked, false);
         });
       };
       $scope.showOptions = function($index, $event) {
-        $scope.state.modarchive.current_song_index = $index;
+        $scope.state.modarchive.current_song_index_marked = $index;
         menu.popup($event.pageX, $event.pageY);
       };
 

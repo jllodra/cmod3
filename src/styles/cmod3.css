@@ -119,7 +119,12 @@ table#playlist, table#search_results {
   border-radius: 5px;
 }
 tr.active_row {
-  background-color: #0D6957;
+  background-color: #0D6957 !important;
+  color: #fff;
+}
+tr.marked_row {
+  /*background-color: #0D6997 !important;*/
+  background-color: #004535 !important;
   color: #fff;
 }
 /*div#main tr.active_row td:first-child::before,
@@ -206,6 +211,10 @@ table {
 }
 .table thead, .table tfoot {
   background-color: #24272A;
+}
+.table-hover>tbody>tr:hover {
+  color: white;
+  background-color: #373E41;
 }
 div#settings .form-control {
   font-size: 11px;
