@@ -7,8 +7,8 @@ angular.module('cmod.ui.playlist', [
   'cmod.utils'
 ])
 .controller('cmodPlaylistCtrl',
-  [         'nwgui', 'player', 'state', 'settings', '$rootScope', '$scope', '$state', 'utils', // We pre-load utils to avoid unnecessary future stuttering
-    function(nwgui, player, state, settings, $rootScope, $scope, $state, utils) {
+  [         'nwgui', 'player', 'state', 'settings', '$rootScope', '$scope', '$state', '$timeout', 'utils', // We pre-load utils to avoid unnecessary future stuttering
+    function(nwgui, player, state, settings, $rootScope, $scope, $state, $timeout, utils) {
       console.log("playlist ctrl!");
 
       $scope.state = state;
@@ -64,7 +64,7 @@ angular.module('cmod.ui.playlist', [
         state.current_song_index_marked = null;
       };
 
-      var chooser = document.querySelector('#addFilesToPlaylistHidden');
+      var chooser = document.getElementById('addFilesToPlaylistHidden');
       chooser.addEventListener("change", function(evt) {
         console.log(this.value);
         var files = this.value.split(';');
@@ -75,7 +75,10 @@ angular.module('cmod.ui.playlist', [
         }
       }, false);
       $scope.addFilesToPlaylist = function() {
-        chooser.click();
+        // https://docs.angularjs.org/error/$rootScope/inprog
+        $timeout(function() {
+          chooser.click();
+        }, 0, false);
       };
 
       $scope.ondrop = function(e) {
