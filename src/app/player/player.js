@@ -155,9 +155,6 @@ angular.module('cmod.player', [
           audioel.src = streamUrl;
           engine.status.playingNectarine = true;
           status.nectarine = true;
-          /*status.playing = true;
-          status.paused = false;
-          status.stopped = false;*/
           state.playing_nectarine = true;
           audioel.play();
           this.refreshNectarine();
@@ -234,9 +231,6 @@ angular.module('cmod.player', [
           audioel.pause();
           audioel.src='';
           status.nectarine = false;
-          /*status.playing = false;
-          status.paused = false;
-          status.stopped = true;*/
           engine.status.playingNectarine = false;
           state.playing_nectarine = false;
         } catch (e) {
