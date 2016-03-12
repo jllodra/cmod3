@@ -26,6 +26,20 @@ angular.module('cmod.player', [
     var refresh_timeout = null;
 
     return {
+      safeLoadBuffer: function(callback) {
+        if(engine.status.bufferIsEmptyEnsured) {
+          status.loading = false;
+          engine.loadBuffer(buffer);
+          //process.nextTick(callback); // TODO: not necessary because we wait for the buffer to be emptied
+          callback();
+        } else {
+          $timeout(function() {
+            this.safeLoadBuffer(callback);
+          }.bind(this), 300, false);
+        }
+      },
+
+
       load: function(file, callback) {
         console.log("load");
         var xhr = new window.XMLHttpRequest();
@@ -37,19 +51,12 @@ angular.module('cmod.player', [
           if(xhr.response) {
             buffer = xhr.response;
             engine.unload();
-            function _() {
-              if(engine.status.bufferIsEmptyEnsured) {
-                status.loading = false;
-                engine.loadBuffer(buffer);
-                //process.nextTick(callback); // TODO: not necessary because we wait for the buffer to be emptied
-                callback();
-              } else {
-                setTimeout(_, 300);
-              }
-            }
-            setTimeout(_, 200);
+            this.safeLoadBuffer(callback);
+            /*$timeout(function() {
+              this.safeLoadBuffer(callback);
+            }.bind(this), 0, false);*/
           }
-        };
+        }.bind(this);
         xhr.send(null);
       },
       metadataFromFile: function(file, callback) {
