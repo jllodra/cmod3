@@ -49,6 +49,8 @@ cmod3 is entirely written in **Javascript**, works on node-webkit (nwjs) and use
 
 ## Versions
 
+12/03/2016: 2.1.0 - double click to play songs, just like regular players, other improvements
+
 08/03/2016: 2.0.4 - minor improvements
 
 07/03/2016: 2.0.3 - bugfixes with mediakeys
