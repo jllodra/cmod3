@@ -36,7 +36,7 @@ before_install:
 install:
   - cd src
   - |-
-    echo { "modarchive": "$modarchive" } > config.json
+    echo { \"modarchive\": \"$modarchive\" } > config.json
   - npm install
   - bower install
   - cd ..
