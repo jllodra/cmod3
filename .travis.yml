@@ -17,7 +17,7 @@ before_install:
   - export WINEPREFIX=~/.wine32
   - env WINEARCH=win32 WINEPREFIX=~/.wine32 winetricks -q dotnet20
   - npm install -g bower
-  - npm install -g nw-builder
+  - npm install -g nw-builder@2.2.0
   - mkdir -p cache/0.12.3 && mkdir builds
   - cd cache/0.12.3
   - wget http://dl.nwjs.io/v0.12.3/nwjs-v0.12.3-linux-x64.tar.gz
@@ -35,7 +35,7 @@ before_install:
   - cp codecs-libs/ffmpegsumo.so "cache/0.12.3/osx64/nwjs.app/Contents/Frameworks/nwjs Framework.framework/Libraries"
 install:
   - cd src
-  - |- 
+  - |-
     echo { "modarchive": "$modarchive" } > config.json
   - npm install
   - bower install
