@@ -16,7 +16,7 @@ Versions for **Mac OSX x64**, **Windows x64**, and **Linux x64** available.
 
 Don't you know what tracked music is? [Look here](http://en.wikipedia.org/wiki/Music_tracker).
 
-Watch cmod3 in action here: <https://www.youtube.com/watch?v=ZDABiY7pAk0>.
+cmod3 website: <http://cmod3.atlantisofcode.com>.
 
 Browse the Wiki for more information.
 
