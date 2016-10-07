@@ -13,6 +13,8 @@ angular.module('cmod.ui.playlist', [
 
       $scope.state = state;
 
+      // TODO: arregla això (feu com la d'abaix, amb el metadata...)
+
       $scope.addSongToPlaylist = function(name, path) {
         console.log("adding song...");
         player.metadataFromFile(path, function(metadata) {
@@ -26,6 +28,34 @@ angular.module('cmod.ui.playlist', [
             });
           });
         });
+      };
+
+      // TODO: mira si pots treure ses funcions defora per no crear tantes coses...
+
+      $scope.addSongsToPlaylist = function(paths) {
+        console.dir(paths);
+        var left = paths.length;
+        var newSongs = [];
+        // PROMISIFY THIS!
+        for(var i = 0; i < paths.length; i++) {
+          player.metadataFromFile(paths[i], (function(index) {
+            return function(metadata) {
+              console.log(metadata);
+              newSongs[index] = {
+                'name': metadata.title,
+                'filename': metadata.filename,
+                'path': metadata.path,
+                'metadata': metadata
+              };
+              left--;
+              if(left === 0) {
+                $scope.$apply(function() {
+                  $scope.state.playlist = $scope.state.playlist.concat(newSongs);
+                });
+              }
+            };
+          })(i));
+        }
       };
 
       $scope.markSongInPlaylist = function(i, $event) {
@@ -64,6 +94,8 @@ angular.module('cmod.ui.playlist', [
         state.current_song_index_marked = null;
       };
 
+      // TODO: pensa que el .replace ja el fa el player a metadata, no fa falta aquí
+
       var chooser = document.getElementById('addFilesToPlaylistHidden');
       chooser.addEventListener("change", function(evt) {
         console.log(this.value);
@@ -81,6 +113,8 @@ angular.module('cmod.ui.playlist', [
         }, 0, false);
       };
 
+      // TODO: mira si te pot quedar més guapo
+
       $scope.ondrop = function(e) {
         this.className = '';
         e.preventDefault();
@@ -92,14 +126,19 @@ angular.module('cmod.ui.playlist', [
           for (var i = 0; i < num_files; ++i) {
             if(entries[i].webkitGetAsEntry().isDirectory) {
               console.log("scanning directory: " + files[i].path);
+              var paths = [];
               var emitter = require('walkdir')(files[i].path);
               emitter.on('file', function(path, stat) {
                 if(player.isFormatSupported(path)) {
-                  $scope.$apply(function() {
-                    var name = path.replace(/^.*[\\\/]/, ''); // TODO: does this work on win32?
-                    $scope.addSongToPlaylist(name, path);
-                  });
+                  console.dir(path);
+                  paths.push(path);
                 }
+              });
+              emitter.on('end', function(path, stat) {
+                console.dir("eeeended");
+                //$scope.$apply(function() {
+                  $scope.addSongsToPlaylist(paths.sort());
+                //});
               });
             } else {
               var name = files[i].name;
