@@ -70,6 +70,7 @@ angular.module('cmod.player', [
             //metadata = engine.metadata(buffer);
             engine.readMetadataAsync(buffer, function(metadata) {
               metadata.path = file;
+              metadata.filename = metadata.path.replace(/^.*[\\\/]/, '');
               callback(metadata);
             });
             //metadata.path = file;
