@@ -7,6 +7,7 @@ angular.module('cmod.utils', [])
       Download: require('download'),
       Entities: new (require('html-entities').AllHtmlEntities)(),
       fs: require('fs'),
-      os: require('os')
+      os: require('os'),
+      walkdir: require('walkdir')
     };
 }]);

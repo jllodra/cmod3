@@ -7,54 +7,54 @@ angular.module('cmod.ui.playlist', [
   'cmod.utils'
 ])
 .controller('cmodPlaylistCtrl',
-  [         'nwgui', 'player', 'state', 'settings', '$rootScope', '$scope', '$state', '$timeout', 'utils', // We pre-load utils to avoid unnecessary future stuttering
-    function(nwgui, player, state, settings, $rootScope, $scope, $state, $timeout, utils) {
+  [         'nwgui', 'player', 'state', 'settings', '$rootScope', '$scope', '$state', '$timeout', 'toastr', 'utils', // We pre-load utils to avoid unnecessary future stuttering
+    function(nwgui, player, state, settings, $rootScope, $scope, $state, $timeout, toastr, utils) {
       console.log("playlist ctrl!");
 
       $scope.state = state;
 
-      // TODO: arregla això (feu com la d'abaix, amb el metadata...)
-
-      $scope.addSongToPlaylist = function(name, path) {
+      $scope.addSongToPlaylist = function(path) {
         console.log("adding song...");
         player.metadataFromFile(path, function(metadata) {
           console.log(metadata);
           $scope.$apply(function() {
             $scope.state.playlist.push({
               'name': metadata.title,
-              'filename': name,
-              'path': path,
+              'filename': metadata.name,
+              'path': metadata.path,
               'metadata': metadata
             });
           });
         });
       };
 
-      // TODO: mira si pots treure ses funcions defora per no crear tantes coses...
-
       $scope.addSongsToPlaylist = function(paths) {
         console.dir(paths);
         var left = paths.length;
         var newSongs = [];
-        // PROMISIFY THIS!
-        for(var i = 0; i < paths.length; i++) {
-          player.metadataFromFile(paths[i], (function(index) {
-            return function(metadata) {
-              console.log(metadata);
-              newSongs[index] = {
-                'name': metadata.title,
-                'filename': metadata.filename,
-                'path': metadata.path,
-                'metadata': metadata
-              };
-              left--;
-              if(left === 0) {
-                $scope.$apply(function() {
-                  $scope.state.playlist = $scope.state.playlist.concat(newSongs);
-                });
-              }
+
+        // callback for metadata
+        var metadataLoaded = function(index) {
+          return function(metadata) {
+            console.log(metadata);
+            newSongs[index] = {
+              'name': metadata.title,
+              'filename': metadata.filename,
+              'path': metadata.path,
+              'metadata': metadata
             };
-          })(i));
+            left--;
+            if(left === 0) { // if this is the last song, push all songs
+              $scope.$apply(function() {
+                $scope.state.playlist = $scope.state.playlist.concat(newSongs);
+              });
+            }
+          };
+        };
+
+        // Load metadata from all files
+        for(var i = 0; i < paths.length; i++) {
+          player.metadataFromFile(paths[i], metadataLoaded(i));
         }
       };
 
@@ -94,16 +94,12 @@ angular.module('cmod.ui.playlist', [
         state.current_song_index_marked = null;
       };
 
-      // TODO: pensa que el .replace ja el fa el player a metadata, no fa falta aquí
-
       var chooser = document.getElementById('addFilesToPlaylistHidden');
       chooser.addEventListener("change", function(evt) {
         console.log(this.value);
         var files = this.value.split(';');
-        var name;
         for(var i = 0; i < files.length; i++) {
-          name = files[i].replace(/^.*[\\\/]/, ''); // TODO: does this work on win32?
-          $scope.addSongToPlaylist(name, files[i]);
+          $scope.addSongToPlaylist(files[i]);
         }
       }, false);
       $scope.addFilesToPlaylist = function() {
@@ -113,41 +109,42 @@ angular.module('cmod.ui.playlist', [
         }, 0, false);
       };
 
-      // TODO: mira si te pot quedar més guapo
-
       $scope.ondrop = function(e) {
         this.className = '';
         e.preventDefault();
-        // all files
-        var files = e.dataTransfer.files;
+
+        // callback functions using during directory walking
+        var pushToPaths = function(paths) {
+          return function(path, stat) {
+            if(player.isFormatSupported(path)) {
+              paths.push(path);
+            }
+          };
+        };
+        var walkingEnded = function(paths) {
+          return function(path, stat) {
+            console.dir("end of walkdir");
+            $scope.addSongsToPlaylist(paths.sort());
+          };
+        };
+
+        // declarations
+        var files = e.dataTransfer.files; // all files
         var entries = e.dataTransfer.items;
-        var num_files = files.length;
-        if(num_files > 0) {
-          for (var i = 0; i < num_files; ++i) {
+
+        if(files.length > 0) {
+          for (var i = 0; i < files.length; ++i) {
             if(entries[i].webkitGetAsEntry().isDirectory) {
               console.log("scanning directory: " + files[i].path);
               var paths = [];
-              var emitter = require('walkdir')(files[i].path);
-              emitter.on('file', function(path, stat) {
-                if(player.isFormatSupported(path)) {
-                  console.dir(path);
-                  paths.push(path);
-                }
-              });
-              emitter.on('end', function(path, stat) {
-                console.dir("eeeended");
-                //$scope.$apply(function() {
-                  $scope.addSongsToPlaylist(paths.sort());
-                //});
-              });
+              var emitter = utils.walkdir(files[i].path);
+              emitter.on('file', pushToPaths(paths));
+              emitter.on('end', walkingEnded(paths));
             } else {
-              var name = files[i].name;
-              if(player.isFormatSupported(name)) {
-                var size = files[i].size;
-                //$scope.$apply(function() {
-                  var path = files[i].path;
-                  $scope.addSongToPlaylist(name, path);
-                //});
+              if(player.isFormatSupported(files[i].name)) {
+                $scope.addSongToPlaylist(files[i].path);
+              } else {
+                toastr.error('Format not supported', files[i].name);
               }
             }
           }
