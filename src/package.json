@@ -49,9 +49,12 @@
   },
   "description": "A module (mod, s3m, it, xm) desktop player",
   "dependencies": {
-    "download": "^4.2.1",
-    "html-entities": "^1.1.3",
-    "walkdir": "^0.0.10"
+    "angular": "~1.3.20",
+    "angular-toastr": "~1.5.0",
+    "angular-ui-router": "~0.2.15",
+    "download": "~4.2.1",
+    "html-entities": "~1.1.3",
+    "walkdir": "~0.0.10"
   },
   "private": true,
   "scripts": {
