@@ -16,7 +16,6 @@ before_install:
   - export WINEARCH=win32
   - export WINEPREFIX=~/.wine32
   - env WINEARCH=win32 WINEPREFIX=~/.wine32 winetricks -q dotnet20
-  - npm install -g bower
   - npm install -g nw-builder@2.2.0
   - mkdir -p cache/0.12.3 && mkdir builds
   - cd cache/0.12.3
@@ -38,7 +37,6 @@ install:
   - |-
     echo { \"modarchive\": \"$modarchive\" } > config.json
   - npm install
-  - bower install
   - cd ..
 script:
   - ls -l
