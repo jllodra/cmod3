@@ -75,6 +75,10 @@ cmod3 is entirely written in **Javascript**, works on node-webkit (nwjs) and use
 
 17/04/2015: 0.0.5 - beta
 
+## How to update cmod3 when a new version comes out
+
+Download, extract, and replace.
+
 ## Do you like it?
 
 Contribute to the code via pull-requests and make this player better, or make a donation via paypal to jlg.hrtc@gmail.com, modarchive.org and scenemusic.net as well.
