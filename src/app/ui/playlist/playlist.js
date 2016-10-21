@@ -109,6 +109,56 @@ angular.module('cmod.ui.playlist', [
         }, 0, false);
       };
 
+      // Save current playlist state to file system
+      var savePlaylistChooser = document.getElementById('savePlaylistHidden') ;
+      savePlaylistChooser.addEventListener('change', function(evt) {
+        console.log('saving playlist to file', this.value) ;
+        // Ensure we have an appropriate file extension (.json)
+        // Maybe just save song path? Looks like metadata gets determined from the file
+        var filename = (this.value.endsWith('.json')) ? this.value : this.value + '.json' ;
+        utils.fs.writeFile(filename, JSON.stringify(state.playlist), function(err) {
+          if (err)
+          {
+            console.log('error writing playlist', err) ;
+            throw err ;
+          }
+        }) ;
+      }) ;
+      $scope.savePlaylist = function() {
+        $timeout(function() {
+          savePlaylistChooser.click() ;
+        }, 0, false) ;
+      } ;
+
+      // Load playlist from file system and add songs to our player
+      var loadPlaylistChooser = document.getElementById('loadPlaylistHidden') ;
+      loadPlaylistChooser.addEventListener('change', function(evt) {
+        console.log('loading playlist', this.value) ;
+        utils.fs.readFile(this.value, function(err, data) {
+          if (err)
+          {
+            console.log('error loading playlist', err) ;
+            throw err ;
+          }
+
+          // We only need the path to the file to load, let the other methods add the songs
+          var paths = JSON.parse(data).reduce(function(paths, song) {
+            if (song.path)
+            {
+              paths.push(song.path) ;
+            }
+
+            return paths ;
+          }, []) ;
+          $scope.addSongsToPlaylist(paths) ;
+        }) ;
+      }) ;
+      $scope.loadPlaylist = function() {
+        $timeout(function() {
+          loadPlaylistChooser.click() ;
+        }, 0, false) ;
+      } ;
+
       $scope.ondrop = function(e) {
         this.className = '';
         e.preventDefault();
@@ -251,6 +301,9 @@ angular.module('cmod.ui.playlist', [
       menu.append(new nwgui.MenuItem({ label: 'Info' }));
       menu.append(new nwgui.MenuItem({ type: 'separator' }));
       menu.append(new nwgui.MenuItem({ label: 'Add file(s)' }));
+      menu.append(new nwgui.MenuItem({ type: 'separator' })) ;
+      menu.append(new nwgui.MenuItem({ label: 'Load Playlist' })) ;
+      menu.append(new nwgui.MenuItem({ label: 'Save Playlist' })) ;
       menu.items[0].click = function() {
         $scope.$apply(function() {
           $scope.removeSongFromPlaylist();
@@ -267,6 +320,12 @@ angular.module('cmod.ui.playlist', [
       menu.items[5].click = function() {
         $scope.addFilesToPlaylist();
       };
+      menu.items[7].click = function() {
+        $scope.loadPlaylist() ;
+      }
+      menu.items[8].click = function() {
+        $scope.savePlaylist() ;
+      }
       $scope.showOptions = function($index, $event) {
         state.current_song_index_context_menu = $index;
         menu.popup($event.pageX, $event.pageY);
