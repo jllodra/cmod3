@@ -94,6 +94,8 @@ angular.module('cmod.ui.playlist', [
         state.current_song_index_marked = null;
       };
 
+      // [[ addFilesToPlaylistHidden ]]
+      // Add files to current playlist
       var chooser = document.getElementById('addFilesToPlaylistHidden');
       chooser.addEventListener("change", function(evt) {
         console.log(this.value);
@@ -109,6 +111,7 @@ angular.module('cmod.ui.playlist', [
         }, 0, false);
       };
 
+      // [[ savePlaylistHidden ]]
       // Save current playlist state to file system
       var savePlaylistChooser = document.getElementById('savePlaylistHidden') ;
       savePlaylistChooser.addEventListener('change', function(evt) {
@@ -117,47 +120,44 @@ angular.module('cmod.ui.playlist', [
         // Maybe just save song path? Looks like metadata gets determined from the file
         var filename = (this.value.endsWith('.json')) ? this.value : this.value + '.json' ;
         utils.fs.writeFile(filename, JSON.stringify(state.playlist), function(err) {
-          if (err)
-          {
-            console.log('error writing playlist', err) ;
-            throw err ;
+          if (err) {
+            console.error('error writing playlist', err);
+            throw err;
           }
-        }) ;
-      }) ;
+        });
+      });
       $scope.savePlaylist = function() {
         $timeout(function() {
-          savePlaylistChooser.click() ;
-        }, 0, false) ;
-      } ;
+          savePlaylistChooser.click();
+        }, 0, false);
+      };
 
+      // [[ loadPlaylistHidden ]]
       // Load playlist from file system and add songs to our player
       var loadPlaylistChooser = document.getElementById('loadPlaylistHidden') ;
       loadPlaylistChooser.addEventListener('change', function(evt) {
         console.log('loading playlist', this.value) ;
         utils.fs.readFile(this.value, function(err, data) {
-          if (err)
-          {
-            console.log('error loading playlist', err) ;
-            throw err ;
+          if (err) {
+            console.error('error loading playlist', err);
+            throw err;
           }
 
           // We only need the path to the file to load, let the other methods add the songs
           var paths = JSON.parse(data).reduce(function(paths, song) {
-            if (song.path)
-            {
-              paths.push(song.path) ;
+            if (song.path) {
+              paths.push(song.path);
             }
-
-            return paths ;
-          }, []) ;
-          $scope.addSongsToPlaylist(paths) ;
-        }) ;
-      }) ;
+            return paths;
+          }, []);
+          $scope.addSongsToPlaylist(paths);
+        });
+      });
       $scope.loadPlaylist = function() {
         $timeout(function() {
-          loadPlaylistChooser.click() ;
-        }, 0, false) ;
-      } ;
+          loadPlaylistChooser.click();
+        }, 0, false);
+      };
 
       $scope.ondrop = function(e) {
         this.className = '';
@@ -322,10 +322,10 @@ angular.module('cmod.ui.playlist', [
       };
       menu.items[7].click = function() {
         $scope.loadPlaylist() ;
-      }
+      };
       menu.items[8].click = function() {
         $scope.savePlaylist() ;
-      }
+      };
       $scope.showOptions = function($index, $event) {
         state.current_song_index_context_menu = $index;
         menu.popup($event.pageX, $event.pageY);
