@@ -83,4 +83,4 @@ Download, extract, and replace.
 
 ## Do you like it?
 
-Contribute to the code via pull-requests and make this player better, or make a donation via paypal to jlg.hrtc@gmail.com, modarchive.org and scenemusic.net as well. 
+Contribute to the code via pull-requests and make this player better, or make a donation via paypal to jlg.hrtc@gmail.com, modarchive.org and scenemusic.net as well.
