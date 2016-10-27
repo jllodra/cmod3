@@ -20,7 +20,7 @@ angular.module('cmod.ui.playlist', [
           $scope.$apply(function() {
             $scope.state.playlist.push({
               'name': metadata.title,
-              'filename': metadata.name,
+              'filename': metadata.filename,
               'path': metadata.path,
               'metadata': metadata
             });
