@@ -42,12 +42,14 @@ cmod3 is entirely written in **Javascript**, works on node-webkit (nwjs) and use
 * ~~Volume control using a GainNode.~~
 * ~~Choose a Nectarine stream among a list of streams.~~
 * ~~Adding an AnalyserNode could enable VU meter for nectarine.~~
-* More playlist features.
+* ~~More playlist features.~~
 * Can you draw? An nice app icon is needed.
 * Audio is being decoded on the main thread, which is not ideal, it should be done on a background worker/thread (not possible afaik, any idea? Audio Workers issue: <https://bugs.chromium.org/p/chromium/issues/detail?id=469639>).
 * New ideas? Open an Issue.
 
 ## Versions
+
+27/10/2016: 2.2.1 - load and save playlists, bugfixes
 
 07/10/2016: 2.1.1 - files are alphabetically loaded
 
