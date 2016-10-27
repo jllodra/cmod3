@@ -43,6 +43,14 @@
         <span class="glyphicon glyphicon-file"></span>
         Add file(s)
       </button>
+      <button class="btn btn-default" ng-click="loadPlaylist()">
+        <span class="glyphicon glyphicon-floppy-open"></span>
+        Load playlist
+      </button>
+      <button class="btn btn-default" ng-click="savePlaylist()">
+        <span class="glyphicon glyphicon-floppy-save"></span>
+        Save playlist
+      </button>
       <input style="display: none;" id="addFilesToPlaylistHidden" type="file" nwworkingdir="{{basedir}}" multiple accept=".mod,.s3m,.xm,.it,.mptm,.stm,.nst,.m15,.stk,.wow,.ult,.669,.mtm,.med,.far,.mdl,.ams,.dsm,.amf,.okt,.dmf,.ptm,.psm,.mt2,.dbm,.digi,.imf,.j2b,.gdm,.umx,.mo3,.xpk,.ppm,.mmcmp">
       <input style="display: none;" id="savePlaylistHidden" type="file" nwworkingdir="{{basedir}}" nwsaveas="playlist.json" />
       <input style="display: none;" id="loadPlaylistHidden" type="file" nwworkingdir="{{basedir}}" accept=".json"/>
