@@ -15,17 +15,21 @@ angular.module('cmod.ui.playlist', [
 
       $scope.addSongToPlaylist = function(path) {
         console.log("adding song...");
-        player.metadataFromFile(path, function(metadata) {
-          console.log(metadata);
-          $scope.$apply(function() {
-            $scope.state.playlist.push({
-              'name': metadata.title,
-              'filename': metadata.filename,
-              'path': metadata.path,
-              'metadata': metadata
+        if(player.isFormatSupported(path)) {
+          player.metadataFromFile(path, function(metadata) {
+            console.log(metadata);
+            $scope.$apply(function() {
+              $scope.state.playlist.push({
+                'name': metadata.title,
+                'filename': metadata.filename,
+                'path': metadata.path,
+                'metadata': metadata
+              });
             });
           });
-        });
+        } else {
+          console.error('Format not supported ' + path);
+        }
       };
 
       $scope.addSongsToPlaylist = function(paths) {
@@ -54,7 +58,11 @@ angular.module('cmod.ui.playlist', [
 
         // Load metadata from all files
         for(var i = 0; i < paths.length; i++) {
-          player.metadataFromFile(paths[i], metadataLoaded(i));
+          if(player.isFormatSupported(paths[i])) {
+            player.metadataFromFile(paths[i], metadataLoaded(i));
+          } else {
+            console.error('Format not supported ' + paths[i]);
+          }
         }
       };
 
@@ -100,9 +108,7 @@ angular.module('cmod.ui.playlist', [
       chooser.addEventListener("change", function(evt) {
         console.log(this.value);
         var files = this.value.split(';');
-        for(var i = 0; i < files.length; i++) {
-          $scope.addSongToPlaylist(files[i]);
-        }
+        $scope.addSongsToPlaylist(files.sort());
       }, false);
       $scope.addFilesToPlaylist = function() {
         // https://docs.angularjs.org/error/$rootScope/inprog
@@ -166,14 +172,11 @@ angular.module('cmod.ui.playlist', [
         // callback functions using during directory walking
         var pushToPaths = function(paths) {
           return function(path, stat) {
-            if(player.isFormatSupported(path)) {
-              paths.push(path);
-            }
+            paths.push(path);
           };
         };
         var walkingEnded = function(paths) {
           return function(path, stat) {
-            console.dir("end of walkdir");
             $scope.addSongsToPlaylist(paths.sort());
           };
         };
