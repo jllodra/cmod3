@@ -29,7 +29,7 @@ angular.module('cmod.ui.playlist', [
       };
 
       $scope.addSongsToPlaylist = function(paths) {
-        console.dir(paths);
+        console.log(paths);
         var left = paths.length;
         var newSongs = [];
 
@@ -181,23 +181,23 @@ angular.module('cmod.ui.playlist', [
         // declarations
         var files = e.dataTransfer.files; // all files
         var entries = e.dataTransfer.items;
+        var individualFilesPaths = [];
 
         if(files.length > 0) {
           for (var i = 0; i < files.length; ++i) {
-            if(entries[i].webkitGetAsEntry().isDirectory) {
+            if(entries[i].webkitGetAsEntry().isDirectory) { // found a directory
               console.log("scanning directory: " + files[i].path);
               var paths = [];
               var emitter = utils.walkdir(files[i].path);
               emitter.on('file', pushToPaths(paths));
               emitter.on('end', walkingEnded(paths));
-            } else {
-              if(player.isFormatSupported(files[i].name)) {
-                $scope.addSongToPlaylist(files[i].path);
-              } else {
-                toastr.error('Format not supported', files[i].name);
-              }
+            } else { // individual dropped files
+              individualFilesPaths.push(files[i].path);
             }
           }
+        }
+        if(individualFilesPaths.length > 0) {
+          $scope.addSongsToPlaylist(individualFilesPaths.sort());
         }
         return false;
       };

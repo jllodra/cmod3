@@ -1,6 +1,6 @@
 {
   "app_name": "cmod3",
-  "version": "2.2.1",
+  "version": "2.2.2",
   "nodejs": true,
   "additional_trust_anchors": "",
   "inject-js-end": "",
